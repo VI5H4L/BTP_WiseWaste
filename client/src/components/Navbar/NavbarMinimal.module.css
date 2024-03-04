@@ -13,6 +13,14 @@
   margin-top: rem(50px);
 }
 
+.imgDiv{
+  margin-top: 8px;
+  width: 35px;
+  height: auto;
+}
+.imgDiv img{
+  width: 100%;
+}
 .link {
   width: rem(50px);
   height: rem(50px);

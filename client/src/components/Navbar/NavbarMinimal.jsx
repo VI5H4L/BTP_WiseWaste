@@ -11,12 +11,12 @@ import {
   IconLogout,
   IconSwitchHorizontal,
 } from '@tabler/icons-react';
-import { MantineLogo } from '@mantinex/mantine-logo';
+// import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './NavbarMinimal.module.css';
 
 function NavbarLink({ icon: Icon, label, active, onClick }) {
   return (
-    <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
+    <Tooltip label={label} position="right" transitionProps={{ duration: 100,transition:'fade' }}>
       <UnstyledButton onClick={onClick} className={classes.link} data-active={active || undefined}>
         <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
       </UnstyledButton>
@@ -25,17 +25,17 @@ function NavbarLink({ icon: Icon, label, active, onClick }) {
 }
 
 const mockdata = [
-  { icon: IconHome2, label: 'Home' },
-  { icon: IconGauge, label: 'Dashboard' },
-  { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
-  { icon: IconCalendarStats, label: 'Releases' },
-  { icon: IconUser, label: 'Account' },
-  { icon: IconFingerprint, label: 'Security' },
-  { icon: IconSettings, label: 'Settings' },
+  { icon: IconHome2, label: 'Home' ,goto:"/"},
+  { icon: IconGauge, label: 'Dashboard' ,goto:"/dash"},
+  { icon: IconDeviceDesktopAnalytics, label: 'Analytics' ,goto:"/analy"},
+  { icon: IconCalendarStats, label: 'Releases' ,goto:"/rele"},
+  { icon: IconUser, label: 'Account' ,goto:"/accont"},
+  { icon: IconFingerprint, label: 'Security' ,goto:"/security"},
+  { icon: IconSettings, label: 'Settings' ,goto:"/settin"},
 ];
 
 export function NavbarMinimal() {
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
 
   const links = mockdata.map((link, index) => (
     <NavbarLink
@@ -49,7 +49,11 @@ export function NavbarMinimal() {
   return (
     <nav className={classes.navbar}>
       <Center>
-        <MantineLogo type="mark" size={30} />
+        <div className={classes.imgDiv}>
+          <img  src="/logo1.png" alt="logo" />
+        </div>
+        
+        {/* <MantineLogo type="mark" size={30} /> */}
       </Center>
 
       <div className={classes.navbarMain}>
