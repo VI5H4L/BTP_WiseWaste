@@ -1,3 +1,9 @@
+
+@font-face {
+  font-family: "Mabry"; /*Can be any text*/
+  src: local("MabryPro-Regular"),
+    url("./fonts/MabryPro-Regular.ttf") format("truetype");
+}
 :root {
 
   font-synthesis: none;
@@ -6,9 +12,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Mabry !important;
 }
 

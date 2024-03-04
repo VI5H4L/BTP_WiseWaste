@@ -10,8 +10,30 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mantine/carousel": "^7.6.1",
+    "@mantine/charts": "^7.6.1",
+    "@mantine/code-highlight": "^7.6.1",
+    "@mantine/core": "^7.6.1",
+    "@mantine/dates": "^7.6.1",
+    "@mantine/dropzone": "^7.6.1",
+    "@mantine/form": "^7.6.1",
+    "@mantine/hooks": "^7.6.1",
+    "@mantine/modals": "^7.6.1",
+    "@mantine/notifications": "^7.6.1",
+    "@mantine/nprogress": "^7.6.1",
+    "@mantine/spotlight": "^7.6.1",
+    "@mantine/tiptap": "^7.6.1",
+    "@mantinex/mantine-logo": "^1.0.1",
+    "@tabler/icons-react": "^2.47.0",
+    "@tiptap/extension-link": "^2.2.4",
+    "@tiptap/react": "^2.2.4",
+    "@tiptap/starter-kit": "^2.2.4",
+    "dayjs": "^1.11.10",
+    "embla-carousel-react": "^8.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^5.2.0",
+    "recharts": "^2.12.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",
@@ -21,6 +43,9 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.35",
+    "postcss-preset-mantine": "^1.13.0",
+    "postcss-simple-vars": "^7.0.1",
     "vite": "^5.1.4"
   }
 }
