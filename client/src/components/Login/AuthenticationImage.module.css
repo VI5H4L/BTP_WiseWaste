@@ -13,8 +13,7 @@
   right: 0;
   width: 70%;
   height: 100%;
-  background-image: url('/wm.jpg');
-  background-image: url('/bg3.png');
+  background-image: url('images/bg2.png');
   background-position: right;
   background-repeat: no-repeat;
   background-size: cover;
@@ -26,7 +25,7 @@
 }
 .register{
   color:var(--mantine-color-green-light);
-  color:white;
+  color:#8CE99A;
 }
 .form {
   border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));

@@ -15,7 +15,7 @@ export function AuthenticationImage() {
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={24}>
         <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
-          Welcome to WiseWaste!!
+          Welcome to Wise Waste!!
         </Title>
 
         <TextInput

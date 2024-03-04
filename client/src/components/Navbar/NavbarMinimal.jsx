@@ -50,7 +50,7 @@ export function NavbarMinimal() {
     <nav className={classes.navbar}>
       <Center>
         <div className={classes.imgDiv}>
-          <img  src="/logo1.png" alt="logo" />
+          <img  src="/images/logo1.png" alt="logo" />
         </div>
         
         {/* <MantineLogo type="mark" size={30} /> */}
