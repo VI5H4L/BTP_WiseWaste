@@ -57,7 +57,7 @@ export function NavbarMinimal() {
       </Center>
 
       <div className={classes.navbarMain}>
-        <Stack justify="center" gap={0}>
+        <Stack align='flex-start' justify="center" gap={4}>
           {links}
         </Stack>
       </div>

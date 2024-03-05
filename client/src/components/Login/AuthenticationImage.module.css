@@ -1,9 +1,8 @@
 .wrapper {
+  height: 100%;
+  width: 100%;
   position: relative;
-  width: calc(100% - 80px);
   margin-left: auto;
-  height: 100vh;
-  /* overflow: hidden; */
 }
 
 .wrapper::before {

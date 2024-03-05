@@ -1,0 +1,14 @@
+.appDiv{
+    display: flex;
+    flex-direction: row;
+}
+
+.navDiv{
+    width: rem(82px);
+    height: 100dvh;
+}
+
+.routeDiv{
+    width: calc(100% - 82px);
+    height: 100vh;
+}
