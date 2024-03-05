@@ -20,8 +20,8 @@
   z-index: -1;
 }
 
-.btn{
-  background-color: var(--mantine-color-green-light) !important;
+#btn{
+  background-color: var(--mantine-color-green-light) ;
 }
 .register{
   color:var(--mantine-color-green-light);
@@ -40,7 +40,5 @@
 
 .title {
   color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-  font-family:
-    Greycliff CF,
-    var(--mantine-font-family);
+  font-family: var(--mantine-font-family);
 }

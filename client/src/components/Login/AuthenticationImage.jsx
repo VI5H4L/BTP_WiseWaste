@@ -34,7 +34,7 @@ export function AuthenticationImage() {
           size="md"
         />
         <Checkbox label="Keep me logged in" mt="xl" size="md" />
-        <Button className={classes.btn} fullWidth mt="xl" size="md">
+        <Button id={classes.btn} fullWidth mt="xl" size="md">
           Login
         </Button>
 

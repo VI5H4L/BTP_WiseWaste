@@ -5,18 +5,23 @@
     url("./fonts/MabryPro-Regular.ttf") format("truetype");
 }
 :root {
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
+  --mantine-font-family: Mabry;
+  --mantine-font-family-monospace: Mabry;
+  --mantine-font-family-headings: Mabry;
+}
+:root[data-mantine-color-scheme='dark'] {
+  --mantine-color-green-light: rgba(64, 192, 87, 0.15);
+}
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Mabry !important;
+  font-family: Mabry;
 }
 

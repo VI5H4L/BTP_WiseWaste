@@ -2,7 +2,6 @@ import { AuthenticationImage } from "./components/Login/AuthenticationImage";
 import { NavbarMinimal } from "./components/Navbar/NavbarMinimal";
 import { setupIonicReact } from "@ionic/react";
 import { Routes, Route } from "react-router-dom";
-import "@mantine/core/styles.css";
 import { Dashboard } from "./components/Dashboard";
 import { Analytics } from "./components/Analytics";
 
