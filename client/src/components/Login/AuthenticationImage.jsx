@@ -6,18 +6,24 @@ import {
   Button,
   Title,
   Text,
+  useMantineTheme
   // Anchor,
 } from "@mantine/core";
+import { useMediaQuery } from '@mantine/hooks';
+
 import classes from "./AuthenticationImage.module.css";
 import AppUrlListener from "../../Listeners/AppUrlListener"
 import {useBackButton} from "../../customHooks/useBackButton"
 
 export function AuthenticationImage() {
   useBackButton("exit");
+
+  const theme = useMantineTheme();
+  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   return (
     <div className={classes.wrapper}>
       <AppUrlListener />
-      <Paper className={classes.form} radius={0} p={20}>
+      <Paper className={classes.form} radius={0} p={mobile?16:24}>
         <Title order={2} className={classes.title} ta="center" mt={50} mb={50}>
           Welcome to Wise Waste!!
         </Title>
@@ -26,14 +32,16 @@ export function AuthenticationImage() {
           label="Email address"
           placeholder="hello@gmail.com"
           size="md"
+          // error={""}
         />
         <PasswordInput
           label="Password"
           placeholder="Your password"
           mt="md"
           size="md"
+          // error={""}
         />
-        <Checkbox label="Keep me logged in" mt="xl" size="md" />
+        <Checkbox label="Keep me logged in" color="#C9C9C9" variant="outline" mt="xl" size="md" />
         <Button id={classes.btn} fullWidth mt="xl" size="md">
           Login
         </Button>

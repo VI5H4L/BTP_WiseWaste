@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import classes from "./Layouts/AppLayout.module.css";
 import { Dashboard } from "./components/Dashboard";
 import { Analytics } from "./components/Analytics";
+import { Error } from "./components/Error";
 import { StatusBar } from "@capacitor/status-bar";
 import { Capacitor } from "@capacitor/core";
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<AuthenticationImage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="*" element={<Error/>} />
         </Routes>
       </div>
     </div>

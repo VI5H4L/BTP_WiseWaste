@@ -4,11 +4,11 @@
 }
 
 .navDiv{
-    width: rem(82px);
+    width: rem(70px);
     height: 100dvh;
 }
 
 .routeDiv{
-    width: calc(100% - 82px);
+    width: calc(100% - 70px);
     height: 100vh;
 }
