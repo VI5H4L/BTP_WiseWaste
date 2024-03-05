@@ -4,8 +4,11 @@ import { setupIonicReact } from "@ionic/react";
 import { Routes, Route } from "react-router-dom";
 import { Dashboard } from "./components/Dashboard";
 import { Analytics } from "./components/Analytics";
+import { StatusBar } from '@capacitor/status-bar';
+import { Capacitor } from "@capacitor/core";
 
 setupIonicReact();
+Capacitor.isNativePlatform() && StatusBar.setBackgroundColor({color:"#1F1F1F"});
 
 function App() {
   return (

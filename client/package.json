@@ -13,6 +13,7 @@
     "@capacitor/android": "^5.7.1",
     "@capacitor/app": "^5.0.7",
     "@capacitor/core": "^5.7.1",
+    "@capacitor/status-bar": "^5.0.7",
     "@ionic/react": "^7.7.3",
     "@mantine/carousel": "^7.6.1",
     "@mantine/charts": "^7.6.1",

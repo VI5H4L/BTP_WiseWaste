@@ -17,8 +17,8 @@ export function AuthenticationImage() {
   return (
     <div className={classes.wrapper}>
       <AppUrlListener />
-      <Paper className={classes.form} radius={0} p={24}>
-        <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
+      <Paper className={classes.form} radius={0} p={20}>
+        <Title order={2} className={classes.title} ta="center" mt={50} mb={50}>
           Welcome to Wise Waste!!
         </Title>
 
