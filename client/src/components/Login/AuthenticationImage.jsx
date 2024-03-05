@@ -14,10 +14,12 @@ import { useMediaQuery } from '@mantine/hooks';
 import classes from "./AuthenticationImage.module.css";
 import AppUrlListener from "../../Listeners/AppUrlListener"
 import {useBackButton} from "../../customHooks/useBackButton"
+import { useNavigate } from "react-router-dom";
 
 export function AuthenticationImage() {
   useBackButton("exit");
 
+  const navigate = useNavigate();
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   return (
@@ -49,10 +51,9 @@ export function AuthenticationImage() {
         <Text ta="center" mt="md">
           Don&apos;t have an account?{" "}
           <a
-            href="#"
             // fw={700}
             className={classes.register}
-            onClick={(event) => event.preventDefault()}
+            onClick={(event) => {navigate("register"); event.preventDefault();}}
           >
             Register
           </a>

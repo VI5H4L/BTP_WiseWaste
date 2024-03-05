@@ -25,6 +25,7 @@
 .register{
   color:var(--mantine-color-green-light);
   color:#8CE99A;
+  cursor: pointer;
 }
 .form {
   border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));

@@ -13,47 +13,49 @@ import {
 } from "@tabler/icons-react";
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from "./NavbarMinimal.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function NavbarLink({ icon: Icon, label, goto, active, onClick }) {
-  return (
-    <Link to={goto}>
-      <Tooltip
-        label={label}
-        position="right"
-        transitionProps={{ duration: 100, transition: "fade" }}
-      >
-        <UnstyledButton
-          onClick={onClick}
-          className={classes.link}
-          data-active={active || undefined}
-        >
-          <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-        </UnstyledButton>
-      </Tooltip>
-    </Link>
-  );
-}
-
-const mockdata = [
-  { icon: IconHome2, label: "Home", goto: "/" },
-  { icon: IconGauge, label: "Dashboard", goto: "/dashboard" },
-  { icon: IconDeviceDesktopAnalytics, label: "Analytics", goto: "/analytics" },
-  { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
-  { icon: IconUser, label: "Account", goto: "/account" },
-  { icon: IconFingerprint, label: "Security", goto: "/security" },
-  { icon: IconSettings, label: "Settings", goto: "/settings" },
-];
 
 export function NavbarMinimal() {
+  const navigate = useNavigate();
   const [active, setActive] = useState(0);
+
+  function NavbarLink({ icon: Icon, label, goto, active, onPress }) {
+    return (
+      <div onClick={() => {navigate(goto)}}>
+        <Tooltip
+          label={label}
+          position="right"
+          transitionProps={{ duration: 100, transition: "fade" }}
+        >
+          <UnstyledButton
+            onClick={onPress}
+            className={classes.link}
+            data-active={active || undefined}
+          >
+            <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
+          </UnstyledButton>
+        </Tooltip>
+        </div>
+    );
+  }
+  
+  const mockdata = [
+    { icon: IconHome2, label: "Home", goto: "/" },
+    { icon: IconGauge, label: "Dashboard", goto: "/dashboard" },
+    { icon: IconDeviceDesktopAnalytics, label: "Analytics", goto: "/analytics" },
+    { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
+    { icon: IconUser, label: "Account", goto: "/account" },
+    { icon: IconFingerprint, label: "Security", goto: "/security" },
+    { icon: IconSettings, label: "Settings", goto: "/settings" },
+  ];
 
   const links = mockdata.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
       active={index === active}
-      onClick={() => setActive(index)}
+      onPress={() => setActive(index)}
     />
   ));
 
@@ -61,9 +63,7 @@ export function NavbarMinimal() {
     <nav className={classes.navbar}>
       <Center>
         <div className={classes.imgDiv}>
-          <Link to="/">
-            <img src="/images/logo1.png" alt="logo" />
-          </Link>
+            <img onClick={() => {navigate("/")}} src="/images/logo1.png" alt="logo" />
         </div>
 
         {/* <MantineLogo type="mark" size={30} /> */}
