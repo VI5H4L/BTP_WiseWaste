@@ -1,0 +1,7 @@
+{
+    "name": "Wise Waste",
+    "integrations": {
+      "capacitor": {}
+    },
+    "type": "react"
+}

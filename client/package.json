@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^5.7.1",
+    "@capacitor/app": "^5.0.7",
+    "@capacitor/core": "^5.7.1",
+    "@ionic/react": "^7.7.3",
     "@mantine/carousel": "^7.6.1",
     "@mantine/charts": "^7.6.1",
     "@mantine/code-highlight": "^7.6.1",
@@ -32,10 +36,11 @@
     "embla-carousel-react": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.22.2",
     "recharts": "^2.12.2"
   },
   "devDependencies": {
+    "@capacitor/cli": "^5.7.1",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react-swc": "^3.5.0",

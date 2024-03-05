@@ -9,10 +9,14 @@ import {
   // Anchor,
 } from "@mantine/core";
 import classes from "./AuthenticationImage.module.css";
+import AppUrlListener from "../../Listeners/AppUrlListener"
+import {useBackButton} from "../../customHooks/useBackButton"
 
 export function AuthenticationImage() {
+  useBackButton("exit");
   return (
     <div className={classes.wrapper}>
+      <AppUrlListener />
       <Paper className={classes.form} radius={0} p={24}>
         <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
           Welcome to Wise Waste!!
