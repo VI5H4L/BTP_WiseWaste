@@ -1,5 +1,5 @@
 {
-  "appId": "io.ionic.wisewaste",
+  "appId": "com.wisewaste.app",
   "appName": "Wise Waste",
   "bundledWebRuntime": false,
   "npmClient": "npm",

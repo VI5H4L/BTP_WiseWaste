@@ -13,11 +13,12 @@ import {
 } from "@tabler/icons-react";
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from "./NavbarMinimal.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 
 
 export function NavbarMinimal() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [active, setActive] = useState(0);
 
   function NavbarLink({ icon: Icon, label, goto, active, onPress }) {
@@ -59,8 +60,9 @@ export function NavbarMinimal() {
     />
   ));
 
+  const isNetworkError = location.pathname==="/network";
   return (
-    <nav className={classes.navbar}>
+    <nav className={classes.navbar} style={{ pointerEvents:isNetworkError&&"none" , filter: isNetworkError&&"grayscale(1)"}}>
       <Center>
         <div className={classes.imgDiv}>
             <img onClick={() => {navigate("/")}} src="/images/logo1.png" alt="logo" />

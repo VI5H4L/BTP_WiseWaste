@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Network } from "@capacitor/network";
 import { AuthenticationImage } from "./components/Login/AuthenticationImage";
@@ -18,15 +19,26 @@ Capacitor.isNativePlatform() &&
 
 function App() {
   const navigate = useNavigate();
-  
-  Network.networkListener = Network.addListener("networkStatusChange", (status) => {
-    console.log("Network status changed", status);
-    if(status.connected == false){
+
+  useEffect(() => {
+    Network.addListener("networkStatusChange", async (status) => {
+      console.log("Network status changed", status);
+      if (status.connected == false) {
         navigate("/network");
-    } else {
-      navigate("/");
-    }
-  });
+      } else {
+        navigate("/");
+      }
+    });
+
+    // Call the function to check the network status inside the listener
+    const checkCurrentNetworkStatus = async () => {
+      const status = await Network.getStatus();
+      if (status.connected == false) {
+        navigate("/network");
+      }
+    };
+    checkCurrentNetworkStatus();
+  }, [navigate]);
 
   return (
     <div className={classes.appDiv}>
