@@ -19,6 +19,16 @@
   --mantine-color-body: var(--mantine-color-dark-8);
 }
 
+::-moz-selection { /* Code for Firefox */
+  color: #243727;
+  background:   white;
+}
+
+::selection {
+  color: #243727;
+  background:   white;
+}
+
 * {
   margin: 0;
   padding: 0;

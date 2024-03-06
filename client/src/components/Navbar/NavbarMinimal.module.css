@@ -15,8 +15,12 @@
 
 .imgDiv{
   margin-top: 10px;
-  width: 35px;
+  width: 30px;
   height: auto;
+
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 .imgDiv img{
   width: 100%;
@@ -40,5 +44,12 @@
       background-color: var(--mantine-color-green-light);
       color: var(--mantine-color-green-light-color);
     }
+  }
+}
+
+@media (max-width: $mantine-breakpoint-sm) {
+  .navbar {
+    padding: 4px;
+    width: rem(60px);
   }
 }

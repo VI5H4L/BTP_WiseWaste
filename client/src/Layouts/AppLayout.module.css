@@ -12,3 +12,12 @@
     width: calc(100% - 70px);
     height: 100vh;
 }
+
+@media (max-width: $mantine-breakpoint-sm) {
+    .navDiv {
+      width: rem(60px);
+    }
+    .routeDiv{
+        width: calc(100% - 60px);
+    }
+  }
