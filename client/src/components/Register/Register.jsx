@@ -10,11 +10,10 @@ import {
   // Anchor,
 } from "@mantine/core";
 import { useMediaQuery } from '@mantine/hooks';
-
 import classes from "./Register.module.css";
-import AppUrlListener from "../../Listeners/AppUrlListener"
 import {useBackButton} from "../../customHooks/useBackButton"
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export function Register() {
   useBackButton("exit");
@@ -22,12 +21,17 @@ export function Register() {
   const navigate = useNavigate();
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+
+  const [isOTP,setIsOTP] = useState(false);
+
+  const handleRegister = ()=>{
+    setIsOTP(true);
+  }
   return (
     <div className={classes.wrapper}>
-      <AppUrlListener />
       <Paper className={classes.form} radius={0} p={mobile?16:24}>
         <Title order={2} className={classes.title} ta="center" mt={50} mb={50}>
-          Join the Wise Waste Initiative!
+          Join Wise Waste Initiative!!
         </Title>
 
         <TextInput
@@ -36,6 +40,7 @@ export function Register() {
           size="md"
           required
           error={""}
+          disabled ={isOTP}
         />
 
         <TextInput
@@ -44,6 +49,7 @@ export function Register() {
           mt="md"
           size="md"
           required
+          disabled ={isOTP}
           // error={""}
         />
         <PasswordInput
@@ -52,6 +58,7 @@ export function Register() {
           mt="md"
           size="md"
           required
+          disabled ={isOTP}
           // error={""}
         />
         <PasswordInput
@@ -60,10 +67,20 @@ export function Register() {
           mt="md"
           size="md"
           required
+          disabled ={isOTP}
           // error={""}
         />
-        <Button id={classes.btn} fullWidth mt="xl" size="md">
-          Register
+        <TextInput
+          label="OTP"
+          placeholder="Enter 4-digit OTP"
+          mt="md"
+          size="md"
+          required
+          error={""}
+          disabled ={!isOTP}
+        />
+        <Button id={classes.btn} onClick={handleRegister} fullWidth mt="xl" size="md">
+          {!isOTP?"Next":"Register"}
         </Button>
 
         <Text ta="center" mt="md">

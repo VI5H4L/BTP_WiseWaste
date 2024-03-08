@@ -27,7 +27,7 @@ export function Login() {
       <AppUrlListener />
       <Paper className={classes.form} radius={0} p={mobile?16:24}>
         <Title order={2} className={classes.title} ta="center" mt={50} mb={50}>
-          Secure Login to Wise Waste!
+          Login to Wise Waste!!
         </Title>
 
         <TextInput
