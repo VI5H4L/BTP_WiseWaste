@@ -11,12 +11,12 @@ import {
 } from "@mantine/core";
 import { useMediaQuery } from '@mantine/hooks';
 
-import classes from "./AuthenticationImage.module.css";
+import classes from "./Login.module.css";
 import AppUrlListener from "../../Listeners/AppUrlListener"
 import {useBackButton} from "../../customHooks/useBackButton"
 import { useNavigate } from "react-router-dom";
 
-export function AuthenticationImage() {
+export function Login() {
   useBackButton("exit");
 
   const navigate = useNavigate();
@@ -27,13 +27,14 @@ export function AuthenticationImage() {
       <AppUrlListener />
       <Paper className={classes.form} radius={0} p={mobile?16:24}>
         <Title order={2} className={classes.title} ta="center" mt={50} mb={50}>
-          Welcome to Wise Waste!!
+          Login to Wise Waste!!
         </Title>
 
         <TextInput
           label="Email address"
           placeholder="hello@gmail.com"
           size="md"
+          required
           // error={""}
         />
         <PasswordInput
@@ -41,6 +42,7 @@ export function AuthenticationImage() {
           placeholder="Your password"
           mt="md"
           size="md"
+          required
           // error={""}
         />
         <Checkbox label="Keep me logged in" color="#C9C9C9" variant="outline" mt="xl" size="md" />
@@ -53,7 +55,7 @@ export function AuthenticationImage() {
           <a
             // fw={700}
             className={classes.register}
-            onClick={(event) => {navigate("register"); event.preventDefault();}}
+            onClick={(event) => {navigate('/register', { replace: false}); event.preventDefault();}}
           >
             Register
           </a>

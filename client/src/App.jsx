@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Network } from "@capacitor/network";
-import { AuthenticationImage } from "./components/Login/AuthenticationImage";
+import { Login } from "./components/Login/Login";
 import { NavbarMinimal } from "./components/Navbar/NavbarMinimal";
 import { setupIonicReact } from "@ionic/react";
 import { Routes, Route } from "react-router-dom";
@@ -12,6 +12,8 @@ import { Error } from "./components/Error";
 import { StatusBar } from "@capacitor/status-bar";
 import { Capacitor } from "@capacitor/core";
 import { NetworkError } from "./components/NetworkError";
+import { Register } from "./components/Register/Register";
+import { Home } from "./components/Home";
 
 setupIonicReact();
 Capacitor.isNativePlatform() &&
@@ -47,7 +49,9 @@ function App() {
       </div>
       <div className={classes.routeDiv}>
         <Routes>
-          <Route path="/" element={<AuthenticationImage />} />
+          <Route path="/" element={<Home/>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/network" element={<NetworkError />} />
