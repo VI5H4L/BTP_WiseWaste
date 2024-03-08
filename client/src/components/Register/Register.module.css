@@ -1,0 +1,44 @@
+.wrapper {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  margin-left: auto;
+}
+
+.wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 70%;
+  height: 100%;
+  background-image: url('/images/bg2.png');
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+}
+
+#btn{
+  background-color: var(--mantine-color-green-light) ;
+}
+.register{
+  color:var(--mantine-color-green-light);
+  color:#8CE99A;
+  cursor: pointer;
+}
+.form {
+  border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));
+  height: 100%;
+  max-width: rem(450px);
+  padding-top: rem(80px);
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    max-width: 100%;
+  }
+}
+
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-family: var(--mantine-font-family);
+}
