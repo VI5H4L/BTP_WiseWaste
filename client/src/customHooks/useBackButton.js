@@ -11,7 +11,7 @@ export const useBackButton = (route) => {
     };
 
     const goToRoute = (val) => {
-      navigate(`${val}`);
+      navigate(`${val}`,{replace:false});
       };
 
     const goBack = () => {

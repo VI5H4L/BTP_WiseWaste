@@ -12,11 +12,11 @@ import {
   IconSwitchHorizontal,
 } from "@tabler/icons-react";
 // import { MantineLogo } from '@mantinex/mantine-logo';
-import classes from "./NavbarMinimal.module.css";
+import classes from "./Navbar.module.css";
 import { useNavigate,useLocation } from "react-router-dom";
 
 
-export function NavbarMinimal() {
+export function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState(0);
@@ -78,8 +78,8 @@ export function NavbarMinimal() {
       </div>
 
       <Stack justify="center" gap={0}>
-        <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
-        <NavbarLink icon={IconLogout} label="Logout" />
+        {/* <NavbarLink icon={IconSwitchHorizontal} label="Change account" /> */}
+        <NavbarLink icon={IconLogout} goto={"/login"} label="Login" />
       </Stack>
     </nav>
   );

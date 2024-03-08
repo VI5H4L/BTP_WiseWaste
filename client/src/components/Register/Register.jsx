@@ -2,7 +2,7 @@ import {
   Paper,
   TextInput,
   PasswordInput,
-  Checkbox,
+  // Checkbox,
   Button,
   Title,
   Text,
@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export function Register() {
-  useBackButton("exit");
+  useBackButton("/login");
 
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -31,7 +31,7 @@ export function Register() {
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={mobile?16:24}>
         <Title order={2} className={classes.title} ta="center" mt={50} mb={50}>
-          Join Wise Waste Initiative!!
+          {`Join Wise Waste Initiative ->`}
         </Title>
 
         <TextInput
