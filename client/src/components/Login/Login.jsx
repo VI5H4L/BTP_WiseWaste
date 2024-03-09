@@ -2,8 +2,7 @@ import {Paper,TextInput,PasswordInput,Checkbox,Box,Button,Title,Text,useMantineT
    // Anchor,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import {  useForm,  isEmail,  hasLength,
-} from "@mantine/form";
+import {  useForm,  isEmail,  hasLength} from "@mantine/form";
 import classes from "./Login.module.css";
 import { useBackButton } from "../../customHooks/useBackButton";
 import { useNavigate } from "react-router-dom";
@@ -17,11 +16,11 @@ export function Login() {
     initialValues: {
       email: "",
       password: "",
-      checkbox: false
+      logincheckbox: false
     },
 
     validate: {
-      email: isEmail("Invalid email"),
+      email: isEmail("Enter valid email"),
       password: hasLength({ min: 8 }, "Password must be 8 characters long"),
     },
   });
@@ -50,7 +49,7 @@ export function Login() {
             mt={50}
             mb={50}
           >
-            {`Login to Wise Waste!!`}
+            {`Login to Wise Waste↘`}
           </Title>
 
           <TextInput
@@ -70,7 +69,7 @@ export function Login() {
             {...form.getInputProps("password")}
             // error={""}
           />
-          <Checkbox label="Keep me logged in" color="#C9C9C9" variant="outline" mt="xl" size="md" {...form.getInputProps("checkbox")}/>
+          <Checkbox label="Keep me logged in" color="#C9C9C9" variant="outline" mt="xl" size="md" {...form.getInputProps("logincheckbox",{ type: 'checkbox' })}/>
           <Button id={classes.btn} fullWidth mt="xl" size="md" type="submit" onClick={handleLogin}>
             Login
           </Button>
