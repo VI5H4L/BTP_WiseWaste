@@ -25,7 +25,7 @@ export function Login() {
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={mobile?16:24}>
         <Title order={2} className={classes.title} ta="center" mt={50} mb={50}>
-          {`Login to Wise Waste ->`}
+          {`Login to Wise Waste!!`}
         </Title>
 
         <TextInput
@@ -48,7 +48,7 @@ export function Login() {
           Login
         </Button>
 
-        <Text ta="center" mt="md">
+        <Text ta="center" mt="md" mb={15}>
           Don&apos;t have an account?{" "}
           <a
             // fw={700}
