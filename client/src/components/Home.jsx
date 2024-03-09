@@ -1,9 +1,10 @@
 import {useBackButton} from "../customHooks/useBackButton"
 export function Home() {
-  useBackButton("/");
+  useBackButton("exit");
   
   return (
     <>
+    
     Home
     </>
   );

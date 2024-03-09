@@ -12,22 +12,20 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 
 import classes from "./Login.module.css";
-import AppUrlListener from "../../Listeners/AppUrlListener"
 import {useBackButton} from "../../customHooks/useBackButton"
 import { useNavigate } from "react-router-dom";
 
 export function Login() {
-  useBackButton("exit");
+  useBackButton("/");
 
   const navigate = useNavigate();
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   return (
     <div className={classes.wrapper}>
-      <AppUrlListener />
       <Paper className={classes.form} radius={0} p={mobile?16:24}>
         <Title order={2} className={classes.title} ta="center" mt={50} mb={50}>
-          Login to Wise Waste!!
+          {`Login to Wise Waste!!`}
         </Title>
 
         <TextInput
@@ -50,7 +48,7 @@ export function Login() {
           Login
         </Button>
 
-        <Text ta="center" mt="md">
+        <Text ta="center" mt="md" mb={15}>
           Don&apos;t have an account?{" "}
           <a
             // fw={700}
