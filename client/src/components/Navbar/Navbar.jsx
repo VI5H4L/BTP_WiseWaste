@@ -20,7 +20,7 @@ import { isNetworkErrorState } from "../../Recoil/recoil_state";
 
 export function Navbar() {
   const navigate = useNavigate();
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
 
   function NavbarLink({ icon: Icon, label, goto, active, onPress }) {
     return (

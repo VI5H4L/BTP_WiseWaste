@@ -14,6 +14,7 @@ import classes from "./Register.module.css";
 import {useBackButton} from "../../customHooks/useBackButton"
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { notifications } from '@mantine/notifications';
 
 export function Register() {
   useBackButton("/login");
@@ -24,7 +25,13 @@ export function Register() {
 
   const [isOTP,setIsOTP] = useState(false);
 
-  const handleRegister = ()=>{
+  const handleRegister = (props)=>{
+    props && notifications.show({
+      title:"Request Sent Successfully",
+      message: 'Wait for the Approval on registered email',
+      color:"#C9C9C9",
+      withBorder :"true"
+    });
     setIsOTP(true);
   }
   return (
@@ -79,7 +86,7 @@ export function Register() {
           error={""}
           disabled ={!isOTP}
         />
-        <Button id={classes.btn} onClick={handleRegister} fullWidth mt="xl" size="md">
+        <Button id={classes.btn} onClick={()=>{handleRegister(isOTP);}} fullWidth mt="xl" size="md">
           {!isOTP?"Next":"Register"}
         </Button>
         
