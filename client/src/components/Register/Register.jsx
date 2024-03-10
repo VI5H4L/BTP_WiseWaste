@@ -157,6 +157,7 @@ export function Register() {
             length={4}
             value={otp.join("")}
             type="number"
+            placeholder="*"
             onChange={(value) => setOtp(value.split(""))}
           />
           <Button
@@ -175,7 +176,7 @@ export function Register() {
                 color: "#C9C9C9",
                 withBorder: "true",
               });
-              navigate("/login")
+              navigate("/login");
             }}
           >
             Login

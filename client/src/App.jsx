@@ -14,7 +14,7 @@ import { App as CapacitorApp } from "@capacitor/app";
 import { NetworkError } from "./components/NetworkError";
 import AppUrlListener from "./Listeners/AppUrlListener";
 import { Register } from "./components/Register/Register";
-import { Home } from "./components/Home";
+import { Home } from "./components/Home/Home";
 import { Login } from "./components/Login/Login";
 
 import { useRecoilState } from "recoil";
