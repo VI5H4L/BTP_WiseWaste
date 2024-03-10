@@ -30,18 +30,26 @@ export function Login() {
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
   const handleLogin = ()=>{
-    notifications.show({
-      title:"Logged In Successfully",
-      message: 'Speedy work on Progress..',
-      color:"#8CE99A",
-      withBorder :"true"
-    });
+    // notifications.show({
+    //   title:"Logged In Successfully",
+    //   message: 'Speedy work on Progress..',
+    //   color:"#8CE99A",
+    //   withBorder :"true"
+    // });
   }
 
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
-        <Box component="form" onSubmit={form.onSubmit((values) => console.log(values))}>
+        <Box component="form" onSubmit={form.onSubmit((values) => {
+          console.log(values);
+          notifications.show({
+            title:"Logged In Successfully",
+            message: 'Speedy work on Progress..',
+            color:"#8CE99A",
+            withBorder :"true"
+          });
+          })}>
           <Title
             order={2}
             className={classes.title}

@@ -7,19 +7,16 @@ import {
   Title,
   Text,
   useMantineTheme,
-  // Anchor,
+  Modal,
+  PinInput,
 } from "@mantine/core";
-import {
-  useForm,
-  isEmail,
-  hasLength,
-  isNotEmpty
-} from "@mantine/form";
+import { useForm, isEmail, hasLength, isNotEmpty } from "@mantine/form";
 import { useMediaQuery } from "@mantine/hooks";
 import classes from "./Register.module.css";
 import { useBackButton } from "../../customHooks/useBackButton";
 import { useNavigate } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
+import { useState } from "react";
 
 export function Register() {
   useBackButton("/login");
@@ -45,20 +42,27 @@ export function Register() {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [otp, setOtp] = useState(Array(4).fill(""));
+
   const handleRegister = () => {
     notifications.show({
-      title: "Request Sent Successfully",
-      message: "Wait for the Approval on registered email",
-      color: "#C9C9C9",
+      title: "OTP Sent Successfully",
+      message: "Check your registered email",
+      color: "var(--mantine-color-green-light)",
       withBorder: "true",
     });
   };
+
   return (
     <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={mobile ? 16 : 24} >
+      <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
         <Box
           component="form"
-          onSubmit={form.onSubmit((values) => console.log(values))}
+          onSubmit={form.onSubmit((values) => {
+            console.log(values);
+            setModalOpen(true);
+          })}
         >
           <Title
             order={2}
@@ -106,17 +110,16 @@ export function Register() {
             {...form.getInputProps("confirmpassword")}
             // error={""}
           />
+
           <Button
             id={classes.btn}
-            onClick={() => {
-              handleRegister();
-            }}
+            onClick={handleRegister}
             fullWidth
             mt="xl"
             size="md"
             type="submit"
           >
-            {"Register"}
+            Next
           </Button>
 
           <Text ta="center" mt="md" mb={15}>
@@ -134,6 +137,45 @@ export function Register() {
           </Text>
         </Box>
       </Paper>
+
+      <Modal
+        opened={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="OTP Verification"
+        size="md"
+        centered
+      >
+        <div className={classes.modalContent}>
+          <Text>Please enter the OTP sent to your email:</Text>
+          <PinInput
+            length={4}
+            value={otp.join("")}
+            type="number"
+            onChange={(value) => setOtp(value.split(""))}
+          />
+          <Button
+            color="var(--mantine-color-green-light)"
+            fullWidth
+            size="md"
+            onClick={() => {
+              // Convert the OTP to an integer
+              const otpInteger = parseInt(otp.join(""), 10);
+
+              // TODO: Verify the OTP with your backend here
+              console.log("Verifying OTP:", otpInteger);
+              notifications.show({
+                title: "Request Sent Successfully",
+                message: "Wait for the Approval on registered email",
+                color: "#C9C9C9",
+                withBorder: "true",
+              });
+              navigate("/login")
+            }}
+          >
+            Login
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

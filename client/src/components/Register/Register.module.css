@@ -41,3 +41,10 @@
   color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
   font-family: var(--mantine-font-family);
 }
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
