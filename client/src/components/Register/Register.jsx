@@ -71,7 +71,7 @@ export function Register() {
           })}
         >
           <Title
-            order={2}
+            order={mobile?3:2}
             className={classes.title}
             ta="center"
             mt={50}

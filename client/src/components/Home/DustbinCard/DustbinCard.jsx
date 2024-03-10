@@ -1,14 +1,13 @@
-import { Text, Card, RingProgress, Group } from '@mantine/core';
-import classes from './DustbinCard.module.css';
+import { Text, Card, RingProgress, Group } from "@mantine/core";
+import classes from "./DustbinCard.module.css";
 
 const stats = [
-  { value: "Zone_ID", label: 'Zone Number' },
-//   { value: 76, label: 'In progress' },
+  { value: "Zone_ID", label: "Zone Number" },
+  //   { value: 76, label: 'In progress' },
 ];
 
 export function DustbinCard() {
-  const completed = 1887;
-  const total = 2334;
+  const percent = 80;
   const items = stats.map((stat) => (
     <div key={stat.label}>
       <Text className={classes.label}>{stat.value}</Text>
@@ -19,42 +18,44 @@ export function DustbinCard() {
   ));
 
   return (
-    <Card withBorder p="xl" radius="md" className={classes.card}>
-      <div className={classes.inner}>
-        <div>
-          <Text fz="xl" className={classes.label}>
-            AreaName
-          </Text>
+      <Card withBorder p="xl" radius="md" className={classes.card}>
+        <div className={classes.inner}>
           <div>
-            <Text className={classes.lead} mt={30}>
-              ID_NUM
+            <Text fz="xl" className={classes.label}>
+              AreaName
             </Text>
-            <Text fz="sm" c="dimmed">
-              Identity number
-            </Text>
+            <div>
+              <Text className={classes.lead} mt={30}>
+                ID_NUM
+              </Text>
+              <Text fz="sm" c="dimmed">
+                Identity number
+              </Text>
+            </div>
+            <Group mt="lg">{items}</Group>
           </div>
-          <Group mt="lg">{items}</Group>
-        </div>
 
-        <div className={classes.ring}>
-          <RingProgress
-            roundCaps
-            thickness={6}
-            size={150}
-            sections={[{ value: (completed / total) * 100, color:"#8CE99A" }]}
-            label={
-              <div>
-                <Text ta="center" fz="lg" className={classes.label}>
-                  {((completed / total) * 100).toFixed(0)}%
-                </Text>
-                <Text ta="center" fz="sm" c="dimmed">
-                  Empty
-                </Text>
-              </div>
-            }
-          />
+          <div className={classes.ring}>
+            <RingProgress
+              roundCaps
+              thickness={6}
+              size={150}
+              sections={[
+                { value: percent, color: "#8CE99A" },
+              ]}
+              label={
+                <div>
+                  <Text ta="center" fz="lg" className={classes.label}>
+                    {percent.toFixed(0)}%
+                  </Text>
+                  <Text ta="center" fz="sm" c="dimmed">
+                    Empty
+                  </Text>
+                </div>
+              }
+            />
+          </div>
         </div>
-      </div>
-    </Card>
+      </Card>
   );
 }

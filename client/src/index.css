@@ -17,6 +17,8 @@
 :root[data-mantine-color-scheme='dark'] {
   --mantine-color-green-light: rgba(64, 192, 87, 0.15);
   --mantine-color-body: var(--mantine-color-dark-8);
+  --mantine-secondary-color-body: #8CE99A;
+  --mantine-data-card-color: var(--mantine-color-dark-7);
 }
 
 ::-moz-selection { /* Code for Firefox */
