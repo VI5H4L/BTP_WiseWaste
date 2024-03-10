@@ -46,12 +46,12 @@ export function Login() {
           notifications.show({
             title:"Logged In Successfully",
             message: 'Speedy work on Progress..',
-            color:"#8CE99A",
+            color:"var(--mantine-secondary-color-body)",
             withBorder :"true"
           });
           })}>
           <Title
-            order={2}
+            order={mobile?3:2}
             className={classes.title}
             ta="center"
             mt={50}

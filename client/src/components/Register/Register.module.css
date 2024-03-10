@@ -24,7 +24,7 @@
 }
 .register{
   color:var(--mantine-color-green-light);
-  color:#8CE99A;
+  color:var(--mantine-secondary-color-body);
   cursor: pointer;
 }
 .form {
