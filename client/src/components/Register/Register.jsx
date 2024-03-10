@@ -46,12 +46,12 @@ export function Register() {
   const [otp, setOtp] = useState(Array(4).fill(""));
 
   const handleRegister = () => {
-    notifications.show({
-      title: "OTP Sent Successfully",
-      message: "Check your registered email",
-      color: "var(--mantine-color-green-light)",
-      withBorder: "true",
-    });
+    // notifications.show({
+    //   title: "OTP Sent Successfully",
+    //   message: "Check your registered email",
+    //   color: "var(--mantine-color-green-light)",
+    //   withBorder: "true",
+    // });
   };
 
   return (
@@ -62,6 +62,12 @@ export function Register() {
           onSubmit={form.onSubmit((values) => {
             console.log(values);
             setModalOpen(true);
+            notifications.show({
+              title: "OTP Sent Successfully",
+              message: "Check your registered email",
+              color: "var(--mantine-color-green-light)",
+              withBorder: "true",
+            });
           })}
         >
           <Title
