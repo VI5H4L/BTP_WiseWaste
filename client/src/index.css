@@ -36,5 +36,28 @@
   padding: 0;
   box-sizing: border-box;
   font-family: Mabry;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    user-select: none;
+  }
 }
+
+*::-webkit-scrollbar {
+  width: 6px;
+  cursor: pointer;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--mantine-color-body);
+  cursor: pointer;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--mantine-color-dark-4);
+  /* border-radius: 10px; */
+  cursor: pointer;
+  border: 1px solid var(--mantine-color-body);
+}
+
+
 

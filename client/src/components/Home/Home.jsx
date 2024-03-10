@@ -31,6 +31,8 @@ export function Home() {
         <Grid.Col span={{ base: 12, sm: 6 ,lg:4 }}>{child}</Grid.Col>
         <Grid.Col span={{ base: 12, sm: 6 ,lg:4 }}>{child}</Grid.Col>
         <Grid.Col span={{ base: 12, sm: 6 ,lg:4 }}>{child}</Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 6 ,lg:4 }}>{child}</Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 6 ,lg:4 }}>{child}</Grid.Col>
       </Grid>
     </div>
   );
