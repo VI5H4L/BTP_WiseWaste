@@ -5,7 +5,7 @@ const {
 } = require("../models/user.models")
 
 const sendEmail = require("../utils/sendEmail");
-const { AUTH_EMAIL} = process.env;
+const { REQUESTS_AUTH_EMAIL} = process.env;
 
 router.route('/approve').get(async(req,res) =>{
     try{
@@ -22,7 +22,7 @@ router.route('/approve').get(async(req,res) =>{
             console.log(existingUser);
             // send email to Admin
             const mailOptionsUser = {
-                from: AUTH_EMAIL,
+                from: REQUESTS_AUTH_EMAIL,
                 to: emailID,
                 subject: "Request Approved by Admin",
                 html: `Now you can successfully login to WiseWaste using registered email ${emailID}.`,
@@ -56,7 +56,7 @@ router.route('/reject').get(async(req,res) =>{
             console.log(existingUser);
             // send email to Admin
             const mailOptionsUser = {
-                from: AUTH_EMAIL,
+                from: REQUESTS_AUTH_EMAIL,
                 to: emailID,
                 subject: "Request Rejected by Admin",
                 html: "Your request has been Rejected by the Admin.",

@@ -9,7 +9,7 @@ const generateOTP = require("../utils/generateOTP");
 const sendEmail = require("../utils/sendEmail");
 const { hashData, verifyHashedData } = require("../utils/hashPassword");
 
-const { AUTH_EMAIL } = process.env;
+const { OTP_AUTH_EMAIL } = process.env;
 
 const newOTPGenerator = expressAsyncHandler(async({emailID, subject, message, duration = 1}) => {
     try{
@@ -28,7 +28,7 @@ const newOTPGenerator = expressAsyncHandler(async({emailID, subject, message, du
 
         // send email to user
         const mailOptionsUser = {
-            from: AUTH_EMAIL,
+            from: OTP_AUTH_EMAIL,
             to: emailID,
             subject,
             html: `<p>${message}</p><p style="color:tomato;font-size:25px;letter-spacing:2px;"><b>${generatedOTP}</b></p><p>This code <b>expires in ${duration} hour(s)</b>.</p>`,
