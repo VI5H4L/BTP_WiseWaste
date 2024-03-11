@@ -19,12 +19,15 @@ const verificationExpiresAt = new Date();
 const newRegisterUser = expressAsyncHandler(async (req, res) => {
     try{
         let {fullName, emailID, password} = req.body;
-        fullName = fullName.trim();
-        emailID = emailID.trim();
-        password = password.trim();
-
-        const domain = emailID.substring(emailID.length - 12);
-        console.log(domain);
+        // fullName = fullName.trim();
+        // emailID = emailID.trim();
+        // password = password.trim();
+        console.log(fullName);
+        console.log(emailID);
+        console.log(password);
+        
+        // const domain = emailID.substring(emailID.length - 12);
+        // console.log(domain);
 
 
         if(!(fullName && emailID && password))
@@ -75,8 +78,8 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
 const authUser = expressAsyncHandler(async (req,res) => {
     try{
         let {emailID, password} = req.body;
-        emailID = emailID.trim();
-        password = password.trim();
+        // emailID = emailID.trim();
+        // password = password.trim();
 
         if(!(emailID && password))
         {
