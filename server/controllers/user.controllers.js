@@ -23,7 +23,7 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
         emailID = emailID.trim();
         password = password.trim();
 
-        const domain = emailID.substring(emailID.length - 9);
+        const domain = emailID.substring(emailID.length - 12);
         console.log(domain);
 
 
