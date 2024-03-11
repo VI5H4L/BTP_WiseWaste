@@ -9,7 +9,7 @@ const {
 const sendEmail = require("../utils/sendEmail");
 
 
-const { AUTH_EMAIL, ADMIN_EMAIL, LOCALHOST } = process.env;
+const { REQUESTS_AUTH_EMAIL, ADMIN_EMAIL, LOCALHOST } = process.env;
 
 router.route('/email_verify').post(async(req,res) =>{
     try{
@@ -45,7 +45,7 @@ router.route('/verify_email').post(async(req,res) => {
 
         // send email to Admin
         const mailOptionsUser = {
-            from: AUTH_EMAIL,
+            from: REQUESTS_AUTH_EMAIL,
             to: ADMIN_EMAIL,
             subject: `Approval Request for this email ${emailID}`,
             html: `A new worker has registered. <a href="${approvalLink}">Approve</a> or <a href="${rejectLink}">Reject</a>.`,
