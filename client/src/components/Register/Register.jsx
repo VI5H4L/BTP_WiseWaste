@@ -17,6 +17,7 @@ import { useBackButton } from "../../customHooks/useBackButton";
 import { useNavigate } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
+import axios from "axios";
 
 export function Register() {
   useBackButton("/login");
@@ -44,14 +45,87 @@ export function Register() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [otp, setOtp] = useState(Array(4).fill(""));
+  const [emailID, setEmailID] = useState("");
+  const [btnLoading, setBtnLoading] = useState(false);
+  const [otpBtnLoading, setOtpBtnLoading] = useState(false);
 
-  const handleRegister = () => {
-    // notifications.show({
-    //   title: "OTP Sent Successfully",
-    //   message: "Check your registered email",
-    //   color: "var(--mantine-color-green-light)",
-    //   withBorder: "true",
-    // });
+  const handleRegister = async (values) => {
+    try {
+      setBtnLoading(true);
+      setEmailID(values.email);
+      const uri = `https://backend-wisewaste.vercel.app/authentication/signup`;
+      const response = await axios.post(uri, {
+        fullName: values.name,
+        emailID: values.email,
+        password: values.password,
+      });
+      console.log(response.data);
+
+      if (response.data.success) {
+        setBtnLoading(false);
+        setModalOpen(true);
+        notifications.show({
+          title: "OTP Sent Successfully",
+          message: "Check your registered email",
+          color: "var(--mantine-color-green-light)",
+          withBorder: "true",
+        });
+      } else {
+        setBtnLoading(false);
+        console.log("Failed signup");
+      }
+    } catch (error) {
+      setBtnLoading(false);
+      console.error(error.response.data);
+    }
+  };
+
+  const handleOTP = async () => {
+    try {
+      setOtpBtnLoading(true);
+      const otpInteger = parseInt(otp.join(""), 10);
+      const otpString = otpInteger.toString();
+
+      // TODO: Verify the OTP with your backend here
+      console.log("Verifying OTP:", otpInteger);
+
+      const uri = `https://backend-wisewaste.vercel.app/emailverify/verify_email`;
+      const response = await axios.post(uri, {
+        emailID: emailID,
+        otp: otpString,
+      });
+      console.log(response.data);
+
+      if (response.data.success && response.data.verified) {
+        setOtpBtnLoading(false);
+        console.log("Successfully verified OTP");
+        notifications.show({
+          title: "Request Sent Successfully",
+          message: "Wait for the Approval on registered email",
+          color: "#C9C9C9",
+          withBorder: "true",
+        });
+        navigate("/login");
+      } else {
+        setOtpBtnLoading(false);
+        console.log("OTP verification failed");
+        notifications.show({
+          title: "OTP verification failed",
+          message: "Please try again...",
+          color: "red",
+          withBorder: "true",
+        });
+      }
+    } catch (error) {
+      setOtpBtnLoading(false);
+      console.error(error.response.data);
+      notifications.show({
+        title: "OTP verification failed",
+        message: "Please try again...",
+        color: "red",
+        withBorder: "true",
+      });
+    }
   };
 
   return (
@@ -60,18 +134,11 @@ export function Register() {
         <Box
           component="form"
           onSubmit={form.onSubmit((values) => {
-            console.log(values);
-            setModalOpen(true);
-            notifications.show({
-              title: "OTP Sent Successfully",
-              message: "Check your registered email",
-              color: "var(--mantine-color-green-light)",
-              withBorder: "true",
-            });
+            handleRegister(values);
           })}
         >
           <Title
-            order={mobile?3:2}
+            order={mobile ? 3 : 2}
             className={classes.title}
             ta="center"
             mt={50}
@@ -118,8 +185,8 @@ export function Register() {
           />
 
           <Button
+            loading={btnLoading}
             id={classes.btn}
-            onClick={handleRegister}
             fullWidth
             mt="xl"
             size="md"
@@ -164,20 +231,8 @@ export function Register() {
             color="var(--mantine-color-green-light)"
             fullWidth
             size="md"
-            onClick={() => {
-              // Convert the OTP to an integer
-              const otpInteger = parseInt(otp.join(""), 10);
-
-              // TODO: Verify the OTP with your backend here
-              console.log("Verifying OTP:", otpInteger);
-              notifications.show({
-                title: "Request Sent Successfully",
-                message: "Wait for the Approval on registered email",
-                color: "#C9C9C9",
-                withBorder: "true",
-              });
-              navigate("/login");
-            }}
+            onClick={handleOTP}
+            loading={otpBtnLoading}
           >
             Login
           </Button>

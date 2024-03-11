@@ -7,11 +7,14 @@ import classes from "./Login.module.css";
 import { useBackButton } from "../../customHooks/useBackButton";
 import { useNavigate } from "react-router-dom";
 import { notifications } from '@mantine/notifications';
+import axios from "axios";
+import { useState } from "react";
 
 
 export function Login() {
   useBackButton("/");
 
+  const [btnLoading,setBtnLoading] = useState(false);
   const form = useForm({
     initialValues: {
       email: "",
@@ -29,27 +32,56 @@ export function Login() {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
-  const handleLogin = ()=>{
-    // notifications.show({
-    //   title:"Logged In Successfully",
-    //   message: 'Speedy work on Progress..',
-    //   color:"#8CE99A",
-    //   withBorder :"true"
-    // });
-  }
+  const handleLogin = async (values) => {
+    try {
+      setBtnLoading(true);
+      console.log(values);
+      const uri = `https://backend-wisewaste.vercel.app/authentication/login`;
+      const response = await axios.post(uri, {
+        emailID: values.email,
+        password: values.password,
+      });
+      console.log(response.data);
 
-  return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
-        <Box component="form" onSubmit={form.onSubmit((values) => {
-          console.log(values);
+      if (response.data.success && response.data.user.adminVerified) {
+        setBtnLoading(false);
+        console.log("Success Login");
           notifications.show({
             title:"Logged In Successfully",
             message: 'Speedy work on Progress..',
             color:"var(--mantine-secondary-color-body)",
             withBorder :"true"
           });
-          })}>
+      } else {
+        setBtnLoading(false);
+        console.log("Failed Login");
+        notifications.show({
+          title:"Login Failed",
+          message: 'Please try again...',
+          color:"red",
+          withBorder :"true"
+        });
+      }
+    } catch (error) {
+      setBtnLoading(false);
+      console.error(error.response.data);
+      notifications.show({
+        title:"Login Failed",
+        message: 'Please try again...',
+        color:"red",
+        withBorder :"true"
+      });
+    }
+  };
+
+  return (
+    <div className={classes.wrapper}>
+      <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
+        <Box component="form" 
+          onSubmit={form.onSubmit((values) => {
+            handleLogin(values);
+          })}
+          >
           <Title
             order={mobile?3:2}
             className={classes.title}
@@ -78,7 +110,7 @@ export function Login() {
             // error={""}
           />
           <Checkbox label="Keep me logged in" color="#C9C9C9" variant="outline" mt="xl" size="md" {...form.getInputProps("logincheckbox",{ type: 'checkbox' })}/>
-          <Button id={classes.btn} fullWidth mt="xl" size="md" type="submit" onClick={handleLogin}>
+          <Button loading={btnLoading} id={classes.btn} fullWidth mt="xl" size="md" type="submit">
             Login
           </Button>
 
