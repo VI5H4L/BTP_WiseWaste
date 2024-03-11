@@ -6,7 +6,7 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
-    EmailID:{
+    emailID:{
         type: String,
         required: true,
         unique: true,
@@ -18,7 +18,11 @@ const UserSchema = new Schema({
     token:{
         type: String,
     },
-    verified:{
+    otpVerified:{
+        type: Boolean,
+        default: false,
+    },
+    adminVerified:{
         type: Boolean,
         default: false,
     },
@@ -29,7 +33,7 @@ const UserSchema = new Schema({
 });
 
 const OTPSchema = new Schema({
-    EmailID:{
+    emailID:{
         type: String,
         unique: true,
     },
