@@ -26,7 +26,7 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
         console.log(emailID);
         console.log(password);
         
-        const domain = emailID.substring(emailID.length - 12);
+        // const domain = emailID.substring(emailID.length - 12);
         // console.log(domain);
 
 
@@ -78,8 +78,8 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
 const authUser = expressAsyncHandler(async (req,res) => {
     try{
         let {emailID, password} = req.body;
-        emailID = emailID.trim();
-        password = password.trim();
+        // emailID = emailID.trim();
+        // password = password.trim();
 
         if(!(emailID && password))
         {
