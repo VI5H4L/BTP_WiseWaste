@@ -19,9 +19,9 @@ const verificationExpiresAt = new Date();
 const newRegisterUser = expressAsyncHandler(async (req, res) => {
     try{
         let {fullName, emailID, password} = req.body;
-        fullName = fullName.trim();
-        emailID = emailID.trim();
-        password = password.trim();
+        // fullName = fullName.trim();
+        // emailID = emailID.trim();
+        // password = password.trim();
         console.log(fullName);
         console.log(emailID);
         console.log(password);
