@@ -10,6 +10,7 @@ import { Analytics } from "./components/Analytics";
 import { Error } from "./components/Error";
 import { StatusBar } from "@capacitor/status-bar";
 import { Capacitor } from "@capacitor/core";
+import { ScreenOrientation } from '@capacitor/screen-orientation';
 import { App as CapacitorApp } from "@capacitor/app";
 import { NetworkError } from "./components/NetworkError";
 import AppUrlListener from "./Listeners/AppUrlListener";
@@ -30,6 +31,10 @@ function App() {
   const [appUrl, setAppUrl] = useState("/");
   const [isNetworkError, setIsNetworkError] = useRecoilState(isNetworkErrorState);
 
+  Capacitor.isNativePlatform() && ScreenOrientation.lock({ orientation: 'portrait' })
+  .then(() => console.log('Locked screen orientation to portrait'))
+  .catch((error) => console.error('Failed to lock screen orientation', error));
+  
   useEffect(() => {
     // Save the current route when the app goes to the background
     CapacitorApp.addListener("appStateChange", (state) => {
