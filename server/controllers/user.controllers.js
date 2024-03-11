@@ -22,9 +22,12 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
         fullName = fullName.trim();
         emailID = emailID.trim();
         password = password.trim();
-
+        console.log(fullName);
+        console.log(emailID);
+        console.log(password);
+        
         const domain = emailID.substring(emailID.length - 12);
-        console.log(domain);
+        // console.log(domain);
 
 
         if(!(fullName && emailID && password))
