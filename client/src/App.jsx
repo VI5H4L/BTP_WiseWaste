@@ -1,8 +1,7 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Network } from "@capacitor/network";
-import { AuthenticationImage } from "./components/Login/AuthenticationImage";
-import { NavbarMinimal } from "./components/Navbar/NavbarMinimal";
+import { Navbar } from "./components/Navbar/Navbar";
 import { setupIonicReact } from "@ionic/react";
 import { Routes, Route } from "react-router-dom";
 import classes from "./Layouts/AppLayout.module.css";
@@ -11,7 +10,15 @@ import { Analytics } from "./components/Analytics";
 import { Error } from "./components/Error";
 import { StatusBar } from "@capacitor/status-bar";
 import { Capacitor } from "@capacitor/core";
+import { App as CapacitorApp } from "@capacitor/app";
 import { NetworkError } from "./components/NetworkError";
+import AppUrlListener from "./Listeners/AppUrlListener";
+import { Register } from "./components/Register/Register";
+import { Home } from "./components/Home/Home";
+import { Login } from "./components/Login/Login";
+
+import { useRecoilState } from "recoil";
+import { isNetworkErrorState } from "./Recoil/recoil_state";
 
 setupIonicReact();
 Capacitor.isNativePlatform() &&
@@ -19,40 +26,53 @@ Capacitor.isNativePlatform() &&
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [appUrl, setAppUrl] = useState("/");
+  const [isNetworkError, setIsNetworkError] = useRecoilState(isNetworkErrorState);
 
   useEffect(() => {
-    Network.addListener("networkStatusChange", async (status) => {
-      console.log("Network status changed", status);
-      if (status.connected == false) {
-        navigate("/network");
-      } else {
-        navigate("/");
+    // Save the current route when the app goes to the background
+    CapacitorApp.addListener("appStateChange", (state) => {
+      if (!state.isActive) {
+        setAppUrl(location.pathname);
       }
     });
 
-    // Call the function to check the network status inside the listener
+    // Restore the route when the app comes back to the foreground
+    CapacitorApp.addListener("appRestoredResult", () => {
+      navigate(appUrl);
+    });
+
+    Network.addListener("networkStatusChange", async (status) => {
+      setIsNetworkError(!status.connected);
+    });
+
     const checkCurrentNetworkStatus = async () => {
       const status = await Network.getStatus();
-      if (status.connected == false) {
-        navigate("/network");
-      }
+      setIsNetworkError(!status.connected);
     };
     checkCurrentNetworkStatus();
-  }, [navigate]);
+  }, [navigate, location.pathname, appUrl,setIsNetworkError]);
 
   return (
     <div className={classes.appDiv}>
+      <AppUrlListener />
       <div className={classes.navDiv}>
-        <NavbarMinimal />
+        <Navbar />
       </div>
       <div className={classes.routeDiv}>
-        <Routes>
-          <Route path="/" element={<AuthenticationImage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/network" element={<NetworkError />} />
-          <Route path="*" element={<Error />} />
-        </Routes>
+        {isNetworkError ? (
+          <NetworkError />
+        ) : (
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
+        )}
       </div>
     </div>
   );

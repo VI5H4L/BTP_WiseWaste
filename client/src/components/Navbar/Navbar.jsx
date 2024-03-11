@@ -9,16 +9,17 @@ import {
   IconUser,
   IconSettings,
   IconLogout,
-  IconSwitchHorizontal,
+  // IconSwitchHorizontal,
 } from "@tabler/icons-react";
 // import { MantineLogo } from '@mantinex/mantine-logo';
-import classes from "./NavbarMinimal.module.css";
-import { useNavigate,useLocation } from "react-router-dom";
+import classes from "./Navbar.module.css";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { isNetworkErrorState } from "../../Recoil/recoil_state";
 
 
-export function NavbarMinimal() {
+export function Navbar() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [active, setActive] = useState(0);
 
   function NavbarLink({ icon: Icon, label, goto, active, onPress }) {
@@ -60,7 +61,8 @@ export function NavbarMinimal() {
     />
   ));
 
-  const isNetworkError = location.pathname==="/network";
+  const isNetworkError = useRecoilValue(isNetworkErrorState);
+  
   return (
     <nav className={classes.navbar} style={{ pointerEvents:isNetworkError&&"none" , filter: isNetworkError&&"grayscale(1)"}}>
       <Center>
@@ -78,8 +80,8 @@ export function NavbarMinimal() {
       </div>
 
       <Stack justify="center" gap={0}>
-        <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
-        <NavbarLink icon={IconLogout} label="Logout" />
+        {/* <NavbarLink icon={IconSwitchHorizontal} label="Change account" /> */}
+        <NavbarLink icon={IconLogout} goto={"/login"} label="Login" />
       </Stack>
     </nav>
   );
