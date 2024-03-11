@@ -43,7 +43,7 @@ export function Login() {
       });
       console.log(response.data);
 
-      if (response.data.success) {
+      if (response.data.success && response.data.user.adminVerified) {
         setBtnLoading(false);
         console.log("Success Login");
           notifications.show({
@@ -65,6 +65,12 @@ export function Login() {
     } catch (error) {
       setBtnLoading(false);
       console.error(error.response.data);
+      notifications.show({
+        title:"Login Failed",
+        message: 'Please try again...',
+        color:"red",
+        withBorder :"true"
+      });
     }
   };
 

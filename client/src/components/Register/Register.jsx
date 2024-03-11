@@ -63,7 +63,6 @@ export function Register() {
 
       if (response.data.success) {
         setBtnLoading(false);
-        console.log("Success signup");
         setModalOpen(true);
         notifications.show({
           title: "OTP Sent Successfully",
@@ -97,7 +96,7 @@ export function Register() {
       });
       console.log(response.data);
 
-      if (response.data.success) {
+      if (response.data.success && response.data.verified) {
         setOtpBtnLoading(false);
         console.log("Successfully verified OTP");
         notifications.show({
@@ -120,6 +119,12 @@ export function Register() {
     } catch (error) {
       setOtpBtnLoading(false);
       console.error(error.response.data);
+      notifications.show({
+        title: "OTP verification failed",
+        message: "Please try again...",
+        color: "red",
+        withBorder: "true",
+      });
     }
   };
 
