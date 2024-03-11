@@ -9,15 +9,15 @@ const {
     deleteOTP    
 } = require("../controllers/userOTP.controllers");
 
-const verifyEmail = expressAsyncHandler(async(EmailID) => {
+const verifyEmail = expressAsyncHandler(async(emailID) => {
     try{
-        if(!EmailID)
+        if(!emailID)
         {
             throw Error("An email is required!");
         }
 
         // check if an account exists
-        const existingUser = await User.findOne({EmailID});
+        const existingUser = await User.findOne({emailID});
         if(!existingUser)
         {
             throw Error("There's no account for the provided email.");
@@ -25,7 +25,7 @@ const verifyEmail = expressAsyncHandler(async(EmailID) => {
 
 
         const otpDetails = {
-            EmailID,
+            emailID,
             subject: "Email Verification",
             message: "Verify your email with the code below.",
             duration: 1,
@@ -39,9 +39,9 @@ const verifyEmail = expressAsyncHandler(async(EmailID) => {
 });
 
 
-const verifyUserEmail = expressAsyncHandler(async({ EmailID, otp }) => {
+const verifyUserEmail = expressAsyncHandler(async({ emailID, otp }) => {
     try{
-        const validOTP = await verifyOTPGenerated({ EmailID, otp });
+        const validOTP = await verifyOTPGenerated({ emailID, otp });
         console.log("success 5");
         if(!validOTP)
         {
@@ -50,9 +50,9 @@ const verifyUserEmail = expressAsyncHandler(async({ EmailID, otp }) => {
         console.log("success 6");
 
         // now update user record to show verified.
-        await User.updateOne({ EmailID }, { verified: true });
+        await User.updateOne({ emailID }, { otpVerified: true });
 
-        await deleteOTP(EmailID);
+        await deleteOTP(emailID);
         console.log("success 7");
         return;
     }catch(error)

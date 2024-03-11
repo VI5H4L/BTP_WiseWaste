@@ -10,9 +10,9 @@ const {
 
 router.route('/getotp').post(async(req,res) =>{
     try{
-        let { EmailID, subject, message, duration } = req.body;
+        let { emailID, subject, message, duration } = req.body;
         
-        const createdOTPRecord = await newOTPGenerator({EmailID, subject, message, duration});
+        const createdOTPRecord = await newOTPGenerator({emailID, subject, message, duration});
 
         res.status(200).json(createdOTPRecord)
     } catch(error)
@@ -24,10 +24,9 @@ router.route('/getotp').post(async(req,res) =>{
 
 router.route('/verify').post(async(req,res) =>{
     try{
-        let { EmailID, otp } = req.body;
+        let { emailID, otp } = req.body;
         
-        const validOTP = await verifyOTPGenerated({EmailID,otp});
-
+        const validOTP = await verifyOTPGenerated({emailID,otp});
         res.status(200).json({valid: validOTP});
     } catch(error)
     {

@@ -11,35 +11,36 @@ const { hashData, verifyHashedData } = require("../utils/hashPassword");
 
 const { AUTH_EMAIL } = process.env;
 
-const newOTPGenerator = expressAsyncHandler(async({EmailID, subject, message, duration = 1 }) => {
+const newOTPGenerator = expressAsyncHandler(async({emailID, subject, message, duration = 1}) => {
     try{
 
-        if(!(EmailID && subject && message))
+        if(!(emailID && subject && message))
         {
             throw Error("Provide values for email, subject, message");
         }
 
         // clear any old record
-        await OTP.deleteOne({ collegeEmailID });
+        await OTP.deleteOne({ emailID });
 
         //generate pin
         const generatedOTP = await generateOTP();
         console.log(generatedOTP);
 
-        // send email
-        const mailOptions = {
+        // send email to user
+        const mailOptionsUser = {
             from: AUTH_EMAIL,
-            to: EmailID,
+            to: emailID,
             subject,
             html: `<p>${message}</p><p style="color:tomato;font-size:25px;letter-spacing:2px;"><b>${generatedOTP}</b></p><p>This code <b>expires in ${duration} hour(s)</b>.</p>`,
         };
         console.log("success 1");
-        await sendEmail(mailOptions);
+
+        await sendEmail(mailOptionsUser);
         console.log("success 2");
         // save otp record
         const hashedOTP = await hashData(generatedOTP);
         const newOTP = await new OTP({
-            EmailID,
+            emailID,
             otp: hashedOTP,
             createdAt: Date.now(),
             expiresAt: Date.now() + 3600000 * +duration,
@@ -54,16 +55,16 @@ const newOTPGenerator = expressAsyncHandler(async({EmailID, subject, message, du
 });
 
 
-const verifyOTPGenerated = expressAsyncHandler(async({ EmailID, otp }) => {
+const verifyOTPGenerated = expressAsyncHandler(async({ emailID, otp }) => {
     try{
 
-        if(!(EmailID && otp))
+        if(!(emailID && otp))
         {
             throw Error("Provide values for email, otp");
         }
 
         // ensure otp record exists
-        const matchedOTPRecord = await OTP.findOne({ EmailID });
+        const matchedOTPRecord = await OTP.findOne({ emailID });
 
         if(!matchedOTPRecord)
         {
@@ -75,7 +76,7 @@ const verifyOTPGenerated = expressAsyncHandler(async({ EmailID, otp }) => {
         // checking for expired code
         if(expiresAt < Date.now())
         {
-            await OTP.deleteOne({ EmailID });
+            await OTP.deleteOne({ emailID });
             throw Error("Code has expired. Request for a new one.");
         }
 
@@ -90,9 +91,9 @@ const verifyOTPGenerated = expressAsyncHandler(async({ EmailID, otp }) => {
     }
 });
 
-const deleteOTP = expressAsyncHandler(async({EmailID}) => {
+const deleteOTP = expressAsyncHandler(async({emailID}) => {
     try{
-        await OTP.deleteOne({EmailID});
+        await OTP.deleteOne({emailID});
     }catch(error)
     {
         throw error;

@@ -10,7 +10,7 @@ const {
     verifyHashedData    
 } = require("../utils/hashPassword");
 const createToken = require("../utils/createToken");
-const auth = require("../middleware/auth");
+// const auth = require("../middleware/auth");
 const { verifyEmail } = require("../controllers/emailVerify.controllers");
 const verificationExpiresAt = new Date();
 
@@ -18,23 +18,19 @@ const verificationExpiresAt = new Date();
 //Signup
 const newRegisterUser = expressAsyncHandler(async (req, res) => {
     try{
-        let {fullName, EmailID, password} = req.body;
+        let {fullName, emailID, password} = req.body;
         fullName = fullName.trim();
-        EmailID = EmailID.trim();
+        emailID = emailID.trim();
         password = password.trim();
 
-        const domain = EmailID.substring(EmailID.length - 12);
+        const domain = emailID.substring(emailID.length - 9);
         console.log(domain);
 
 
-        if(!(fullName && EmailID && password))
+        if(!(fullName && emailID && password))
         {
             // throw Error("Empty input fields!");
             res.json({ success: false, message: 'Empty input fields!' });
-        }else if(domain !== "gmail.com")
-        {
-            // throw Error("Only people belonging to LNMIIT Jaipur can register");
-            res.json({ success: false, message: 'Only people belonging to LNMIIT Jaipur can register' });
         }else if(password.length<8)
         {
             // throw Error("Password is too short!");
@@ -43,7 +39,7 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
 
             console.log("success 1");
             // good credentials, create new user
-            const existingUser = await User.findOne({EmailID});
+            const existingUser = await User.findOne({emailID});
             console.log("sucess 2");
             //Checking if user already exists
             if(existingUser){
@@ -56,7 +52,7 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
             const hasedPassword = await hashData(password);
             const newUser = new User({
                 fullName,
-                EmailID,
+                emailID,
                 password: hasedPassword,
                 verificationExpiresAt,
             });
@@ -64,8 +60,8 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
             //save user
             const newusers = await newUser.save();
             console.log("SignUp Success");
-            
-            await verifyEmail(EmailID);
+            console.log(newusers);
+            await verifyEmail(emailID, fullName);
             res.status(200).json({success: true, newusers});
         }
     }catch (error)
@@ -78,18 +74,18 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
 // Signin or Login
 const authUser = expressAsyncHandler(async (req,res) => {
     try{
-        let {EmailID, password} = req.body;
-        EmailID = EmailID.trim();
+        let {emailID, password} = req.body;
+        emailID = emailID.trim();
         password = password.trim();
 
-        if(!(EmailID && password))
+        if(!(emailID && password))
         {
             // throw Error("Empty credentials supplied!");
             res.json({ success: false, message: 'Empty credentials supplied!' });
         }
 
 
-        const fetchUser = await User.findOne({ EmailID });
+        const fetchUser = await User.findOne({ emailID });
 
         if(!fetchUser)
         {
@@ -97,7 +93,7 @@ const authUser = expressAsyncHandler(async (req,res) => {
             res.json({ success: false, message: 'Invalid collegeEmailID enerted!' });
         }
 
-        if(!fetchUser.verified)
+        if(!fetchUser.otpVerified && !fetchUser.adminVerified)
         {
             // throw Error("Email hasn't been verified yet. Check your inbox.");
             res.json({ success: false, message: "Email hasn't been verified yet. Check your inbox." });
@@ -112,13 +108,13 @@ const authUser = expressAsyncHandler(async (req,res) => {
         }
 
         // create user token
-        const tokenData = {userID: fetchUser._id, EmailID};
+        const tokenData = {userID: fetchUser._id, emailID};
         const token = await createToken(tokenData);
 
         //assign user token
         fetchUser.token = token;
         console.log("Login Sucess1");
-        if(EmailID===ADMIN_EMAIL)
+        if(emailID===ADMIN_EMAIL)
         {
             res.status(200).json({success: true, role: 'Admin', user: fetchUser});
             console.log(fetchUser);
@@ -136,7 +132,7 @@ const authUser = expressAsyncHandler(async (req,res) => {
 })
 
 const checkingForUser = expressAsyncHandler(async (req, res) => {
-    res.status(200).send(`You're in the private territory of ${req.currentUser.EmailID}`);
+    res.status(200).send(`You're in the private territory of ${req.currentUser.emailID}`);
 });
 
 module.exports = {newRegisterUser, authUser, checkingForUser};
