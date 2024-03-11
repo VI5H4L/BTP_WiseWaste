@@ -6,11 +6,16 @@ const {
     verifyUserEmail 
 } = require("../controllers/emailVerify.controllers");
 
+const sendEmail = require("../utils/sendEmail");
+
+
+const { AUTH_EMAIL, ADMIN_EMAIL, LOCALHOST } = process.env;
+
 router.route('/email_verify').post(async(req,res) =>{
     try{
-        let { EmailID } = req.body;
+        let { emailID } = req.body;
         
-        const createdEmailVerificationOTP = await verifyEmail({EmailID});
+        const createdEmailVerificationOTP = await verifyEmail({emailID});
 
         res.status(200).json(createdEmailVerificationOTP);
     } catch(error)
@@ -19,20 +24,37 @@ router.route('/email_verify').post(async(req,res) =>{
     }
 });
 
+
+
 router.route('/verify_email').post(async(req,res) => {
     try{
         console.log("success 11");
-        let { EmailID , otp } = req.body;
+        let { emailID , otp } = req.body;
         console.log("success 21");
-        if(!(EmailID && otp))
+        if(!(emailID && otp))
         {
             throw Error("Empty otp details are not allowed");
             // res.json({ success: false, message: 'Empty otp details are not allowed' });
         }
         console.log("success 31");
-        await verifyUserEmail({ EmailID, otp });
+        await verifyUserEmail({ emailID, otp });
+
+
+        let approvalLink = `${LOCALHOST}/admin/approve?emailID=${emailID}`;
+        let rejectLink = `${LOCALHOST}/admin/reject?emailID=${emailID}`;
+
+        // send email to Admin
+        const mailOptionsUser = {
+            from: AUTH_EMAIL,
+            to: ADMIN_EMAIL,
+            subject: `Approval Request for this email ${emailID}`,
+            html: `A new worker has registered. <a href="${approvalLink}">Approve</a> or <a href="${rejectLink}">Reject</a>.`,
+        };
+        await sendEmail(mailOptionsUser);
+
+        console.log(mailOptionsUser);
         console.log("success 41");
-        res.status(200).json({ success: true, EmailID, verified: true});
+        res.status(200).json({ success: true, emailID, verified: true});
     } catch(error)
     {
         res.status(400).send(error.message);
