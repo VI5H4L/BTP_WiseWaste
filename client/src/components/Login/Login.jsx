@@ -7,6 +7,7 @@ import classes from "./Login.module.css";
 import { useBackButton } from "../../customHooks/useBackButton";
 import { useNavigate } from "react-router-dom";
 import { notifications } from '@mantine/notifications';
+import axios from "axios";
 
 
 export function Login() {
@@ -29,27 +30,47 @@ export function Login() {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
-  const handleLogin = ()=>{
-    // notifications.show({
-    //   title:"Logged In Successfully",
-    //   message: 'Speedy work on Progress..',
-    //   color:"#8CE99A",
-    //   withBorder :"true"
-    // });
-  }
+  const handleLogin = async (values) => {
+    try {
+      console.log(values);
+      const uri = `https://backend-wisewaste.vercel.app/authentication/login`;
+      console.log(uri);
+      const response = await axios.post(uri, {
+        emailID: values.email,
+        password: values.password,
+      });
+      console.log(response.data);
 
-  return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
-        <Box component="form" onSubmit={form.onSubmit((values) => {
-          console.log(values);
+      if (response.data.success) {
+        console.log("Success Login");
           notifications.show({
             title:"Logged In Successfully",
             message: 'Speedy work on Progress..',
             color:"var(--mantine-secondary-color-body)",
             withBorder :"true"
           });
-          })}>
+      } else {
+        console.log("Failed Login");
+        notifications.show({
+          title:"Log In Failed",
+          message: 'Please try Again',
+          color:"red",
+          withBorder :"true"
+        });
+      }
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  };
+
+  return (
+    <div className={classes.wrapper}>
+      <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
+        <Box component="form" 
+          onSubmit={form.onSubmit((values) => {
+            handleLogin(values);
+          })}
+          >
           <Title
             order={mobile?3:2}
             className={classes.title}
@@ -78,7 +99,7 @@ export function Login() {
             // error={""}
           />
           <Checkbox label="Keep me logged in" color="#C9C9C9" variant="outline" mt="xl" size="md" {...form.getInputProps("logincheckbox",{ type: 'checkbox' })}/>
-          <Button id={classes.btn} fullWidth mt="xl" size="md" type="submit" onClick={handleLogin}>
+          <Button id={classes.btn} fullWidth mt="xl" size="md" type="submit">
             Login
           </Button>
 
