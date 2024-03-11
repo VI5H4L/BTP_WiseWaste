@@ -8,11 +8,13 @@ import { useBackButton } from "../../customHooks/useBackButton";
 import { useNavigate } from "react-router-dom";
 import { notifications } from '@mantine/notifications';
 import axios from "axios";
+import { useState } from "react";
 
 
 export function Login() {
   useBackButton("/");
 
+  const [btnLoading,setBtnLoading] = useState(false);
   const form = useForm({
     initialValues: {
       email: "",
@@ -32,9 +34,9 @@ export function Login() {
 
   const handleLogin = async (values) => {
     try {
+      setBtnLoading(true);
       console.log(values);
       const uri = `https://backend-wisewaste.vercel.app/authentication/login`;
-      console.log(uri);
       const response = await axios.post(uri, {
         emailID: values.email,
         password: values.password,
@@ -42,6 +44,7 @@ export function Login() {
       console.log(response.data);
 
       if (response.data.success) {
+        setBtnLoading(false);
         console.log("Success Login");
           notifications.show({
             title:"Logged In Successfully",
@@ -50,15 +53,17 @@ export function Login() {
             withBorder :"true"
           });
       } else {
+        setBtnLoading(false);
         console.log("Failed Login");
         notifications.show({
-          title:"Log In Failed",
-          message: 'Please try Again',
+          title:"Login Failed",
+          message: 'Please try again...',
           color:"red",
           withBorder :"true"
         });
       }
     } catch (error) {
+      setBtnLoading(false);
       console.error(error.response.data);
     }
   };
@@ -99,7 +104,7 @@ export function Login() {
             // error={""}
           />
           <Checkbox label="Keep me logged in" color="#C9C9C9" variant="outline" mt="xl" size="md" {...form.getInputProps("logincheckbox",{ type: 'checkbox' })}/>
-          <Button id={classes.btn} fullWidth mt="xl" size="md" type="submit">
+          <Button loading={btnLoading} id={classes.btn} fullWidth mt="xl" size="md" type="submit">
             Login
           </Button>
 

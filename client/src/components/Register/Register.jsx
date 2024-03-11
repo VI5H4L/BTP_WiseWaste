@@ -46,13 +46,14 @@ export function Register() {
   const [modalOpen, setModalOpen] = useState(false);
   const [otp, setOtp] = useState(Array(4).fill(""));
   const [emailID, setEmailID] = useState("");
+  const [btnLoading, setBtnLoading] = useState(false);
+  const [otpBtnLoading, setOtpBtnLoading] = useState(false);
 
   const handleRegister = async (values) => {
     try {
-      // setFormData(values);
+      setBtnLoading(true);
       setEmailID(values.email);
       const uri = `https://backend-wisewaste.vercel.app/authentication/signup`;
-      console.log(uri);
       const response = await axios.post(uri, {
         fullName: values.name,
         emailID: values.email,
@@ -61,6 +62,7 @@ export function Register() {
       console.log(response.data);
 
       if (response.data.success) {
+        setBtnLoading(false);
         console.log("Success signup");
         setModalOpen(true);
         notifications.show({
@@ -70,15 +72,18 @@ export function Register() {
           withBorder: "true",
         });
       } else {
+        setBtnLoading(false);
         console.log("Failed signup");
       }
     } catch (error) {
+      setBtnLoading(false);
       console.error(error.response.data);
     }
   };
 
   const handleOTP = async () => {
     try {
+      setOtpBtnLoading(true);
       const otpInteger = parseInt(otp.join(""), 10);
       const otpString = otpInteger.toString();
 
@@ -86,7 +91,6 @@ export function Register() {
       console.log("Verifying OTP:", otpInteger);
 
       const uri = `https://backend-wisewaste.vercel.app/emailverify/verify_email`;
-      console.log(uri);
       const response = await axios.post(uri, {
         emailID: emailID,
         otp: otpString,
@@ -94,6 +98,7 @@ export function Register() {
       console.log(response.data);
 
       if (response.data.success) {
+        setOtpBtnLoading(false);
         console.log("Successfully verified OTP");
         notifications.show({
           title: "Request Sent Successfully",
@@ -103,9 +108,17 @@ export function Register() {
         });
         navigate("/login");
       } else {
+        setOtpBtnLoading(false);
         console.log("OTP verification failed");
+        notifications.show({
+          title: "OTP verification failed",
+          message: "Please try again...",
+          color: "red",
+          withBorder: "true",
+        });
       }
     } catch (error) {
+      setOtpBtnLoading(false);
       console.error(error.response.data);
     }
   };
@@ -166,7 +179,14 @@ export function Register() {
             // error={""}
           />
 
-          <Button id={classes.btn} fullWidth mt="xl" size="md" type="submit">
+          <Button
+            loading={btnLoading}
+            id={classes.btn}
+            fullWidth
+            mt="xl"
+            size="md"
+            type="submit"
+          >
             Next
           </Button>
 
@@ -207,6 +227,7 @@ export function Register() {
             fullWidth
             size="md"
             onClick={handleOTP}
+            loading={otpBtnLoading}
           >
             Login
           </Button>
