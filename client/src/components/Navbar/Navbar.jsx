@@ -16,31 +16,45 @@ import classes from "./Navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { isNetworkErrorState } from "../../Recoil/recoil_state";
-
+import { Modal, Button } from "@mantine/core";
 
 export function Navbar() {
+  const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
 
-  const handleLogout = ()=>{
-    if (localStorage.getItem('userToken')) {
-      localStorage.removeItem('userToken');
-      localStorage.removeItem('userName');
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem('userID');
-      localStorage.removeItem('fullData');
+  const handleLoginBtn = () => {
+    if (localStorage.getItem("userToken")) {
+      setModalOpen(true);
+    }
+    else{
       navigate("/login")
     }
-  }
+  };
+  const handleCancel = () => {
+    setModalOpen(false);
+  };
+  const handleLogout = () => {
+    if (localStorage.getItem("userToken")){
+      localStorage.removeItem("userToken");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userID");
+      localStorage.removeItem("fullData");
+      setModalOpen(false);
+      navigate("/login");
+    }
+  };
 
   function NavbarLink({ icon: Icon, label, goto, active, onPress }) {
     return (
-      <div onClick={() => {
-        if(goto=="/login"){
-          handleLogout();
-        }
-        else navigate(goto);
-        }}>
+      <div
+        onClick={() => {
+          if (goto == "/login") {
+            handleLoginBtn();
+          } else navigate(goto);
+        }}
+      >
         <Tooltip
           label={label}
           position="right"
@@ -54,14 +68,18 @@ export function Navbar() {
             <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
           </UnstyledButton>
         </Tooltip>
-        </div>
+      </div>
     );
   }
-  
+
   const mockdata = [
     { icon: IconHome2, label: "Home", goto: "/" },
     { icon: IconGauge, label: "Dashboard", goto: "/dashboard" },
-    { icon: IconDeviceDesktopAnalytics, label: "Analytics", goto: "/analytics" },
+    {
+      icon: IconDeviceDesktopAnalytics,
+      label: "Analytics",
+      goto: "/analytics",
+    },
     { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
     { icon: IconUser, label: "Account", goto: "/account" },
     { icon: IconFingerprint, label: "Security", goto: "/security" },
@@ -78,27 +96,69 @@ export function Navbar() {
   ));
 
   const isNetworkError = useRecoilValue(isNetworkErrorState);
-  
+
   return (
-    <nav className={classes.navbar} style={{ pointerEvents:isNetworkError&&"none" , filter: isNetworkError&&"grayscale(1)"}}>
-      <Center>
-        <div className={classes.imgDiv}>
-            <img onClick={() => {navigate("/")}} src="/images/logo1.png" alt="logo" />
+    <>
+      <nav
+        className={classes.navbar}
+        style={{
+          pointerEvents: isNetworkError && "none",
+          filter: isNetworkError && "grayscale(1)",
+        }}
+      >
+        <Center>
+          <div className={classes.imgDiv}>
+            <img
+              onClick={() => {
+                navigate("/");
+              }}
+              src="/images/logo1.png"
+              alt="logo"
+            />
+          </div>
+
+          {/* <MantineLogo type="mark" size={30} /> */}
+        </Center>
+
+        <div className={classes.navbarMain}>
+          <Stack align="flex-start" justify="center" gap={4}>
+            {links}
+          </Stack>
         </div>
 
-        {/* <MantineLogo type="mark" size={30} /> */}
-      </Center>
-
-      <div className={classes.navbarMain}>
-        <Stack align="flex-start" justify="center" gap={4}>
-          {links}
+        <Stack justify="center" gap={0}>
+          {/* <NavbarLink icon={IconSwitchHorizontal} label="Change account" /> */}
+          <NavbarLink
+            icon={IconLogout}
+            goto={"/login"}
+            label={localStorage.getItem("userToken") ? "Logout" : "Login"}
+          />
         </Stack>
-      </div>
+      </nav>
+      <Modal opened={modalOpen} onClose={() => setModalOpen(false)} title="Do you want to Logout?" size="md" centered>
+        <div>
+          <Button
+            color="var(--mantine-color-red-7)"
+            fullWidth
+            size="md"
+            variant="filled"
+            style={{ marginBottom: "10px" }} // Add space between buttons
+            onClick={handleLogout}
+          >
+            Yes, Logout
+          </Button>
 
-      <Stack justify="center" gap={0}>
-        {/* <NavbarLink icon={IconSwitchHorizontal} label="Change account" /> */}
-        <NavbarLink icon={IconLogout} goto={"/login"} label={localStorage.getItem('userToken') ? 'Logout' : 'Login'} />
-      </Stack>
-    </nav>
+          <Button
+            color="#C9C9C9"
+            fullWidth
+            size="md"
+            variant="outline"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Modal>
+    </>
   );
 }
