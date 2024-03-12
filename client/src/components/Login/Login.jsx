@@ -52,6 +52,14 @@ export function Login() {
             color:"var(--mantine-secondary-color-body)",
             withBorder :"true"
           });
+
+        localStorage.setItem("userEmail", JSON.stringify(response.data.user.emailID));
+        localStorage.setItem("userToken", JSON.stringify(response.data.user.token));
+        localStorage.setItem("userName", JSON.stringify(response.data.user.fullName));
+        localStorage.setItem("userID", JSON.stringify(response.data.user._id));
+        localStorage.setItem("fullData", JSON.stringify(response.data));
+
+        navigate("/")
       } else {
         setBtnLoading(false);
         console.log("Failed Login");

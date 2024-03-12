@@ -22,9 +22,25 @@ export function Navbar() {
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
 
+  const handleLogout = ()=>{
+    if (localStorage.getItem('userToken')) {
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('userID');
+      localStorage.removeItem('fullData');
+      navigate("/login")
+    }
+  }
+
   function NavbarLink({ icon: Icon, label, goto, active, onPress }) {
     return (
-      <div onClick={() => {navigate(goto)}}>
+      <div onClick={() => {
+        if(goto=="/login"){
+          handleLogout();
+        }
+        else navigate(goto);
+        }}>
         <Tooltip
           label={label}
           position="right"
@@ -81,7 +97,7 @@ export function Navbar() {
 
       <Stack justify="center" gap={0}>
         {/* <NavbarLink icon={IconSwitchHorizontal} label="Change account" /> */}
-        <NavbarLink icon={IconLogout} goto={"/login"} label="Login" />
+        <NavbarLink icon={IconLogout} goto={"/login"} label={localStorage.getItem('userToken') ? 'Logout' : 'Login'} />
       </Stack>
     </nav>
   );
