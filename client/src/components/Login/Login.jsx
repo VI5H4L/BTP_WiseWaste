@@ -58,6 +58,7 @@ export function Login() {
         localStorage.setItem("userName", JSON.stringify(response.data.user.fullName));
         localStorage.setItem("userID", JSON.stringify(response.data.user._id));
         localStorage.setItem("fullData", JSON.stringify(response.data));
+        localStorage.setItem("role", JSON.stringify(response.data.role));
 
         navigate("/")
       } else {

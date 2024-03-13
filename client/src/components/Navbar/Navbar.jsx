@@ -41,6 +41,7 @@ export function Navbar() {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userID");
       localStorage.removeItem("fullData");
+      localStorage.removeItem("role");
       setModalOpen(false);
       navigate("/login");
     }
