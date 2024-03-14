@@ -79,7 +79,7 @@ router.route("/verify_email").post(async (req, res) => {
             .action-links {
                 margin: 20px 0;
             }
-            a {
+            .anchor {
                 text-decoration: none;
                 color: #465775;
                 background-color: #f7f7f7;
@@ -104,8 +104,8 @@ router.route("/verify_email").post(async (req, res) => {
             <div class="email-body">
                 <p>A new user ${emailID} has registered.</p>
                 <div class="action-links">
-                    <a href="${approvalLink}">Approve</a> or 
-                    <a href="${rejectLink}">Reject</a>
+                    <a class="anchor" href="${approvalLink}">Approve</a> or 
+                    <a class="anchor" href="${rejectLink}">Reject</a>
                 </div>
             </div>
             <div class="email-footer">
