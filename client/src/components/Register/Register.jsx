@@ -19,6 +19,7 @@ import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import axios from "axios";
 
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function Register() {
   useBackButton("/login");
 
@@ -59,7 +60,7 @@ export function Register() {
     try {
       setBtnLoading(true);
       setEmailID(values.email);
-      const uri = `https://backend-wisewaste.vercel.app/authentication/signup`;
+      const uri = `${BACKEND_URI}/authentication/signup`;
       const response = await axios.post(uri, {
         fullName: values.name,
         emailID: values.email,
@@ -131,7 +132,7 @@ export function Register() {
       // TODO: Verify the OTP with your backend here
       console.log("Verifying OTP:", otpInteger);
 
-      const uri = `https://backend-wisewaste.vercel.app/emailverify/verify_email`;
+      const uri = `${BACKEND_URI}/emailverify/verify_email`;
       const response = await axios.post(uri, {
         emailID: emailID,
         otp: otpString,

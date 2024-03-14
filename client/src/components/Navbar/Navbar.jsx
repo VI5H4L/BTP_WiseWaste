@@ -26,16 +26,15 @@ export function Navbar() {
   const handleLoginBtn = () => {
     if (localStorage.getItem("userToken")) {
       setModalOpen(true);
-    }
-    else{
-      navigate("/login")
+    } else {
+      navigate("/login");
     }
   };
   const handleCancel = () => {
     setModalOpen(false);
   };
   const handleLogout = () => {
-    if (localStorage.getItem("userToken")){
+    if (localStorage.getItem("userToken")) {
       localStorage.removeItem("userToken");
       localStorage.removeItem("userName");
       localStorage.removeItem("userEmail");
@@ -136,7 +135,13 @@ export function Navbar() {
           />
         </Stack>
       </nav>
-      <Modal opened={modalOpen} onClose={() => setModalOpen(false)} title="Do you want to Logout?" size="md" centered>
+      <Modal
+        opened={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Do you want to Logout?"
+        size="md"
+        centered
+      >
         <div>
           <Button
             color="var(--mantine-color-red-7)"
