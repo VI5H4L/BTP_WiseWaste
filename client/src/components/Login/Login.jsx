@@ -52,6 +52,15 @@ export function Login() {
             color:"var(--mantine-secondary-color-body)",
             withBorder :"true"
           });
+
+        localStorage.setItem("userEmail", JSON.stringify(response.data.user.emailID));
+        localStorage.setItem("userToken", JSON.stringify(response.data.user.token));
+        localStorage.setItem("userName", JSON.stringify(response.data.user.fullName));
+        localStorage.setItem("userID", JSON.stringify(response.data.user._id));
+        localStorage.setItem("fullData", JSON.stringify(response.data));
+        localStorage.setItem("role", JSON.stringify(response.data.role));
+
+        navigate("/")
       } else {
         setBtnLoading(false);
         console.log("Failed Login");
@@ -93,7 +102,7 @@ export function Login() {
           </Title>
 
           <TextInput
-            label="Email address"
+            label="Email Address"
             placeholder="hello@gmail.com"
             size="md"
             required
