@@ -22,62 +22,71 @@ router.route("/approve").get(async (req, res) => {
         from: REQUESTS_AUTH_EMAIL,
         to: emailID,
         subject: "Request Approved by Admin",
-        html: `
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <style>
-                        body {
-                            font-family: 'Helvetica Neue', Helvetica, Arial, Poppins, sans-serif;
-                            background-color: #f7f7f7;
-                            margin: 0;
-                            padding: 0;
-                            color: #555555;
-                        }
-                        .email-container {
-                            max-width: 600px;
-                            margin: auto;
-                            background-color: #ffffff;
-                            padding: 20px;
-                            border-radius: 4px;
-                            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-                        }
-                        .email-header {
-                            background-color: #243727;
-                            color: #ffffff;
-                            padding: 10px 20px;
-                            text-align: center;
-                            border-radius: 4px 4px 0 0;
-                        }
-                        .email-body {
-                            padding: 20px;
-                            text-align: center;
-                        }
-                        .email-footer {
-                            font-size: 12px;
-                            text-align: center;
-                            padding: 20px;
-                            color: #aaaaaa;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="email-container">
-                        <div class="email-header">
-                            <h2>Wise Waste!</h2>
-                        </div>
-                        <div class="email-body">
-                            <p>Your request has been <strong>Approved</strong> by the Admin.</p>
-                            <p>Now you can successfully login to WiseWaste using your registered email: <strong>${emailID}</strong>.</p>
-                        </div>
-                        <div class="email-footer">
-                            Welcome to Wise Waste! If you need any assistance, please contact support.
-                        </div>
-                    </div>
-                </body>
-                </html>
+        html: `<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body {
+                    font-family: 'Helvetica Neue', Helvetica, Arial, Poppins, sans-serif;
+                    background-color: #f7f7f7;
+                    margin: 0;
+                    padding: 0;
+                    color: #555555;
+                }
+                .email-container {
+                    max-width: 600px;
+                    margin: auto;
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: 4px;
+                    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+                }
+                .email-header {
+                    background-color: #243727;
+                    color: #ffffff;
+                    padding: 10px 20px;
+                    text-align: center;
+                    border-radius: 4px 4px 0 0;
+                }
+                .email-body {
+                    padding: 20px;
+                    text-align: center;
+                }
+                .email-footer {
+                    font-size: 12px;
+                    text-align: center;
+                    padding: 20px;
+                    color: #aaaaaa;
+                }
+                .login-link {
+                    display: inline-block;
+                    margin-top: 20px;
+                    padding: 10px 15px;
+                    background-color: #465775;
+                    color: #ffffff;
+                    text-decoration: none;
+                    border-radius: 4px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="email-container">
+                <div class="email-header">
+                    <h2>Wise Waste!</h2>
+                </div>
+                <div class="email-body">
+                    <p>Your request has been <strong>Approved</strong> by the Admin.</p>
+                    <p>Now you can successfully login to WiseWaste using your registered email: <strong>${emailID}</strong>.</p>
+                    <a href="https://wisewaste.vercel.app/login" class="login-link">Login to WiseWaste</a>
+                </div>
+                <div class="email-footer">
+                    Welcome to Wise Waste! If you need any assistance, please contact support.
+                </div>
+            </div>
+        </body>
+        </html>
                 `,
       };
       await sendEmail(mailOptionsUser);

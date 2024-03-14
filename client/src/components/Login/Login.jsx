@@ -102,7 +102,7 @@ export function Login() {
           </Title>
 
           <TextInput
-            label="Email address"
+            label="Email Address"
             placeholder="hello@gmail.com"
             size="md"
             required

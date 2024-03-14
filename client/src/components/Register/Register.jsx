@@ -28,6 +28,7 @@ export function Register() {
       email: "",
       password: "",
       confirmpassword: "",
+      phone: "",
     },
 
     validate: {
@@ -37,6 +38,10 @@ export function Register() {
       confirmpassword: (value, values) =>
         values.password === value ? null : "Passwords do not match",
     },
+    phone: (value) =>
+      value.length === 10 && !isNaN(value)
+        ? null
+        : "Please enter a valid 10-digit phone number",
   });
 
   const navigate = useNavigate();
@@ -50,6 +55,7 @@ export function Register() {
   const [otpBtnLoading, setOtpBtnLoading] = useState(false);
 
   const handleRegister = async (values) => {
+    console.log(values);
     try {
       setBtnLoading(true);
       setEmailID(values.email);
@@ -193,7 +199,7 @@ export function Register() {
           />
 
           <TextInput
-            label="Email address"
+            label="Email Address"
             placeholder="hello@gmail.com"
             mt="md"
             size="md"
@@ -201,6 +207,24 @@ export function Register() {
             {...form.getInputProps("email")}
             // error={""}
           />
+          <TextInput
+            type="tel"
+            label="Phone Number"
+            placeholder="92xxxxxx04"
+            mt="md"
+            size="md"
+            maxLength={10}
+            required
+            {...form.getInputProps("phone")}
+            onChange={(event) => {
+              const value = event.target.value;
+              const isValid = /^\d+$/.test(value); // Check if the input is a number
+              if (isValid || value === "") {
+                form.setFieldValue("phone", value);
+              }
+            }}
+          />
+
           <PasswordInput
             label="Password"
             placeholder="Your password"
