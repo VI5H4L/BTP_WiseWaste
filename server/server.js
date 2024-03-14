@@ -9,6 +9,7 @@ const { PORT } = process.env;
 const app = express();
 
 app.use(cors({ origin: 'https://wisewaste.vercel.app' }));
+app.options('*', cors());
 app.use(bodyParser());
 
 // /authentication/signup
