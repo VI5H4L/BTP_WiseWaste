@@ -70,30 +70,6 @@ export function Register() {
           color: "var(--mantine-color-green-light)",
           withBorder: "true",
         });
-      } else if (
-        response.data.success == false &&
-        response.data.code == "admindone"
-      ) {
-        setBtnLoading(false);
-        setModalOpen(false);
-        notifications.show({
-          title: "Already Approved",
-          message: "Admin has already approved your request",
-          color: "var(--mantine-color-green-light)",
-          withBorder: "true",
-        });
-      } else if (
-        response.data.success == false &&
-        response.data.code == "adminres"
-      ) {
-        setBtnLoading(false);
-        setModalOpen(false);
-        notifications.show({
-          title: "Wait",
-          message: "Wait for Admin's response.",
-          color: "var(--mantine-color-green-light)",
-          withBorder: "true",
-        });
       } else {
         setBtnLoading(false);
         console.log("Failed signup");
