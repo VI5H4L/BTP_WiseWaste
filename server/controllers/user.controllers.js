@@ -46,8 +46,13 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
             console.log("sucess 2");
             //Checking if user already exists
             if(existingUser){
+                if(existingUser.otpVerified===false){
+                    await User.deleteOne({ _id: existingUser._id });
+                }
+                else{
                 res.json({ success: false, message: 'User with the provided email already exists' });
                 throw Error("User with the provided email already exists");
+                }
             }
 
             // hash password
