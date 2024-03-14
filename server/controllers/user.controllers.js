@@ -53,8 +53,13 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
                     await OTP.deleteOne({ _id: existingUserOTP._id });
                 }
                 else{
-                res.json({ success: false, message: 'User with the provided email already exists' });
-                throw Error("User with the provided email already exists");
+                    if(existingUser.adminVerified===true){
+                        res.json({ success: false, message: 'Admin has already approved your request', code:"admindone" });
+                    }
+                    else{
+                            res.json({ success: false, message: 'Wait for Admin response' code:"adminres" });
+                            throw Error("User with the provided email already exists");
+                    }
                 }
             }
 
