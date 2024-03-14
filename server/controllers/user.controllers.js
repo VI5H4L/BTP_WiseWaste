@@ -3,8 +3,7 @@ const express = require("express");
 const router = express.Router();
 const {ADMIN_EMAIL, ADMIN_PASSWORD} = process.env;
 const {
-    User,
-    OTP
+    User
 } = require("../models/user.models")
 const {
     hashData,
@@ -44,23 +43,11 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
             console.log("success 1");
             // good credentials, create new user
             const existingUser = await User.findOne({emailID});
-            const existingUserOTP = await OTP.findOne({emailID});
             console.log("sucess 2");
             //Checking if user already exists
             if(existingUser){
-                if(existingUser.otpVerified===false){
-                    await User.deleteOne({ _id: existingUser._id });
-                    await OTP.deleteOne({ _id: existingUserOTP._id });
-                }
-                else{
-                    if(existingUser.adminVerified===true){
-                        res.json({ success: false, message: 'Admin has already approved your request', code:"admindone" });
-                    }
-                    else{
-                            res.json({ success: false, message: 'Wait for Admin response' code:"adminres" });
-                            throw Error("User with the provided email already exists");
-                    }
-                }
+                // throw Error("User with the provided email already exists");
+                res.json({ success: false, message: 'User with the provided email already exists' });
             }
 
             // hash password

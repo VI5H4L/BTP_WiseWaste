@@ -13,12 +13,12 @@ const connectToDB = async() => {
         });
         console.log("DB Connected");
 
-        cron.schedule('*/5 * * * *', async () => {
+        cron.schedule('*/10 * * * *', async () => {
             try {
                 console.log("success 333");
               const expiredStudents = await User.find({
                 otpVerified: false,
-                // verificationExpiresAt: { $lt: new Date() },
+                verificationExpiresAt: { $lt: new Date() },
               });
               console.log(expiredStudents);
               for (const student of expiredStudents) {
