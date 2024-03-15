@@ -19,6 +19,7 @@ import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import axios from "axios";
 
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function Register() {
   useBackButton("/login");
 
@@ -37,11 +38,11 @@ export function Register() {
       password: hasLength({ min: 8 }, "Password must be 8 characters long"),
       confirmpassword: (value, values) =>
         values.password === value ? null : "Passwords do not match",
+      phone: (value) =>
+        value.toString().length === 10
+          ? null
+          : "Please enter a valid 10-digit phone number",
     },
-    phone: (value) =>
-      value.length === 10 && !isNaN(value)
-        ? null
-        : "Please enter a valid 10-digit phone number",
   });
 
   const navigate = useNavigate();
@@ -55,15 +56,16 @@ export function Register() {
   const [otpBtnLoading, setOtpBtnLoading] = useState(false);
 
   const handleRegister = async (values) => {
-    console.log(values);
+    // console.log(values);
     try {
       setBtnLoading(true);
       setEmailID(values.email);
-      const uri = `https://backend-wisewaste.vercel.app/authentication/signup`;
+      const uri = `${BACKEND_URI}/authentication/signup`;
       const response = await axios.post(uri, {
         fullName: values.name,
         emailID: values.email,
         password: values.password,
+        phone: (values.phone).toString(),
       });
       console.log(response.data);
 
@@ -131,7 +133,7 @@ export function Register() {
       // TODO: Verify the OTP with your backend here
       console.log("Verifying OTP:", otpInteger);
 
-      const uri = `https://backend-wisewaste.vercel.app/emailverify/verify_email`;
+      const uri = `${BACKEND_URI}/emailverify/verify_email`;
       const response = await axios.post(uri, {
         emailID: emailID,
         otp: otpString,
@@ -186,7 +188,7 @@ export function Register() {
             mt={50}
             mb={50}
           >
-            {`Join Wise Waste Initiative↘`}
+            {`Join Wise Waste Initiative:`}
           </Title>
 
           <TextInput

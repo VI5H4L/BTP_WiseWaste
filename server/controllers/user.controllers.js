@@ -1,7 +1,7 @@
 const expressAsyncHandler = require("express-async-handler");
 const express = require("express");
 const router = express.Router();
-const {ADMIN_EMAIL, ADMIN_PASSWORD} = process.env;
+const {ADMIN_EMAIL} = process.env;
 const {
     User,
     OTP
@@ -19,13 +19,14 @@ const verificationExpiresAt = new Date();
 //Signup
 const newRegisterUser = expressAsyncHandler(async (req, res) => {
     try{
-        let {fullName, emailID, password} = req.body;
+        let {fullName, emailID, password,phone} = req.body;
         // fullName = fullName.trim();
         // emailID = emailID.trim();
         // password = password.trim();
         console.log(fullName);
         console.log(emailID);
         console.log(password);
+        console.log(phone);
         
         // const domain = emailID.substring(emailID.length - 12);
         // console.log(domain);
@@ -71,6 +72,7 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
                 fullName,
                 emailID,
                 password: hasedPassword,
+                phone,
                 verificationExpiresAt,
             });
 
@@ -107,13 +109,13 @@ const authUser = expressAsyncHandler(async (req,res) => {
         if(!fetchUser)
         {
             // throw Error("Invalid collegeEmailID enerted!");
-            res.json({ success: false, message: 'Invalid collegeEmailID enerted!' });
+            res.json({ success: false, message: 'Invalid email id entered!' });
         }
 
-        if(!fetchUser.otpVerified && !fetchUser.adminVerified)
+        if(!fetchUser.otpVerified || !fetchUser.adminVerified)
         {
             // throw Error("Email hasn't been verified yet. Check your inbox.");
-            res.json({ success: false, message: "Email hasn't been verified yet. Check your inbox." });
+            res.json({ success: false, message: "Email hasn't been verified yet" });
         }
         const hashedPassword = fetchUser.password;
         const passwordMatch = await verifyHashedData(password, hashedPassword);
@@ -131,14 +133,14 @@ const authUser = expressAsyncHandler(async (req,res) => {
         //assign user token
         fetchUser.token = token;
         console.log("Login Sucess1");
-        if(emailID===ADMIN_EMAIL)
+        if(emailID==ADMIN_EMAIL)
         {
-            res.status(200).json({success: true, role: 'Admin', user: fetchUser});
+            res.status(200).json({success: true, role: 'admin', user: fetchUser});
             console.log(fetchUser);
             
         }else
         {
-            res.status(200).json({success: true, role: 'user', user: fetchUser});
+            res.status(200).json({success: true, role: 'worker', user: fetchUser});
             console.log(fetchUser);
         }
         

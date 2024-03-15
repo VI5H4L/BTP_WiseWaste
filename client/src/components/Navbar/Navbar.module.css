@@ -5,7 +5,8 @@
   padding: var(--mantine-spacing-xs);
   display: flex;
   flex-direction: column;
-  border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  border-right: rem(1px) solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
   overflow: auto;
   overflow-x: hidden;
 
@@ -19,7 +20,7 @@
   margin-top: rem(50px);
 }
 
-.imgDiv{
+.imgDiv {
   margin-top: 10px;
   width: 30px;
   height: auto;
@@ -28,7 +29,7 @@
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
-.imgDiv img{
+.imgDiv img {
   width: 100%;
 }
 .link {
@@ -41,7 +42,10 @@
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
 
   &:hover {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+    background-color: light-dark(
+      var(--mantine-color-gray-0),
+      var(--mantine-color-dark-5)
+    );
   }
 
   &[data-active] {
