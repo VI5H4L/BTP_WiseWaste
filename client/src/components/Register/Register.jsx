@@ -56,7 +56,7 @@ export function Register() {
   const [otpBtnLoading, setOtpBtnLoading] = useState(false);
 
   const handleRegister = async (values) => {
-    console.log(values);
+    // console.log(values);
     try {
       setBtnLoading(true);
       setEmailID(values.email);

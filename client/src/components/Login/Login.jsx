@@ -44,7 +44,7 @@ export function Login() {
   const handleLogin = async (values) => {
     try {
       setBtnLoading(true);
-      console.log(values);
+      // console.log(values);
       const uri = `${BACKEND_URI}/authentication/login`;
       const response = await axios.post(uri, {
         emailID: values.email,
