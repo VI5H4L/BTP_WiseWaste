@@ -131,7 +131,7 @@ const authUser = expressAsyncHandler(async (req,res) => {
         //assign user token
         fetchUser.token = token;
         console.log("Login Sucess1");
-        if(emailID===ADMIN_EMAIL)
+        if(emailID==ADMIN_EMAIL)
         {
             res.status(200).json({success: true, role: 'admin', user: fetchUser});
             console.log(fetchUser);
