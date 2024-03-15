@@ -107,13 +107,13 @@ const authUser = expressAsyncHandler(async (req,res) => {
         if(!fetchUser)
         {
             // throw Error("Invalid collegeEmailID enerted!");
-            res.json({ success: false, message: 'Invalid collegeEmailID enerted!' });
+            res.json({ success: false, message: 'Invalid email id entered!' });
         }
 
-        if(!fetchUser.otpVerified && !fetchUser.adminVerified)
+        if(!fetchUser.otpVerified || !fetchUser.adminVerified)
         {
             // throw Error("Email hasn't been verified yet. Check your inbox.");
-            res.json({ success: false, message: "Email hasn't been verified yet. Check your inbox." });
+            res.json({ success: false, message: "Email hasn't been verified yet" });
         }
         const hashedPassword = fetchUser.password;
         const passwordMatch = await verifyHashedData(password, hashedPassword);
