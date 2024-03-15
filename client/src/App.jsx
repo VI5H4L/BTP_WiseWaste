@@ -12,7 +12,7 @@ import { StatusBar } from "@capacitor/status-bar";
 import { Capacitor } from "@capacitor/core";
 import { ScreenOrientation } from "@capacitor/screen-orientation";
 import { App as CapacitorApp } from "@capacitor/app";
-import { NetworkError } from "./components/NetworkError";
+import { NetworkError } from "./components/NetworkError/NetworkError";
 import AppUrlListener from "./Listeners/AppUrlListener";
 import { Register } from "./components/Register/Register";
 import { Home } from "./components/Home/Home";
