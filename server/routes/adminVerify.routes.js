@@ -64,8 +64,8 @@ router.route("/approve").get(async (req, res) => {
                     display: inline-block;
                     margin-top: 20px;
                     padding: 10px 15px;
-                    background-color: #465775;
-                    color: #ffffff;
+                    border: 2px solid #243727;
+                    color: #243727;
                     text-decoration: none;
                     border-radius: 4px;
                 }
