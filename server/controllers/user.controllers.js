@@ -19,13 +19,14 @@ const verificationExpiresAt = new Date();
 //Signup
 const newRegisterUser = expressAsyncHandler(async (req, res) => {
     try{
-        let {fullName, emailID, password} = req.body;
+        let {fullName, emailID, password,phone} = req.body;
         // fullName = fullName.trim();
         // emailID = emailID.trim();
         // password = password.trim();
         console.log(fullName);
         console.log(emailID);
         console.log(password);
+        console.log(phone);
         
         // const domain = emailID.substring(emailID.length - 12);
         // console.log(domain);
@@ -71,6 +72,7 @@ const newRegisterUser = expressAsyncHandler(async (req, res) => {
                 fullName,
                 emailID,
                 password: hasedPassword,
+                phone,
                 verificationExpiresAt,
             });
 

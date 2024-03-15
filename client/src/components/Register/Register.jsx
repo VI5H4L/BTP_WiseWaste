@@ -65,6 +65,7 @@ export function Register() {
         fullName: values.name,
         emailID: values.email,
         password: values.password,
+        phone: (values.phone).toString(),
       });
       console.log(response.data);
 
