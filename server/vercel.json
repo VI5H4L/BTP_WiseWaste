@@ -5,7 +5,7 @@
   "routes": [
     {
       "source": "/(.*)",
-      "destination": "/server.js",
+      "dest": "/server.js",
       "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       "headers": {
         "Access-Control-Allow-Origin": "*"
