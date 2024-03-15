@@ -38,11 +38,11 @@ export function Register() {
       password: hasLength({ min: 8 }, "Password must be 8 characters long"),
       confirmpassword: (value, values) =>
         values.password === value ? null : "Passwords do not match",
+      phone: (value) =>
+        value.toString().length === 10
+          ? null
+          : "Please enter a valid 10-digit phone number",
     },
-    phone: (value) =>
-      value.length === 10 && !isNaN(value)
-        ? null
-        : "Please enter a valid 10-digit phone number",
   });
 
   const navigate = useNavigate();
