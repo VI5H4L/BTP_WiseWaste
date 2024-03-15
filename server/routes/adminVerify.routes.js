@@ -138,7 +138,7 @@ router.route("/approve").get(async (req, res) => {
                     <h2>Wise Waste!</h2>
                 </div>
                 <div class="email-body">
-                    <h1>Request Approved!</h1>
+                    <h2>Request Approved!</h2>
                     <p>Request is Approved by the admin for <strong>${emailID}</strong></p>
                 </div>
             </div>
@@ -274,7 +274,7 @@ router.route("/reject").get(async (req, res) => {
                 <h2>Wise Waste!</h2>
             </div>
             <div class="email-body">
-                <h1>Request Rejected!</h1>
+                <h2>Request Rejected!</h2>
                 <p>Request is Rejected by the admin for <strong>${emailID}</strong>.</p>
             </div>
         </div>

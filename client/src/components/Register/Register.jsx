@@ -187,7 +187,7 @@ export function Register() {
             mt={50}
             mb={50}
           >
-            {`Join Wise Waste Initiative↘`}
+            {`Join Wise Waste Initiative:`}
           </Title>
 
           <TextInput

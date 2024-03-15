@@ -79,7 +79,17 @@ export function Login() {
         localStorage.setItem("role", JSON.stringify(response.data.role));
 
         navigate("/");
-      } else {
+      } 
+      else if((!response.data.success) && response.data.message==="Invalid password entered!") {
+        setBtnLoading(false);
+        notifications.show({
+          title: "Incorrect Password",
+          message: "Please enter correct password..",
+          color: "red",
+          withBorder: "true",
+        });
+      }
+      else {
         setBtnLoading(false);
         console.log("Failed Login");
         notifications.show({
@@ -117,7 +127,7 @@ export function Login() {
             mt={50}
             mb={50}
           >
-            {`Login to Wise Waste↘`}
+            {`Login to Wise Waste:`}
           </Title>
 
           <TextInput

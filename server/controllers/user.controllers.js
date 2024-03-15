@@ -1,7 +1,7 @@
 const expressAsyncHandler = require("express-async-handler");
 const express = require("express");
 const router = express.Router();
-const {ADMIN_EMAIL, ADMIN_PASSWORD} = process.env;
+const {ADMIN_EMAIL} = process.env;
 const {
     User,
     OTP
@@ -133,12 +133,12 @@ const authUser = expressAsyncHandler(async (req,res) => {
         console.log("Login Sucess1");
         if(emailID===ADMIN_EMAIL)
         {
-            res.status(200).json({success: true, role: 'Admin', user: fetchUser});
+            res.status(200).json({success: true, role: 'admin', user: fetchUser});
             console.log(fetchUser);
             
         }else
         {
-            res.status(200).json({success: true, role: 'user', user: fetchUser});
+            res.status(200).json({success: true, role: 'worker', user: fetchUser});
             console.log(fetchUser);
         }
         
