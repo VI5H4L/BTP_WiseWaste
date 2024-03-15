@@ -7,12 +7,9 @@ const { PORT } = process.env;
 
 // create server app
 const app = express();
-
-// Enable CORS for all preflight requests
 app.options('*', cors());
 // app.use(cors());
 
-// Enable CORS for requests from 'https://wisewaste.vercel.app'
 app.use(cors({
   origin: 'https://wisewaste.vercel.app' // Allow only this origin
 }));
