@@ -23,6 +23,8 @@ import { isNetworkErrorState } from "./Recoil/recoil_state";
 
 import OneSignal from "onesignal-cordova-plugin";
 
+import { AnimatePresence } from "framer-motion";
+
 setupIonicReact();
 Capacitor.isNativePlatform() &&
   StatusBar.setBackgroundColor({ color: "#1F1F1F" });
@@ -96,14 +98,16 @@ function App() {
         {isNetworkError ? (
           <NetworkError />
         ) : (
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="*" element={<Error />} />
-          </Routes>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="*" element={<Error />} />
+            </Routes>
+          </AnimatePresence>
         )}
       </div>
     </div>

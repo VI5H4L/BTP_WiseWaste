@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import axios from "axios";
+import Transition from "../../Transition";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function Register() {
@@ -65,7 +66,7 @@ export function Register() {
         fullName: values.name,
         emailID: values.email,
         password: values.password,
-        phone: (values.phone).toString(),
+        phone: values.phone.toString(),
       });
       console.log(response.data);
 
@@ -173,133 +174,135 @@ export function Register() {
   };
 
   return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
-        <Box
-          component="form"
-          onSubmit={form.onSubmit((values) => {
-            handleRegister(values);
-          })}
-        >
-          <Title
-            order={mobile ? 3 : 2}
-            className={classes.title}
-            ta="center"
-            mt={50}
-            mb={50}
+    <Transition>
+      <div className={classes.wrapper}>
+        <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
+          <Box
+            component="form"
+            onSubmit={form.onSubmit((values) => {
+              handleRegister(values);
+            })}
           >
-            {`Join Wise Waste Initiative:`}
-          </Title>
+            <Title
+              order={mobile ? 3 : 2}
+              className={classes.title}
+              ta="center"
+              mt={50}
+              mb={50}
+            >
+              {`Join Wise Waste Initiative:`}
+            </Title>
 
-          <TextInput
-            label="Full Name"
-            placeholder="Abc Xyz"
-            size="md"
-            required
-            error={""}
-            {...form.getInputProps("name")}
-          />
+            <TextInput
+              label="Full Name"
+              placeholder="Abc Xyz"
+              size="md"
+              required
+              error={""}
+              {...form.getInputProps("name")}
+            />
 
-          <TextInput
-            label="Email Address"
-            placeholder="hello@gmail.com"
-            mt="md"
-            size="md"
-            required
-            {...form.getInputProps("email")}
-            // error={""}
-          />
-          <TextInput
-            type="tel"
-            label="Phone Number"
-            placeholder="92xxxxxx04"
-            mt="md"
-            size="md"
-            maxLength={10}
-            required
-            {...form.getInputProps("phone")}
-            onChange={(event) => {
-              const value = event.target.value;
-              const isValid = /^\d+$/.test(value); // Check if the input is a number
-              if (isValid || value === "") {
-                form.setFieldValue("phone", value);
-              }
-            }}
-          />
-
-          <PasswordInput
-            label="Password"
-            placeholder="Your password"
-            mt="md"
-            size="md"
-            required
-            {...form.getInputProps("password")}
-            // error={""}
-          />
-          <PasswordInput
-            label="Confirm Password"
-            placeholder="Confirm your password"
-            mt="md"
-            size="md"
-            required
-            {...form.getInputProps("confirmpassword")}
-            // error={""}
-          />
-
-          <Button
-            loading={btnLoading}
-            id={classes.btn}
-            fullWidth
-            mt="xl"
-            size="md"
-            type="submit"
-          >
-            Next
-          </Button>
-
-          <Text ta="center" mt="md" mb={15}>
-            Have an account already?{" "}
-            <a
-              // fw={700}
-              className={classes.register}
-              onClick={(event) => {
-                navigate("/login", { replace: false });
-                event.preventDefault();
+            <TextInput
+              label="Email Address"
+              placeholder="hello@gmail.com"
+              mt="md"
+              size="md"
+              required
+              {...form.getInputProps("email")}
+              // error={""}
+            />
+            <TextInput
+              type="tel"
+              label="Phone Number"
+              placeholder="92xxxxxx04"
+              mt="md"
+              size="md"
+              maxLength={10}
+              required
+              {...form.getInputProps("phone")}
+              onChange={(event) => {
+                const value = event.target.value;
+                const isValid = /^\d+$/.test(value); // Check if the input is a number
+                if (isValid || value === "") {
+                  form.setFieldValue("phone", value);
+                }
               }}
+            />
+
+            <PasswordInput
+              label="Password"
+              placeholder="Your password"
+              mt="md"
+              size="md"
+              required
+              {...form.getInputProps("password")}
+              // error={""}
+            />
+            <PasswordInput
+              label="Confirm Password"
+              placeholder="Confirm your password"
+              mt="md"
+              size="md"
+              required
+              {...form.getInputProps("confirmpassword")}
+              // error={""}
+            />
+
+            <Button
+              loading={btnLoading}
+              id={classes.btn}
+              fullWidth
+              mt="xl"
+              size="md"
+              type="submit"
+            >
+              Next
+            </Button>
+
+            <Text ta="center" mt="md" mb={15}>
+              Have an account already?{" "}
+              <a
+                // fw={700}
+                className={classes.register}
+                onClick={(event) => {
+                  navigate("/login", { replace: false });
+                  event.preventDefault();
+                }}
+              >
+                Login
+              </a>
+            </Text>
+          </Box>
+        </Paper>
+
+        <Modal
+          opened={modalOpen}
+          onClose={() => setModalOpen(false)}
+          title="OTP Verification"
+          size="md"
+          centered
+        >
+          <div className={classes.modalContent}>
+            <Text>Please enter the OTP sent to your email:</Text>
+            <PinInput
+              length={4}
+              value={otp.join("")}
+              type="number"
+              placeholder="*"
+              onChange={(value) => setOtp(value.split(""))}
+            />
+            <Button
+              color="var(--mantine-color-green-light)"
+              fullWidth
+              size="md"
+              onClick={handleOTP}
+              loading={otpBtnLoading}
             >
               Login
-            </a>
-          </Text>
-        </Box>
-      </Paper>
-
-      <Modal
-        opened={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title="OTP Verification"
-        size="md"
-        centered
-      >
-        <div className={classes.modalContent}>
-          <Text>Please enter the OTP sent to your email:</Text>
-          <PinInput
-            length={4}
-            value={otp.join("")}
-            type="number"
-            placeholder="*"
-            onChange={(value) => setOtp(value.split(""))}
-          />
-          <Button
-            color="var(--mantine-color-green-light)"
-            fullWidth
-            size="md"
-            onClick={handleOTP}
-            loading={otpBtnLoading}
-          >
-            Login
-          </Button>
-        </div>
-      </Modal>
-    </div>
+            </Button>
+          </div>
+        </Modal>
+      </div>
+    </Transition>
   );
 }

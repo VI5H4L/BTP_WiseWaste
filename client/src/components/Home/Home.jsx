@@ -3,6 +3,7 @@ import { Grid, Title, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import classes from "./Home.module.css";
 import { DustbinCard } from "./DustbinCard/DustbinCard";
+import Transition from "../../Transition";
 
 const child = <DustbinCard />;
 
@@ -13,6 +14,7 @@ export function Home() {
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
   return (
+    <Transition>
     <div className={classes.container}>
       <Title
         order={mobile ? 3 : 2}
@@ -35,5 +37,6 @@ export function Home() {
         <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
       </Grid>
     </div>
+    </Transition>
   );
 }
