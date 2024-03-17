@@ -1,14 +1,11 @@
-
-  import {useBackButton} from "../customHooks/useBackButton"
 import Transition from "../Transition";
+import { useBackButton } from "../customHooks/useBackButton";
 
-  
-  export function Dashboard() {
-    useBackButton("/");
-    return (
-      <Transition>
-      DashBoard
-      </Transition>
+export function Dashboard() {
+  useBackButton("/");
+  return (
+  <Transition>
+    DashBoard
+    </Transition>
     );
-  }
-  
+}

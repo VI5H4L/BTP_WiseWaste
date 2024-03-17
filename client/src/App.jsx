@@ -24,6 +24,7 @@ import { isNetworkErrorState } from "./Recoil/recoil_state";
 import OneSignal from "onesignal-cordova-plugin";
 
 import { AnimatePresence } from "framer-motion";
+import { ManageWorker } from "./components/ManageWorker";
 
 setupIonicReact();
 Capacitor.isNativePlatform() &&
@@ -103,7 +104,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={<ManageWorker />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="*" element={<Error />} />
             </Routes>

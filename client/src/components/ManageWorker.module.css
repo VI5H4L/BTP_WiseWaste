@@ -1,0 +1,33 @@
+.root {
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+    box-shadow: var(--mantine-shadow-md);
+    border: rem(1px) solid light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-4));
+    margin: 20px;
+  }
+  
+  .indicator {
+    background-image: linear-gradient(
+      to right,
+      #243727,
+      #243727
+    );
+  }
+  
+  .control {
+    &::before {
+      display: none;
+    }
+  }
+  
+  .label {
+    &,
+    &:hover {
+      &[data-active] {
+        color: var(--mantine-color-white);
+      }
+    }
+  }
+  .container{
+    display: flex;
+    justify-content: center;
+  }
