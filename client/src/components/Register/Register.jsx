@@ -187,8 +187,8 @@ export function Register() {
               order={mobile ? 3 : 2}
               className={classes.title}
               ta="center"
-              mt={50}
-              mb={50}
+              mt={mobile ? 16 : 24}
+              mb={mobile ? 32 : 48}
             >
               {`Join Wise Waste Initiative:`}
             </Title>

@@ -4,19 +4,16 @@ import {
   Group,
   Card,
   Select,
-  useMantineTheme,
 } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import { IconPhoneCall, IconAt } from "@tabler/icons-react";
 import { useState } from "react";
 import classes from "./WorkerCard.module.css";
 
+const mobile = window.screen.width < 768;
+
 export function WorkerCard() {
   const data = ["Zone A", "Zone D", "Zone C", "Zone B"];
   const [value, setValue] = useState("");
-
-  const theme = useMantineTheme();
-  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.xs})`);
 
   const optionsFilter = ({ options, search }) => {
     const filtered = options.filter((option) =>
@@ -38,12 +35,12 @@ export function WorkerCard() {
     <Card withBorder p="sm" radius="md" className={classes.card}>
       <Group wrap="nowrap">
         <div className={classes.avatarDiv}>
-          <Avatar color="green" radius="md" size={96}>
+          <Avatar color="green" radius="md" size={120}>
             {getInitials("Vishal Kumar")}
           </Avatar>
         </div>
         <div className={classes.rightDiv}>
-          <Text fz="lg" fw={500} className={classes.name}>
+          <Text fz="lg" fw={700} className={classes.name}>
             Vishal Kumar
           </Text>
 
@@ -74,7 +71,7 @@ export function WorkerCard() {
             filter={optionsFilter}
             nothingFoundMessage="Nothing found..."
             defaultValue={'Zone A'}
-            searchable
+            searchable={mobile?false:true}
             clearable
           />
         </div>
