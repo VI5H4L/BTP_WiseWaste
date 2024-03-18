@@ -7,7 +7,7 @@ const stats = [
 ];
 
 export function DustbinCard() {
-  const percent = 80;
+  const percent = 40;
   const items = stats.map((stat) => (
     <div key={stat.label}>
       <Text className={classes.label}>{stat.value}</Text>
@@ -22,11 +22,11 @@ export function DustbinCard() {
         <div className={classes.inner}>
           <div>
             <Text fz="xl" className={classes.label}>
-              AreaName
+              ZoneName
             </Text>
             <div>
               <Text className={classes.lead} mt={30}>
-                ID_NUM
+                Dustbin_ID
               </Text>
               <Text fz="sm" c="dimmed">
                 Identity number
@@ -49,7 +49,7 @@ export function DustbinCard() {
                     {percent.toFixed(0)}%
                   </Text>
                   <Text ta="center" fz="sm" c="dimmed">
-                    Empty
+                    Filled
                   </Text>
                 </div>
               }

@@ -5,8 +5,8 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { setupIonicReact } from "@ionic/react";
 import { Routes, Route } from "react-router-dom";
 import classes from "./Layouts/AppLayout.module.css";
-import { Dashboard } from "./components/Dashboard";
 import { Analytics } from "./components/Analytics";
+import { ManageWorker } from "./components/ZoneAllocation/ZoneAllocation";
 import { Error } from "./components/Error";
 import { StatusBar } from "@capacitor/status-bar";
 import { Capacitor } from "@capacitor/core";
@@ -24,7 +24,7 @@ import { isNetworkErrorState } from "./Recoil/recoil_state";
 import OneSignal from "onesignal-cordova-plugin";
 
 import { AnimatePresence } from "framer-motion";
-import { ManageWorker } from "./components/ManageWorker";
+
 
 setupIonicReact();
 Capacitor.isNativePlatform() &&
