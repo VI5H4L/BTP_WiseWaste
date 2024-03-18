@@ -1,4 +1,11 @@
-import { Avatar, Text, Group, Card, Select, useMantineTheme } from "@mantine/core";
+import {
+  Avatar,
+  Text,
+  Group,
+  Card,
+  Select,
+  useMantineTheme,
+} from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconPhoneCall, IconAt } from "@tabler/icons-react";
 import { useState } from "react";
@@ -30,9 +37,11 @@ export function WorkerCard() {
   return (
     <Card withBorder p="sm" radius="md" className={classes.card}>
       <Group wrap="nowrap">
-        {!mobile && <Avatar color="green" radius="md" size={96}>
-          {getInitials("Vishal Kumar")}
-        </Avatar>}
+        <div className={classes.avatarDiv}>
+          <Avatar color="green" radius="md" size={96}>
+            {getInitials("Vishal Kumar")}
+          </Avatar>
+        </div>
         <div className={classes.rightDiv}>
           <Text fz="lg" fw={500} className={classes.name}>
             Vishal Kumar

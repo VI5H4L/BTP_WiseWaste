@@ -22,3 +22,8 @@
 .rightDiv{
   width: 100%;
 }
+.avatarDiv{
+  @media (max-width: $mantine-breakpoint-sm) {
+    display: none;
+  }
+}
