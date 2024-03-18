@@ -69,10 +69,11 @@ export function WorkerCard() {
             checkIconPosition="right"
             data={data}
             classNames={classes}
-            value={value}
+            // value={value}
             onChange={setValue}
             filter={optionsFilter}
             nothingFoundMessage="Nothing found..."
+            defaultValue={'Zone A'}
             searchable
             clearable
           />

@@ -1,6 +1,6 @@
 import Transition from "../../Transition";
-import { Title, Select, useMantineTheme, Grid } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
+import { Title, Select, Grid } from "@mantine/core";
+// import { useMediaQuery } from "@mantine/hooks";
 import { useBackButton } from "../../customHooks/useBackButton";
 import classes from "./ZoneAllocation.module.css";
 import { useState } from "react";
@@ -8,11 +8,13 @@ import { WorkerCard } from "./WorkerCard/WorkerCard";
 
 const child = <WorkerCard />;
 
+const mobile = window.screen.width < 768;
+
 export function ManageWorker() {
   useBackButton("/");
 
-  const theme = useMantineTheme();
-  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  // const theme = useMantineTheme();
+  // const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
   const data = ["Zone A", "Zone D", "Zone C", "Zone B"];
   const [value, setValue] = useState("");
@@ -49,7 +51,7 @@ export function ManageWorker() {
           onChange={setValue}
           filter={optionsFilter}
           nothingFoundMessage="Nothing found..."
-          searchable
+          searchable={mobile?false:true}
           clearable
         />
         <Grid grow mt={20}>
