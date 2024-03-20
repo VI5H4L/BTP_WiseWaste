@@ -179,6 +179,7 @@ export function Register() {
         <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
           <Box
             component="form"
+            mt={56}
             onSubmit={form.onSubmit((values) => {
               handleRegister(values);
             })}

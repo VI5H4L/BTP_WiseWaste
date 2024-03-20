@@ -118,6 +118,7 @@ export function Login() {
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
           <Box
+            mt={56}
             component="form"
             onSubmit={form.onSubmit((values) => {
               handleLogin(values);
