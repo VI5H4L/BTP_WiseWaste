@@ -1,32 +1,39 @@
-
-import {useBackButton} from "../customHooks/useBackButton"
-import { useRecoilState } from "recoil";
-import { textState } from "../Recoil/recoil_state";
+import { useBackButton } from "../customHooks/useBackButton";
+import { useGet } from "../customHooks/useGet";
+// import { useRecoilState } from "recoil";
+// import { textState } from "../Recoil/recoil_state";
 import Transition from "../Transition";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { LoadingOverlay } from "@mantine/core";
+
 export function Analytics() {
   useBackButton("/");
 
   // const [val,setVal] = useRecoilState(textState);
   // setVal("Analytics")
 
-  const fetcher = async ()=>{
-    const uri = "https://catfact.ninja/fact";
-      const response = await axios.get(uri);
-      console.log(response.data);
-      return response.data
-  }
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['repoData'],
-    queryFn: fetcher,
-    refetchOnWindowFocus: true,
-    refetchInterval: 6000,
-  })
+  const { data, isLoading } = useGet({
+    key: "fact",
+    uri: "https://catfact.ninja/fact",
+    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
+  });
 
   return (
     <Transition>
-    {!isLoading && data.fact}
+      <div style={{ position: "relative", minHeight: "100svh" }}>
+        <LoadingOverlay
+          visible={isLoading}
+          zIndex={1000}
+          transitionProps={{ transition: "fade", duration: "500" }}
+          loaderProps={{ color: "#8CE99A", type: "bars" }}
+          overlayProps={{
+            radius: "sm",
+            color: "#1f1f1f",
+            backgroundOpacity: "0.8",
+            blur: "1",
+          }}
+        />
+        {!isLoading && data.fact}
+      </div>
     </Transition>
   );
 }

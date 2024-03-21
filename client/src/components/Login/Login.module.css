@@ -1,5 +1,5 @@
 .wrapper {
-  min-height: 100vh;
+  min-height: 100svh;
   width: 100%;
   position: relative;
   margin-left: auto;
@@ -30,7 +30,7 @@
 .form {
   border-right: rem(1px) solid
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));
-  min-height: 100vh;
+  min-height: 100svh;
   max-width: rem(480px);
 
   @media (max-width: $mantine-breakpoint-sm) {
