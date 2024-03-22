@@ -52,7 +52,7 @@ const ManageZones = () => {
     event.preventDefault();
     if (newZone === "") {
       setError("Zone name cannot be empty");
-    } else if (zones.includes(newZone)) {
+    } else if (zones.some(zone => zone.toLowerCase() === newZone.toLowerCase())) {
       setError("Zone name must be unique");
     } else {
       setZones(currentZones => [...currentZones, newZone]);
