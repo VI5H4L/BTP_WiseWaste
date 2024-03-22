@@ -15,7 +15,10 @@ import { IconTrash } from "@tabler/icons-react";
 import Transition from "../../Transition";
 import classes from "./ManageZones.module.css";
 import { useMediaQuery } from "@mantine/hooks";
+import { useGet } from "../../customHooks/useGet";
+import { usePut } from "../../customHooks/usePut";
 
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const ManageZones = () => {
   const [zones, setZones] = useState([]);
   const [newZone, setNewZone] = useState("");
@@ -23,6 +26,27 @@ const ManageZones = () => {
 
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+
+  const {data: zonedata,isLoading: isLoading1,refetch,} = useGet({
+    key: "managezone",
+    uri: `${BACKEND_URI}/admin/managezone`,
+    options: {
+      onSuccess: (data) => {
+        setZones(data.zones);
+      },
+    },
+  });
+
+  const { mutate: updateData } = usePut({
+    key: "managezone",
+    uri: `${BACKEND_URI}/admin/managezone`,
+    data: { zones: zones },
+    options: {
+      onSuccess: () => {
+        refetch();
+      },
+    },
+  });
 
   const handleAddZone = (event) => {
     event.preventDefault();
@@ -34,14 +58,16 @@ const ManageZones = () => {
       setZones([...zones, newZone]);
       setNewZone("");
       setError("");
+      updateData();
     }
   };
 
   const handleDeleteZone = (zoneToDelete) => {
     setZones(zones.filter((zone) => zone !== zoneToDelete));
+    updateData();
   };
 
-  const rows = zones.map((zone) => (
+  const rows = (!isLoading1 && zonedata.zones.length != 0) && zonedata.zones.map((zone) => (
     <Table.Tr key={zone}>
       <Table.Td>
         <Group>
@@ -72,8 +98,8 @@ const ManageZones = () => {
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={false}
-          zIndex={1000}
+          visible={isLoading1}
+          zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
           overlayProps={{
@@ -114,7 +140,7 @@ const ManageZones = () => {
           </Button>
         </form>
 
-        {zones.length != 0 && (
+        {!isLoading1 && zonedata.zones.length != 0 && (
           <Table.ScrollContainer className={classes.tblcontainer}>
             <Table verticalSpacing="sm">
               <Table.Thead>

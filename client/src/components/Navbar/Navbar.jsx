@@ -57,6 +57,7 @@ export function Navbar() {
       >
         <Tooltip
           label={label}
+          zIndex={1000}
           position="right"
           transitionProps={{ duration: 100, transition: "fade" }}
         >

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { User } = require("../models/user.models");
+const { ManageZone } = require("../models/managezone.models");
 
 const sendEmail = require("../utils/sendEmail");
 const { REQUESTS_AUTH_EMAIL } = process.env;
@@ -285,5 +286,30 @@ router.route("/reject").get(async (req, res) => {
     res.status(400).send(error.message);
   }
 });
+
+router.route("/managezone").get(async (req, res) => {
+    try {
+        const zone = await ManageZone.findOne();
+        if (zone) {
+            res.json(zone);
+        } else {
+            res.status(404).json({ message: "No ManageZone document found" });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+router.route("/managezone").put(async (req, res) => {
+    try {
+        const { zones } = req.body;
+        const updatedZone = await ManageZone.findOneAndUpdate({}, { zones }, { new: true });
+        res.json(updatedZone);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 module.exports = router;
