@@ -1,26 +1,21 @@
-import {
-  Avatar,
-  Text,
-  Group,
-  Card,
-  Select,
-} from "@mantine/core";
+import { Avatar, Text, Group, Card, Select } from "@mantine/core";
 import { IconPhoneCall, IconAt } from "@tabler/icons-react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import classes from "./WorkerCard.module.css";
+import { useGet } from "../../../../customHooks/useGet";
 
 const mobile = window.screen.width < 768;
-
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function WorkerCard() {
-  const data = ["Zone A", "Zone D", "Zone C", "Zone B"];
-  const [value, setValue] = useState("");
+  const [zones,setZones]= useState([]);
+  const [value, setValue] = useState("Zone A");
 
   const optionsFilter = ({ options, search }) => {
     const filtered = options.filter((option) =>
       option.label.toLowerCase().trim().includes(search.toLowerCase().trim())
     );
 
-    filtered.sort((a, b) => a.label.localeCompare(b.label));
+    // filtered.sort((a, b) => a.label.localeCompare(b.label));
     return filtered;
   };
 
@@ -31,6 +26,16 @@ export function WorkerCard() {
       .join("");
   }
 
+  const { data: zonedata, isLoading } = useGet({
+    key: "managezone",
+    uri: `${BACKEND_URI}/admin/managezone`,
+    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
+  });
+  useEffect(() => {
+    if (!isLoading) {
+      setZones(zonedata.zones);
+    }
+  }, [zones, zonedata, isLoading]);
   return (
     <Card withBorder p="sm" radius="md" className={classes.card}>
       <Group wrap="nowrap">
@@ -64,14 +69,14 @@ export function WorkerCard() {
             radius="sm"
             placeholder="Allocate Zone"
             checkIconPosition="right"
-            data={data}
+            data={!isLoading && zones}
             classNames={classes}
             // value={value}
             onChange={setValue}
             filter={optionsFilter}
             nothingFoundMessage="Nothing found..."
-            defaultValue={'Zone A'}
-            searchable={mobile?false:true}
+            defaultValue={"Zone A"}
+            searchable={mobile ? false : true}
             clearable
           />
         </div>

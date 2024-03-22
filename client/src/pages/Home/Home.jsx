@@ -33,7 +33,7 @@ export function Home() {
           mt={mobile ? 16 : 24}
           mb={mobile ? 32 : 48}
         >
-          {`Dustbin Data Status:`}
+          {`Dustbin Data Status`}
         </Title>
         <Grid grow>
           <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>

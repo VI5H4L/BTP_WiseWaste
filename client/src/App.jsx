@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Network } from "@capacitor/network";
-import { Navbar } from "./components/Navbar/Navbar";
+import { Navbar } from "./pages/Navbar/Navbar";
 import { setupIonicReact } from "@ionic/react";
 import { Routes, Route } from "react-router-dom";
 import classes from "./Layouts/AppLayout.module.css";
-import { Analytics } from "./components/Analytics";
-import { ManageWorker } from "./components/ZoneAllocation/ZoneAllocation";
-import { Error } from "./components/Error";
+import { Analytics } from "./pages/Analytics";
+import { ZoneAllocation } from "./pages/Admin/ZoneAllocation/ZoneAllocation";
+import { Error } from "./pages/Error";
 import { StatusBar } from "@capacitor/status-bar";
 import { Capacitor } from "@capacitor/core";
 import { ScreenOrientation } from "@capacitor/screen-orientation";
 import { App as CapacitorApp } from "@capacitor/app";
-import { NetworkError } from "./components/NetworkError/NetworkError";
+import { NetworkError } from "./pages/NetworkError/NetworkError";
 import AppUrlListener from "./Listeners/AppUrlListener";
-import { Register } from "./components/Register/Register";
-import { Home } from "./components/Home/Home";
-import { Login } from "./components/Login/Login";
+import { Register } from "./pages/Register/Register";
+import { Home } from "./pages/Home/Home";
+import { Login } from "./pages/Login/Login";
 
 import { useRecoilState } from "recoil";
 import { isNetworkErrorState } from "./Recoil/recoil_state";
@@ -24,7 +24,7 @@ import { isNetworkErrorState } from "./Recoil/recoil_state";
 import OneSignal from "onesignal-cordova-plugin";
 
 import { AnimatePresence } from "framer-motion";
-import ManageZones from "./components/ManageZones/ManageZones";
+import ManageZones from "./pages/Admin/ManageZones/ManageZones";
 
 setupIonicReact();
 Capacitor.isNativePlatform() &&
@@ -104,9 +104,9 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/dashboard" element={<ManageWorker />} />
               <Route path="/analytics" element={<Analytics />} />
-              <Route path="/security" element={<ManageZones />} />
+              <Route path="/admin/zoneallocation" element={<ZoneAllocation />} />
+              <Route path="/admin/managezones" element={<ManageZones />} />
               <Route path="*" element={<Error />} />
             </Routes>
           </AnimatePresence>

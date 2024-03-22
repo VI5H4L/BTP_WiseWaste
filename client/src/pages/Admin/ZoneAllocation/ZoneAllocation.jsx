@@ -1,22 +1,20 @@
-import Transition from "../../Transition";
-import { Title, Select, Grid } from "@mantine/core";
+import Transition from "../../../Transition";
+import { Title, Select, Grid,LoadingOverlay } from "@mantine/core";
 // import { useMediaQuery } from "@mantine/hooks";
-import { useBackButton } from "../../customHooks/useBackButton";
+import { useBackButton } from "../../../customHooks/useBackButton";
 import classes from "./ZoneAllocation.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { WorkerCard } from "./WorkerCard/WorkerCard";
+import { useGet } from "../../../customHooks/useGet";
 
 const child = <WorkerCard />;
 
 const mobile = window.screen.width < 768;
-
-export function ManageWorker() {
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
+export function ZoneAllocation() {
   useBackButton("/");
 
-  // const theme = useMantineTheme();
-  // const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-
-  const data = ["Zone A", "Zone D", "Zone C", "Zone B"];
+  const [zones,setZones]= useState([]);
   const [value, setValue] = useState("");
 
   const optionsFilter = ({ options, search }) => {
@@ -24,13 +22,37 @@ export function ManageWorker() {
       option.label.toLowerCase().trim().includes(search.toLowerCase().trim())
     );
 
-    filtered.sort((a, b) => a.label.localeCompare(b.label));
+    // filtered.sort((a, b) => a.label.localeCompare(b.label));
     return filtered;
   };
+
+  const {data: zonedata,isLoading} = useGet({
+    key: "managezone",
+    uri: `${BACKEND_URI}/admin/managezone`,
+    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
+  });
+  useEffect(() => {
+    if (!isLoading) {
+      setZones(zonedata.zones);
+    }
+  }, [zones,zonedata,isLoading]);
 
   return (
     <Transition>
       <div className={classes.container}>
+      <LoadingOverlay
+          visible={isLoading}
+          zIndex={10}
+          transitionProps={{ transition: "fade", duration: "500" }}
+          loaderProps={{ color: "#8CE99A", type: "bars" }}
+          overlayProps={{
+            radius: "sm",
+            color: "#1f1f1f",
+            backgroundOpacity: "0.8",
+            blur: "1",
+          }}
+        />
+
         <Title
           order={mobile ? 3 : 2}
           className={classes.title}
@@ -38,14 +60,14 @@ export function ManageWorker() {
           mt={mobile ? 16 : 24}
           mb={mobile ? 32 : 48}
         >
-          {`Worker Allocation:`}
+          {`Zone Allocation`}
         </Title>
         <Select
           size="md"
           radius="md"
           placeholder="Choose Zone to select"
           checkIconPosition="right"
-          data={data}
+          data={!isLoading && ["All Zones","Not Alloted Zones",...zones]}
           classNames={classes}
           value={value}
           onChange={setValue}

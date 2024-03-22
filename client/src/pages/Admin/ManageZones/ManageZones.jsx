@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import {
   Title,
   useMantineTheme,
@@ -12,11 +12,11 @@ import {
   rem,
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
-import Transition from "../../Transition";
+import Transition from "../../../Transition";
 import classes from "./ManageZones.module.css";
 import { useMediaQuery } from "@mantine/hooks";
-import { useGet } from "../../customHooks/useGet";
-import { usePut } from "../../customHooks/usePut";
+import { useGet } from "../../../customHooks/useGet";
+import { usePut } from "../../../customHooks/usePut";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const ManageZones = () => {
@@ -27,17 +27,18 @@ const ManageZones = () => {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
-  const {data: zonedata,isLoading: isLoading1,refetch,} = useGet({
+  const {data: zonedata,isLoading,refetch,} = useGet({
     key: "managezone",
     uri: `${BACKEND_URI}/admin/managezone`,
-    options: {
-      onSuccess: (data) => {
-        setZones(data.zones);
-      },
-    },
+    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
   });
+  useEffect(() => {
+    if (!isLoading) {
+      setZones(zonedata.zones);
+    }
+  }, [zones,zonedata,isLoading]);
 
-  const { mutate: updateData } = usePut({
+  const { mutate: updateData,isPending } = usePut({
     key: "managezone",
     uri: `${BACKEND_URI}/admin/managezone`,
     data: { zones: zones },
@@ -52,10 +53,10 @@ const ManageZones = () => {
     event.preventDefault();
     if (newZone === "") {
       setError("Zone name cannot be empty");
-    } else if (zones.includes(newZone)) {
+    } else if (zones.some(zone => zone.toLowerCase() === newZone.toLowerCase())) {
       setError("Zone name must be unique");
     } else {
-      setZones([...zones, newZone]);
+      setZones(currentZones => [...currentZones, newZone]);
       setNewZone("");
       setError("");
       updateData();
@@ -63,11 +64,11 @@ const ManageZones = () => {
   };
 
   const handleDeleteZone = (zoneToDelete) => {
-    setZones(zones.filter((zone) => zone !== zoneToDelete));
+    setZones(currentZones => currentZones.filter(zone => zone !== zoneToDelete));
     updateData();
   };
 
-  const rows = (!isLoading1 && zonedata.zones.length != 0) && zonedata.zones.map((zone) => (
+  const rows = (!isLoading && zonedata.zones.length != 0) && zonedata.zones.map((zone) => (
     <Table.Tr key={zone}>
       <Table.Td>
         <Group>
@@ -85,7 +86,7 @@ const ManageZones = () => {
             onClick={() => handleDeleteZone(zone)}
           >
             <IconTrash
-              style={{ width: rem(16), height: rem(16) }}
+              style={{ width: rem(20), height: rem(20) }}
               stroke={1.5}
             />
           </ActionIcon>
@@ -98,7 +99,7 @@ const ManageZones = () => {
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={isLoading1}
+          visible={isLoading}
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
@@ -132,6 +133,7 @@ const ManageZones = () => {
           />
           <Button
             fullWidth
+            loading={isLoading || isPending}
             size="md"
             type="submit" // make this button submit the form
             id={classes.btn1}
@@ -140,7 +142,7 @@ const ManageZones = () => {
           </Button>
         </form>
 
-        {!isLoading1 && zonedata.zones.length != 0 && (
+        {!isLoading && zonedata.zones.length != 0 && (
           <Table.ScrollContainer className={classes.tblcontainer}>
             <Table verticalSpacing="sm">
               <Table.Thead>
