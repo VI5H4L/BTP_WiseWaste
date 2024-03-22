@@ -29,7 +29,8 @@ const ManageZones = () => {
 
   const {data: zonedata,isLoading,refetch,} = useGet({
     key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezone`
+    uri: `${BACKEND_URI}/admin/managezone`,
+    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
   });
   useEffect(() => {
     if (!isLoading) {
@@ -85,7 +86,7 @@ const ManageZones = () => {
             onClick={() => handleDeleteZone(zone)}
           >
             <IconTrash
-              style={{ width: rem(16), height: rem(16) }}
+              style={{ width: rem(20), height: rem(20) }}
               stroke={1.5}
             />
           </ActionIcon>
