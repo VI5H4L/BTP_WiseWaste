@@ -291,6 +291,8 @@ router.route("/managezone").get(async (req, res) => {
     try {
         const zone = await ManageZone.findOne();
         if (zone) {
+            // Sort the zones array
+            zone.zones.sort();
             res.json(zone);
         } else {
             res.status(404).json({ message: "No ManageZone document found" });
@@ -299,6 +301,7 @@ router.route("/managezone").get(async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
 
 
 router.route("/managezone").put(async (req, res) => {

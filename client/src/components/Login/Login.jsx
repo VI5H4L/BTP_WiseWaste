@@ -131,7 +131,7 @@ export function Login() {
               mt={mobile ? 16 : 24}
               mb={mobile ? 32 : 48}
             >
-              {`Login to Wise Waste:`}
+              {`Login to Wise Waste`}
             </Title>
 
             <TextInput

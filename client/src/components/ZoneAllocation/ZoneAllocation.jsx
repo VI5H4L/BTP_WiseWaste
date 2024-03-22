@@ -38,7 +38,7 @@ export function ManageWorker() {
           mt={mobile ? 16 : 24}
           mb={mobile ? 32 : 48}
         >
-          {`Worker Allocation:`}
+          {`Worker Allocation`}
         </Title>
         <Select
           size="md"

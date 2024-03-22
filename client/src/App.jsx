@@ -106,7 +106,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/dashboard" element={<ManageWorker />} />
               <Route path="/analytics" element={<Analytics />} />
-              <Route path="/security" element={<ManageZones />} />
+              <Route path="/admin/managezones" element={<ManageZones />} />
               <Route path="*" element={<Error />} />
             </Routes>
           </AnimatePresence>

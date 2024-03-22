@@ -79,7 +79,7 @@ export function Navbar() {
     { icon: IconDeviceDesktopAnalytics,label: "Analytics",goto: "/analytics",},
     { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
     { icon: IconUser, label: "Account", goto: "/account" },
-    { icon: IconFingerprint, label: "Security", goto: "/security" },
+    { icon: IconFingerprint, label: "Security", goto: "/admin/managezones" },
     { icon: IconSettings, label: "Settings", goto: "/settings" },
   ];
   // const adminmockdata = [
@@ -126,8 +126,6 @@ export function Navbar() {
               alt="logo"
             />
           </div>
-
-          {/* <MantineLogo type="mark" size={30} /> */}
         </Center>
 
         <div className={classes.navbarMain}>
@@ -137,7 +135,6 @@ export function Navbar() {
         </div>
 
         <Stack justify="center" gap={0}>
-          {/* <NavbarLink icon={IconSwitchHorizontal} label="Change account" /> */}
           <NavbarLink
             icon={IconLogout}
             goto={"/login"}
