@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import {
   Title,
   useMantineTheme,
@@ -29,13 +29,13 @@ const ManageZones = () => {
 
   const {data: zonedata,isLoading,refetch,} = useGet({
     key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezone`,
-    options: {
-      onSuccess: (data) => {
-        setZones(data.zones);
-      },
-    },
+    uri: `${BACKEND_URI}/admin/managezone`
   });
+  useEffect(() => {
+    if (!isLoading) {
+      setZones(zonedata.zones);
+    }
+  }, [zones,zonedata,isLoading]);
 
   const { mutate: updateData,isPending } = usePut({
     key: "managezone",
@@ -55,7 +55,7 @@ const ManageZones = () => {
     } else if (zones.includes(newZone)) {
       setError("Zone name must be unique");
     } else {
-      setZones([...zones, newZone]);
+      setZones(currentZones => [...currentZones, newZone]);
       setNewZone("");
       setError("");
       updateData();
