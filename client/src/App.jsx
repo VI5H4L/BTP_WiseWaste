@@ -6,7 +6,7 @@ import { setupIonicReact } from "@ionic/react";
 import { Routes, Route } from "react-router-dom";
 import classes from "./Layouts/AppLayout.module.css";
 import { Analytics } from "./components/Analytics";
-import { ManageWorker } from "./components/ZoneAllocation/ZoneAllocation";
+import { ZoneAllocation } from "./components/ZoneAllocation/ZoneAllocation";
 import { Error } from "./components/Error";
 import { StatusBar } from "@capacitor/status-bar";
 import { Capacitor } from "@capacitor/core";
@@ -104,8 +104,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/dashboard" element={<ManageWorker />} />
               <Route path="/analytics" element={<Analytics />} />
+              <Route path="/admin/zoneallocation" element={<ZoneAllocation />} />
               <Route path="/admin/managezones" element={<ManageZones />} />
               <Route path="*" element={<Error />} />
             </Routes>

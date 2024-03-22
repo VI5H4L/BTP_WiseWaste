@@ -75,7 +75,7 @@ export function Navbar() {
 
   const mockdata = [
     { icon: IconHome2, label: "Home", goto: "/" },
-    { icon: IconGauge, label: "Dashboard", goto: "/dashboard" },
+    { icon: IconGauge, label: "Zone Allocation", goto: "/admin/zoneallocation" },
     { icon: IconDeviceDesktopAnalytics,label: "Analytics",goto: "/analytics",},
     { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
     { icon: IconUser, label: "Account", goto: "/account" },

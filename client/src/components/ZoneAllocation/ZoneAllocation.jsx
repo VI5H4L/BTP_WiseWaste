@@ -10,7 +10,7 @@ const child = <WorkerCard />;
 
 const mobile = window.screen.width < 768;
 
-export function ManageWorker() {
+export function ZoneAllocation() {
   useBackButton("/");
 
   // const theme = useMantineTheme();
@@ -38,7 +38,7 @@ export function ManageWorker() {
           mt={mobile ? 16 : 24}
           mb={mobile ? 32 : 48}
         >
-          {`Worker Allocation`}
+          {`Zone Allocation`}
         </Title>
         <Select
           size="md"
