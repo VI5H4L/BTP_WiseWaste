@@ -63,7 +63,7 @@ const ManageZones = () => {
   };
 
   const handleDeleteZone = (zoneToDelete) => {
-    setZones(zones.filter((zone) => zone !== zoneToDelete));
+    setZones(currentZones => currentZones.filter(zone => zone !== zoneToDelete));
     updateData();
   };
 
