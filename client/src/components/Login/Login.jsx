@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
 import axios from "axios";
 import { useState } from "react";
+import Transition from "../../Transition";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function Login() {
@@ -79,8 +80,10 @@ export function Login() {
         localStorage.setItem("role", JSON.stringify(response.data.role));
 
         navigate("/");
-      } 
-      else if((!response.data.success) && response.data.message==="Invalid password entered!") {
+      } else if (
+        !response.data.success &&
+        response.data.message === "Invalid password entered!"
+      ) {
         setBtnLoading(false);
         notifications.show({
           title: "Incorrect Password",
@@ -88,8 +91,7 @@ export function Login() {
           color: "red",
           withBorder: "true",
         });
-      }
-      else {
+      } else {
         setBtnLoading(false);
         console.log("Failed Login");
         notifications.show({
@@ -112,75 +114,78 @@ export function Login() {
   };
 
   return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
-        <Box
-          component="form"
-          onSubmit={form.onSubmit((values) => {
-            handleLogin(values);
-          })}
-        >
-          <Title
-            order={mobile ? 3 : 2}
-            className={classes.title}
-            ta="center"
-            mt={50}
-            mb={50}
+    <Transition>
+      <div className={classes.wrapper}>
+        <Paper className={classes.form} radius={0} p={mobile ? 16 : 24}>
+          <Box
+            mt={56}
+            component="form"
+            onSubmit={form.onSubmit((values) => {
+              handleLogin(values);
+            })}
           >
-            {`Login to Wise Waste:`}
-          </Title>
-
-          <TextInput
-            label="Email Address"
-            placeholder="hello@gmail.com"
-            size="md"
-            required
-            {...form.getInputProps("email")}
-            // error={""}
-          />
-          <PasswordInput
-            label="Password"
-            placeholder="Your password"
-            mt="md"
-            size="md"
-            required
-            {...form.getInputProps("password")}
-            // error={""}
-          />
-          <Checkbox
-            label="Keep me logged in"
-            color="#C9C9C9"
-            variant="outline"
-            mt="xl"
-            size="md"
-            {...form.getInputProps("logincheckbox", { type: "checkbox" })}
-          />
-          <Button
-            loading={btnLoading}
-            id={classes.btn}
-            fullWidth
-            mt="xl"
-            size="md"
-            type="submit"
-          >
-            Login
-          </Button>
-
-          <Text ta="center" mt="md" mb={15}>
-            Don&apos;t have an account?{" "}
-            <a
-              // fw={700}
-              className={classes.register}
-              onClick={(event) => {
-                navigate("/register", { replace: false });
-                event.preventDefault();
-              }}
+            <Title
+              order={mobile ? 3 : 2}
+              className={classes.title}
+              ta="center"
+              mt={mobile ? 16 : 24}
+              mb={mobile ? 32 : 48}
             >
-              Register
-            </a>
-          </Text>
-        </Box>
-      </Paper>
-    </div>
+              {`Login to Wise Waste:`}
+            </Title>
+
+            <TextInput
+              label="Email Address"
+              placeholder="hello@gmail.com"
+              size="md"
+              required
+              {...form.getInputProps("email")}
+              // error={""}
+            />
+            <PasswordInput
+              label="Password"
+              placeholder="Your password"
+              mt="md"
+              size="md"
+              required
+              {...form.getInputProps("password")}
+              // error={""}
+            />
+            <Checkbox
+              label="Keep me logged in"
+              color="#C9C9C9"
+              variant="outline"
+              mt="xl"
+              size="md"
+              {...form.getInputProps("logincheckbox", { type: "checkbox" })}
+            />
+            <Button
+              loading={btnLoading}
+              id={classes.btn}
+              fullWidth
+              mt="xl"
+              size="md"
+              type="submit"
+            >
+              Login
+            </Button>
+
+            <Text ta="center" mt="md" mb={15}>
+              Don&apos;t have an account?{" "}
+              <a
+                // fw={700}
+                className={classes.register}
+                onClick={(event) => {
+                  navigate("/register", { replace: false });
+                  event.preventDefault();
+                }}
+              >
+                Register
+              </a>
+            </Text>
+          </Box>
+        </Paper>
+      </div>
+    </Transition>
   );
 }

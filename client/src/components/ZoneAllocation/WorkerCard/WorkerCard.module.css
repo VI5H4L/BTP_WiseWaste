@@ -1,0 +1,29 @@
+.icon {
+  color: light-dark(var(--mantine-color-gray-5), var(--mantine-color-dark-3));
+}
+
+.name {
+  font-family: Greycliff CF, var(--mantine-font-family);
+}
+
+.card {
+  background-color: var(--mantine-data-card-color) !important;
+}
+
+.root {
+  width: 100%;
+}
+.input {
+  background-color: light-dark(
+    var(--mantine-color-white),
+    var(--mantine-color-dark-7)
+  );
+}
+.rightDiv{
+  width: 100%;
+}
+.avatarDiv{
+  @media (max-width: $mantine-breakpoint-sm) {
+    display: none;
+  }
+}

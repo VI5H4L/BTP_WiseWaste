@@ -57,6 +57,7 @@ export function Navbar() {
       >
         <Tooltip
           label={label}
+          zIndex={1000}
           position="right"
           transitionProps={{ duration: 100, transition: "fade" }}
         >
@@ -75,16 +76,25 @@ export function Navbar() {
   const mockdata = [
     { icon: IconHome2, label: "Home", goto: "/" },
     { icon: IconGauge, label: "Dashboard", goto: "/dashboard" },
-    {
-      icon: IconDeviceDesktopAnalytics,
-      label: "Analytics",
-      goto: "/analytics",
-    },
+    { icon: IconDeviceDesktopAnalytics,label: "Analytics",goto: "/analytics",},
     { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
     { icon: IconUser, label: "Account", goto: "/account" },
     { icon: IconFingerprint, label: "Security", goto: "/security" },
     { icon: IconSettings, label: "Settings", goto: "/settings" },
   ];
+  // const adminmockdata = [
+  //   { icon: IconHome2, label: "Home", goto: "/" },
+  //   { icon: IconGauge, label: "Dashboard", goto: "/dashboard" },
+  // ];
+
+  // let mockdata;
+  // const [role]=useState("admin");
+  // if(role=="worker"){
+  //   mockdata = workermockdata;
+  // }
+  // else if(role=="admin"){
+  //   mockdata = adminmockdata;
+  // }
 
   const links = mockdata.map((link, index) => (
     <NavbarLink

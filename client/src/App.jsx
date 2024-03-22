@@ -5,14 +5,14 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { setupIonicReact } from "@ionic/react";
 import { Routes, Route } from "react-router-dom";
 import classes from "./Layouts/AppLayout.module.css";
-import { Dashboard } from "./components/Dashboard";
 import { Analytics } from "./components/Analytics";
+import { ManageWorker } from "./components/ZoneAllocation/ZoneAllocation";
 import { Error } from "./components/Error";
 import { StatusBar } from "@capacitor/status-bar";
 import { Capacitor } from "@capacitor/core";
 import { ScreenOrientation } from "@capacitor/screen-orientation";
 import { App as CapacitorApp } from "@capacitor/app";
-import { NetworkError } from "./components/NetworkError";
+import { NetworkError } from "./components/NetworkError/NetworkError";
 import AppUrlListener from "./Listeners/AppUrlListener";
 import { Register } from "./components/Register/Register";
 import { Home } from "./components/Home/Home";
@@ -22,6 +22,9 @@ import { useRecoilState } from "recoil";
 import { isNetworkErrorState } from "./Recoil/recoil_state";
 
 import OneSignal from "onesignal-cordova-plugin";
+
+import { AnimatePresence } from "framer-motion";
+import ManageZones from "./components/ManageZones/ManageZones";
 
 setupIonicReact();
 Capacitor.isNativePlatform() &&
@@ -96,14 +99,17 @@ function App() {
         {isNetworkError ? (
           <NetworkError />
         ) : (
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="*" element={<Error />} />
-          </Routes>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/dashboard" element={<ManageWorker />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/security" element={<ManageZones />} />
+              <Route path="*" element={<Error />} />
+            </Routes>
+          </AnimatePresence>
         )}
       </div>
     </div>
