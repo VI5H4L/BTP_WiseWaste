@@ -1,11 +1,11 @@
-import Transition from "../../Transition";
+import Transition from "../../../Transition";
 import { Title, Select, Grid,LoadingOverlay } from "@mantine/core";
 // import { useMediaQuery } from "@mantine/hooks";
-import { useBackButton } from "../../customHooks/useBackButton";
+import { useBackButton } from "../../../customHooks/useBackButton";
 import classes from "./ZoneAllocation.module.css";
 import { useState, useEffect } from "react";
 import { WorkerCard } from "./WorkerCard/WorkerCard";
-import { useGet } from "../../customHooks/useGet";
+import { useGet } from "../../../customHooks/useGet";
 
 const child = <WorkerCard />;
 

@@ -12,11 +12,11 @@ import {
   rem,
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
-import Transition from "../../Transition";
+import Transition from "../../../Transition";
 import classes from "./ManageZones.module.css";
 import { useMediaQuery } from "@mantine/hooks";
-import { useGet } from "../../customHooks/useGet";
-import { usePut } from "../../customHooks/usePut";
+import { useGet } from "../../../customHooks/useGet";
+import { usePut } from "../../../customHooks/usePut";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const ManageZones = () => {

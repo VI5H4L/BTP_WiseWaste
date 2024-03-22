@@ -2,7 +2,7 @@ import { Avatar, Text, Group, Card, Select } from "@mantine/core";
 import { IconPhoneCall, IconAt } from "@tabler/icons-react";
 import { useState,useEffect } from "react";
 import classes from "./WorkerCard.module.css";
-import { useGet } from "../../../customHooks/useGet";
+import { useGet } from "../../../../customHooks/useGet";
 
 const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
