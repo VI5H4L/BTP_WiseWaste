@@ -79,7 +79,7 @@ export function Navbar() {
     { icon: IconDeviceDesktopAnalytics,label: "Analytics",goto: "/analytics",},
     { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
     { icon: IconUser, label: "Account", goto: "/account" },
-    { icon: IconFingerprint, label: "Security", goto: "/admin/managezones" },
+    { icon: IconFingerprint, label: "Manage Zones", goto: "/admin/managezones" },
     { icon: IconSettings, label: "Settings", goto: "/settings" },
   ];
   // const adminmockdata = [

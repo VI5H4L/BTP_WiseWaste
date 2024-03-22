@@ -27,7 +27,7 @@ const ManageZones = () => {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
-  const {data: zonedata,isLoading: isLoading1,refetch,} = useGet({
+  const {data: zonedata,isLoading,refetch,} = useGet({
     key: "managezone",
     uri: `${BACKEND_URI}/admin/managezone`,
     options: {
@@ -37,7 +37,7 @@ const ManageZones = () => {
     },
   });
 
-  const { mutate: updateData } = usePut({
+  const { mutate: updateData,isPending } = usePut({
     key: "managezone",
     uri: `${BACKEND_URI}/admin/managezone`,
     data: { zones: zones },
@@ -67,7 +67,7 @@ const ManageZones = () => {
     updateData();
   };
 
-  const rows = (!isLoading1 && zonedata.zones.length != 0) && zonedata.zones.map((zone) => (
+  const rows = (!isLoading && zonedata.zones.length != 0) && zonedata.zones.map((zone) => (
     <Table.Tr key={zone}>
       <Table.Td>
         <Group>
@@ -98,7 +98,7 @@ const ManageZones = () => {
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={isLoading1}
+          visible={isLoading}
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
@@ -132,6 +132,7 @@ const ManageZones = () => {
           />
           <Button
             fullWidth
+            loading={isLoading || isPending}
             size="md"
             type="submit" // make this button submit the form
             id={classes.btn1}
@@ -140,7 +141,7 @@ const ManageZones = () => {
           </Button>
         </form>
 
-        {!isLoading1 && zonedata.zones.length != 0 && (
+        {!isLoading && zonedata.zones.length != 0 && (
           <Table.ScrollContainer className={classes.tblcontainer}>
             <Table verticalSpacing="sm">
               <Table.Thead>
