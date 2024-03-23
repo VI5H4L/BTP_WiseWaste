@@ -3,11 +3,12 @@ import { IconPhoneCall, IconAt } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import classes from "./WorkerCard.module.css";
 import { useGet } from "../../../../customHooks/useGet";
+import { usePut } from "../../../../customHooks/usePut";
 
 // const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 
-export function WorkerCard({ workerdata }) {
+export function WorkerCard({ workerdata,refetchWorkerData }) {
   const [zones, setZones] = useState([]);
   const [val, setVal] = useState("");
 
@@ -38,6 +39,25 @@ export function WorkerCard({ workerdata }) {
         : setVal("");
     }
   }, [workerdata.zoneAlloted, zones, zonedata, isLoading]);
+
+  const { mutate: updateWorkerData } = usePut({
+    key: "workerdata",
+    uri: `${BACKEND_URI}/worker/allotzone?emailID=${workerdata.emailID}`,
+    data: {zoneAlloted : val },
+    options: {
+      onSuccess: () => {
+        refetchWorkerData();
+      },
+    },
+  });
+  useEffect(() => {
+    //Write code for pushing data
+    if(val==undefined) {setVal("na")}
+    else if(val!=""){
+      updateWorkerData();
+    }
+  }, [val,updateWorkerData]);
+
   return (
     <Card withBorder p="sm" radius="md" className={classes.card}>
       <Group wrap="nowrap">

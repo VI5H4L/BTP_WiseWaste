@@ -51,9 +51,10 @@ export function ZoneAllocation() {
       refetchInterval: 6000,
     },
   });
+  
   useEffect(() => {
     refetchWorkerData();
-  }, [val,refetchWorkerData]);
+  }, [val, refetchWorkerData]);
 
   return (
     <Transition>
@@ -97,16 +98,15 @@ export function ZoneAllocation() {
           clearable
         />
         <Grid grow mt={20}>
-          { (!workerDataLoading && workersdata.length!=0) ?
-            workersdata.map((worker) => {
-              return (
-                <Grid.Col key={worker._id} span={{ base: 12, sm: 6, lg: 4 }}>
-                  {<WorkerCard workerdata={worker} />}
-                </Grid.Col>
-              );
-            })
-            : "No Worker Found"
-          }
+          {!workerDataLoading && workersdata.length != 0
+            ? workersdata.map((worker) => {
+                return (
+                  <Grid.Col key={worker._id} span={{ base: 12, sm: 6, lg: 4 }}>
+                    {<WorkerCard workerdata={worker} refetchWorkerData={refetchWorkerData} />}
+                  </Grid.Col>
+                );
+              })
+            : "No Worker Found"}
         </Grid>
       </div>
     </Transition>

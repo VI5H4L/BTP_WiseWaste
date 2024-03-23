@@ -27,5 +27,32 @@ router.route("/getworkers").get(async (req, res) => {
     }
 });
 
+router.route("/allotzone").put(async (req, res) => {
+    const { emailID } = req.query;
+    const { zoneAlloted } = req.body;
+    console.log(emailID);
+    console.log(zoneAlloted);
+  
+    if (!emailID || !zoneAlloted) {
+      return res.status(400).send('Email ID and new zone must be provided');
+    }
+  
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { emailID: emailID },
+        { zoneAlloted: zoneAlloted },
+        { new: true } // Returns the updated document
+      );
+  
+      if (!updatedUser) {
+        return res.status(404).send('Worker not found');
+      }
+  
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      res.status(500).send('Server error');
+    }
+  });
+  
 
 module.exports = router;
