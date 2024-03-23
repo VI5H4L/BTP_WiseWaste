@@ -8,7 +8,7 @@ import { usePut } from "../../../../customHooks/usePut";
 // const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 
-export function WorkerCard({ workerdata,refetchWorkerData }) {
+export function WorkerCard({ workerdata, refetchWorkerData }) {
   const [zones, setZones] = useState([]);
   const [val, setVal] = useState("");
 
@@ -43,7 +43,7 @@ export function WorkerCard({ workerdata,refetchWorkerData }) {
   const { mutate: updateWorkerData } = usePut({
     key: "workerdata",
     uri: `${BACKEND_URI}/admin/allotzone?emailID=${workerdata.emailID}`,
-    data: {zoneAlloted : val },
+    data: { zoneAlloted: val },
     options: {
       onSuccess: () => {
         refetchWorkerData();
@@ -52,11 +52,12 @@ export function WorkerCard({ workerdata,refetchWorkerData }) {
   });
   useEffect(() => {
     //Write code for pushing data
-    if(val==undefined) {setVal("na")}
-    else if(val!=""){
+    if (val == undefined) {
+      setVal("na");
+    } else if (val != "") {
       updateWorkerData();
     }
-  }, [val,updateWorkerData]);
+  }, [val, updateWorkerData]);
 
   return (
     <Card withBorder p="sm" radius="md" className={classes.card}>
@@ -94,13 +95,9 @@ export function WorkerCard({ workerdata,refetchWorkerData }) {
             data={!isLoading && zones}
             classNames={classes}
             value={val}
-            // value={workerdata.zoneAlloted!="na"?workerdata.zoneAlloted:""}
-            // onChange={(data)=>{console.log(data)}}
             onChange={setVal}
             filter={optionsFilter}
             nothingFoundMessage="Nothing found..."
-            // defaultValue={"Zone A"}
-            // searchable={mobile ? false : true}
             clearable
           />
         </div>

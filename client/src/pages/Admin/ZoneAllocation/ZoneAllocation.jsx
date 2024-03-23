@@ -1,6 +1,5 @@
 import Transition from "../../../Transition";
 import { Title, Select, Grid, LoadingOverlay } from "@mantine/core";
-// import { useMediaQuery } from "@mantine/hooks";
 import { useBackButton } from "../../../customHooks/useBackButton";
 import classes from "./ZoneAllocation.module.css";
 import { useState, useEffect } from "react";
@@ -53,7 +52,7 @@ export function ZoneAllocation() {
       refetchInterval: 6000,
     },
   });
-  
+
   useEffect(() => {
     if (!workerDataFetching) {
       setwdata(workersdata);
@@ -110,8 +109,11 @@ export function ZoneAllocation() {
                 return (
                   <Grid.Col key={worker._id} span={{ base: 12, sm: 6, lg: 4 }}>
                     {
-                      <WorkerCard workerdata={worker} refetchWorkerData={refetchWorkerData} />
-                      }
+                      <WorkerCard
+                        workerdata={worker}
+                        refetchWorkerData={refetchWorkerData}
+                      />
+                    }
                   </Grid.Col>
                 );
               })

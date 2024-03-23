@@ -60,11 +60,11 @@ const ManageZones = () => {
   const { mutate: manageWorkerDataOnDelete } = usePut({
     key: "workerdata",
     uri: `${BACKEND_URI}/admin/handledeletezone?zonedeleted=${zoneToBeDeleted}`,
-    data: {zoneAlloted : "na"},
+    data: { zoneAlloted: "na" },
     options: {
       onSuccess: () => {
         // refetch();
-        queryClient.invalidateQueries('wdata');
+        queryClient.invalidateQueries("wdata");
       },
     },
   });
@@ -93,8 +93,6 @@ const ManageZones = () => {
     updateData();
     manageWorkerDataOnDelete();
   };
-
-  
 
   const rows =
     !isLoading &&
