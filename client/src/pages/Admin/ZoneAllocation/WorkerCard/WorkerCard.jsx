@@ -33,9 +33,11 @@ export function WorkerCard({ workerdata }) {
   useEffect(() => {
     if (!isLoading) {
       setZones(zonedata.zones);
-      workerdata.zoneAlloted!="na"?setVal(workerdata.zoneAlloted):setVal("");
+      workerdata.zoneAlloted != "na"
+        ? setVal(workerdata.zoneAlloted)
+        : setVal("");
     }
-  }, [workerdata.zoneAlloted,zones, zonedata, isLoading]);
+  }, [workerdata.zoneAlloted, zones, zonedata, isLoading]);
   return (
     <Card withBorder p="sm" radius="md" className={classes.card}>
       <Group wrap="nowrap">

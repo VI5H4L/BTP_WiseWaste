@@ -24,18 +24,22 @@ export function ZoneAllocation() {
     return filtered;
   };
 
-  const { data: zonedata, isLoading } = useGet({
+  const { data: zonedata, isLoading: zoneDataLoading } = useGet({
     key: "managezone",
     uri: `${BACKEND_URI}/admin/managezone`,
     options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
   });
   useEffect(() => {
-    if (!isLoading) {
+    if (!zoneDataLoading) {
       setZones(zonedata.zones);
     }
-  }, [zones, zonedata, isLoading]);
+  }, [zones, zonedata, zoneDataLoading]);
 
-  const {data: workersdata,isLoading: workerDataLoading,refetch: refetchWorkerData} = useGet({
+  const {
+    data: workersdata,
+    isLoading: workerDataLoading,
+    refetch: refetchWorkerData,
+  } = useGet({
     key: "workerdata",
     uri: `${BACKEND_URI}/worker/getworkers?${
       val != undefined &&
@@ -44,18 +48,18 @@ export function ZoneAllocation() {
     }`,
     options: {
       refetchOnWindowFocus: true,
-      refetchInterval: 6000
+      refetchInterval: 6000,
     },
   });
   useEffect(() => {
     refetchWorkerData();
-  }, [val, refetchWorkerData]);
+  }, [val,refetchWorkerData]);
 
   return (
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={workerDataLoading||isLoading}
+          visible={zoneDataLoading || workerDataLoading}
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
@@ -81,7 +85,9 @@ export function ZoneAllocation() {
           radius="md"
           placeholder="Choose Zone to select"
           checkIconPosition="right"
-          data={!isLoading && ["All Zones", "Not Alloted Zones", ...zones]}
+          data={
+            !zoneDataLoading && ["All Zones", "Not Alloted Zones", ...zones]
+          }
           classNames={classes}
           value={val}
           onChange={setVal}
