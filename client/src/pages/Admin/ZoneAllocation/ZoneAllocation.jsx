@@ -14,7 +14,7 @@ export function ZoneAllocation() {
   useBackButton("/");
 
   const [zones, setZones] = useState([]);
-  const [value, setValue] = useState("");
+  const [val, setVal] = useState();
 
   const optionsFilter = ({ options, search }) => {
     const filtered = options.filter((option) =>
@@ -35,17 +35,27 @@ export function ZoneAllocation() {
     }
   }, [zones, zonedata, isLoading]);
 
-  const { data: workersdata, isLoading: workerDataLoading } = useGet({
+  const {data: workersdata,isLoading: workerDataLoading,refetch: refetchWorkerData} = useGet({
     key: "workerdata",
-    uri: `${BACKEND_URI}/worker/getworkers`,
-    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
+    uri: `${BACKEND_URI}/worker/getworkers?${
+      val != undefined &&
+      val != "All Zones" &&
+      `zoneAlloted=${val == "Not Alloted Zones" ? "na" : val}`
+    }`,
+    options: {
+      refetchOnWindowFocus: true,
+      refetchInterval: 6000
+    },
   });
+  useEffect(() => {
+    refetchWorkerData();
+  }, [val, refetchWorkerData]);
 
   return (
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={isLoading || workerDataLoading}
+          visible={workerDataLoading||isLoading}
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
@@ -73,8 +83,8 @@ export function ZoneAllocation() {
           checkIconPosition="right"
           data={!isLoading && ["All Zones", "Not Alloted Zones", ...zones]}
           classNames={classes}
-          value={value}
-          onChange={setValue}
+          value={val}
+          onChange={setVal}
           filter={optionsFilter}
           nothingFoundMessage="Nothing found..."
           searchable={mobile ? false : true}

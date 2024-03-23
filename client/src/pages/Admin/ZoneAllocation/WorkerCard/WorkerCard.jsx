@@ -4,19 +4,17 @@ import { useState, useEffect } from "react";
 import classes from "./WorkerCard.module.css";
 import { useGet } from "../../../../customHooks/useGet";
 
-const mobile = window.screen.width < 768;
+// const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 
 export function WorkerCard({ workerdata }) {
   const [zones, setZones] = useState([]);
-  const [value, setValue] = useState("");
+  const [val, setVal] = useState("");
 
   const optionsFilter = ({ options, search }) => {
     const filtered = options.filter((option) =>
       option.label.toLowerCase().trim().includes(search.toLowerCase().trim())
     );
-
-    // filtered.sort((a, b) => a.label.localeCompare(b.label));
     return filtered;
   };
 
@@ -35,8 +33,9 @@ export function WorkerCard({ workerdata }) {
   useEffect(() => {
     if (!isLoading) {
       setZones(zonedata.zones);
+      workerdata.zoneAlloted!="na"?setVal(workerdata.zoneAlloted):setVal("");
     }
-  }, [zones, zonedata, isLoading]);
+  }, [workerdata.zoneAlloted,zones, zonedata, isLoading]);
   return (
     <Card withBorder p="sm" radius="md" className={classes.card}>
       <Group wrap="nowrap">
@@ -72,12 +71,14 @@ export function WorkerCard({ workerdata }) {
             checkIconPosition="right"
             data={!isLoading && zones}
             classNames={classes}
-            value={workerdata.zoneAlloted}
-            onChange={setValue}
+            value={val}
+            // value={workerdata.zoneAlloted!="na"?workerdata.zoneAlloted:""}
+            // onChange={(data)=>{console.log(data)}}
+            onChange={setVal}
             filter={optionsFilter}
             nothingFoundMessage="Nothing found..."
             // defaultValue={"Zone A"}
-            searchable={mobile ? false : true}
+            // searchable={mobile ? false : true}
             clearable
           />
         </div>

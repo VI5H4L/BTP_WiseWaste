@@ -32,7 +32,7 @@ const UserSchema = new Schema({
     },
     zoneAlloted :{
         type: String,
-        default: "",
+        default: "na",
     },
     verificationExpiresAt: {
         type: Date,
