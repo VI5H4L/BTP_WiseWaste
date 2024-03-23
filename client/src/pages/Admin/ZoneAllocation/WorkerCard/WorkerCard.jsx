@@ -1,14 +1,15 @@
 import { Avatar, Text, Group, Card, Select } from "@mantine/core";
 import { IconPhoneCall, IconAt } from "@tabler/icons-react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import classes from "./WorkerCard.module.css";
 import { useGet } from "../../../../customHooks/useGet";
 
 const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
-export function WorkerCard() {
-  const [zones,setZones]= useState([]);
-  const [value, setValue] = useState("Zone A");
+
+export function WorkerCard({ workerdata }) {
+  const [zones, setZones] = useState([]);
+  const [value, setValue] = useState("");
 
   const optionsFilter = ({ options, search }) => {
     const filtered = options.filter((option) =>
@@ -41,25 +42,25 @@ export function WorkerCard() {
       <Group wrap="nowrap">
         <div className={classes.avatarDiv}>
           <Avatar color="green" radius="md" size={120}>
-            {getInitials("Vishal Kumar")}
+            {getInitials(workerdata.fullName)}
           </Avatar>
         </div>
         <div className={classes.rightDiv}>
           <Text fz="lg" fw={700} className={classes.name}>
-            Vishal Kumar
+            {workerdata.fullName}
           </Text>
 
           <Group wrap="nowrap" gap={10} mt={3}>
             <IconAt stroke={1.5} size="1rem" className={classes.icon} />
             <Text fz="sm" c="dimmed">
-              wisewaste.btp@gmail.com
+              {workerdata.emailID}
             </Text>
           </Group>
 
           <Group wrap="nowrap" gap={10} mt={5}>
             <IconPhoneCall stroke={1.5} size="1rem" className={classes.icon} />
             <Text fz="sm" c="dimmed">
-              +91 9205734004
+              {workerdata.phone}
             </Text>
           </Group>
 
@@ -71,11 +72,11 @@ export function WorkerCard() {
             checkIconPosition="right"
             data={!isLoading && zones}
             classNames={classes}
-            // value={value}
+            value={workerdata.zoneAlloted == "na" ? "" : workerdata.zoneAlloted}
             onChange={setValue}
             filter={optionsFilter}
             nothingFoundMessage="Nothing found..."
-            defaultValue={"Zone A"}
+            // defaultValue={"Zone A"}
             searchable={mobile ? false : true}
             clearable
           />

@@ -30,6 +30,10 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    zoneAlloted :{
+        type: String,
+        default: "na",
+    },
     verificationExpiresAt: {
         type: Date,
         default: () => new Date(Date.now() + 5 * 60 * 1000),
