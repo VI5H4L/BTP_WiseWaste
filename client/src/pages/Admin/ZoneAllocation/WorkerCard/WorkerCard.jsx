@@ -72,7 +72,7 @@ export function WorkerCard({ workerdata }) {
             checkIconPosition="right"
             data={!isLoading && zones}
             classNames={classes}
-            value={workerdata.zoneAlloted == "na" ? "" : workerdata.zoneAlloted}
+            value={workerdata.zoneAlloted}
             onChange={setValue}
             filter={optionsFilter}
             nothingFoundMessage="Nothing found..."
