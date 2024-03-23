@@ -41,7 +41,7 @@ export function ZoneAllocation() {
     refetch: refetchWorkerData,
   } = useGet({
     key: "workerdata",
-    uri: `${BACKEND_URI}/worker/getworkers?${
+    uri: `${BACKEND_URI}/admin/getworkers?${
       val != undefined &&
       val != "All Zones" &&
       `zoneAlloted=${val == "Not Alloted Zones" ? "na" : val}`

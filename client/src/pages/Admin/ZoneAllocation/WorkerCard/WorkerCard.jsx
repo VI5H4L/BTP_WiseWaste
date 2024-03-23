@@ -42,7 +42,7 @@ export function WorkerCard({ workerdata,refetchWorkerData }) {
 
   const { mutate: updateWorkerData } = usePut({
     key: "workerdata",
-    uri: `${BACKEND_URI}/worker/allotzone?emailID=${workerdata.emailID}`,
+    uri: `${BACKEND_URI}/admin/allotzone?emailID=${workerdata.emailID}`,
     data: {zoneAlloted : val },
     options: {
       onSuccess: () => {
