@@ -1,21 +1,21 @@
 import { Avatar, Text, Group, Card, Select } from "@mantine/core";
 import { IconPhoneCall, IconAt } from "@tabler/icons-react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import classes from "./WorkerCard.module.css";
 import { useGet } from "../../../../customHooks/useGet";
+import { usePut } from "../../../../customHooks/usePut";
 
-const mobile = window.screen.width < 768;
+// const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
-export function WorkerCard() {
-  const [zones,setZones]= useState([]);
-  const [value, setValue] = useState("Zone A");
+
+export function WorkerCard({ workerdata,refetchWorkerData }) {
+  const [zones, setZones] = useState([]);
+  const [val, setVal] = useState("");
 
   const optionsFilter = ({ options, search }) => {
     const filtered = options.filter((option) =>
       option.label.toLowerCase().trim().includes(search.toLowerCase().trim())
     );
-
-    // filtered.sort((a, b) => a.label.localeCompare(b.label));
     return filtered;
   };
 
@@ -34,32 +34,54 @@ export function WorkerCard() {
   useEffect(() => {
     if (!isLoading) {
       setZones(zonedata.zones);
+      workerdata.zoneAlloted != "na"
+        ? setVal(workerdata.zoneAlloted)
+        : setVal("");
     }
-  }, [zones, zonedata, isLoading]);
+  }, [workerdata.zoneAlloted, zones, zonedata, isLoading]);
+
+  const { mutate: updateWorkerData } = usePut({
+    key: "workerdata",
+    uri: `${BACKEND_URI}/admin/allotzone?emailID=${workerdata.emailID}`,
+    data: {zoneAlloted : val },
+    options: {
+      onSuccess: () => {
+        refetchWorkerData();
+      },
+    },
+  });
+  useEffect(() => {
+    //Write code for pushing data
+    if(val==undefined) {setVal("na")}
+    else if(val!=""){
+      updateWorkerData();
+    }
+  }, [val,updateWorkerData]);
+
   return (
     <Card withBorder p="sm" radius="md" className={classes.card}>
       <Group wrap="nowrap">
         <div className={classes.avatarDiv}>
           <Avatar color="green" radius="md" size={120}>
-            {getInitials("Vishal Kumar")}
+            {getInitials(workerdata.fullName)}
           </Avatar>
         </div>
         <div className={classes.rightDiv}>
           <Text fz="lg" fw={700} className={classes.name}>
-            Vishal Kumar
+            {workerdata.fullName}
           </Text>
 
           <Group wrap="nowrap" gap={10} mt={3}>
             <IconAt stroke={1.5} size="1rem" className={classes.icon} />
             <Text fz="sm" c="dimmed">
-              wisewaste.btp@gmail.com
+              {workerdata.emailID}
             </Text>
           </Group>
 
           <Group wrap="nowrap" gap={10} mt={5}>
             <IconPhoneCall stroke={1.5} size="1rem" className={classes.icon} />
             <Text fz="sm" c="dimmed">
-              +91 9205734004
+              {workerdata.phone}
             </Text>
           </Group>
 
@@ -71,12 +93,14 @@ export function WorkerCard() {
             checkIconPosition="right"
             data={!isLoading && zones}
             classNames={classes}
-            // value={value}
-            onChange={setValue}
+            value={val}
+            // value={workerdata.zoneAlloted!="na"?workerdata.zoneAlloted:""}
+            // onChange={(data)=>{console.log(data)}}
+            onChange={setVal}
             filter={optionsFilter}
             nothingFoundMessage="Nothing found..."
-            defaultValue={"Zone A"}
-            searchable={mobile ? false : true}
+            // defaultValue={"Zone A"}
+            // searchable={mobile ? false : true}
             clearable
           />
         </div>

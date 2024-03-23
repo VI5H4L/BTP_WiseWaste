@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Title,
   useMantineTheme,
@@ -17,17 +17,25 @@ import classes from "./ManageZones.module.css";
 import { useMediaQuery } from "@mantine/hooks";
 import { useGet } from "../../../customHooks/useGet";
 import { usePut } from "../../../customHooks/usePut";
+import { useQueryClient } from "@tanstack/react-query";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const ManageZones = () => {
+  const queryClient = useQueryClient();
+
   const [zones, setZones] = useState([]);
   const [newZone, setNewZone] = useState("");
+  const [zoneToBeDeleted, setZoneToBeDeleted] = useState("");
   const [error, setError] = useState("");
 
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
-  const {data: zonedata,isLoading,refetch,} = useGet({
+  const {
+    data: zonedata,
+    isLoading,
+    refetch,
+  } = useGet({
     key: "managezone",
     uri: `${BACKEND_URI}/admin/managezone`,
     options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
@@ -36,9 +44,9 @@ const ManageZones = () => {
     if (!isLoading) {
       setZones(zonedata.zones);
     }
-  }, [zones,zonedata,isLoading]);
+  }, [zones, zonedata, isLoading]);
 
-  const { mutate: updateData,isPending } = usePut({
+  const { mutate: updateData, isPending } = usePut({
     key: "managezone",
     uri: `${BACKEND_URI}/admin/managezone`,
     data: { zones: zones },
@@ -49,14 +57,28 @@ const ManageZones = () => {
     },
   });
 
+  const { mutate: manageWorkerDataOnDelete } = usePut({
+    key: "workerdata",
+    uri: `${BACKEND_URI}/admin/handledeletezone?zonedeleted=${zoneToBeDeleted}`,
+    data: {zoneAlloted : "na"},
+    options: {
+      onSuccess: () => {
+        // refetch();
+        queryClient.invalidateQueries('wdata');
+      },
+    },
+  });
+
   const handleAddZone = (event) => {
     event.preventDefault();
     if (newZone === "") {
       setError("Zone name cannot be empty");
-    } else if (zones.some(zone => zone.toLowerCase() === newZone.toLowerCase())) {
+    } else if (
+      zones.some((zone) => zone.toLowerCase() === newZone.toLowerCase())
+    ) {
       setError("Zone name must be unique");
     } else {
-      setZones(currentZones => [...currentZones, newZone]);
+      setZones((currentZones) => [...currentZones, newZone]);
       setNewZone("");
       setError("");
       updateData();
@@ -64,36 +86,45 @@ const ManageZones = () => {
   };
 
   const handleDeleteZone = (zoneToDelete) => {
-    setZones(currentZones => currentZones.filter(zone => zone !== zoneToDelete));
+    setZoneToBeDeleted(zoneToDelete);
+    setZones((currentZones) =>
+      currentZones.filter((zone) => zone !== zoneToDelete)
+    );
     updateData();
+    manageWorkerDataOnDelete();
   };
 
-  const rows = (!isLoading && zonedata.zones.length != 0) && zonedata.zones.map((zone) => (
-    <Table.Tr key={zone}>
-      <Table.Td>
-        <Group>
-          <Text fz="md" fw={500}>
-            {zone}
-          </Text>
-        </Group>
-      </Table.Td>
+  
 
-      <Table.Td>
-        <Group justify="flex-end">
-          <ActionIcon
-            variant="subtle"
-            color="red"
-            onClick={() => handleDeleteZone(zone)}
-          >
-            <IconTrash
-              style={{ width: rem(20), height: rem(20) }}
-              stroke={1.5}
-            />
-          </ActionIcon>
-        </Group>
-      </Table.Td>
-    </Table.Tr>
-  ));
+  const rows =
+    !isLoading &&
+    zonedata.zones.length != 0 &&
+    zonedata.zones.map((zone) => (
+      <Table.Tr key={zone}>
+        <Table.Td>
+          <Group>
+            <Text fz="md" fw={500}>
+              {zone}
+            </Text>
+          </Group>
+        </Table.Td>
+
+        <Table.Td>
+          <Group justify="flex-end">
+            <ActionIcon
+              variant="subtle"
+              color="red"
+              onClick={() => handleDeleteZone(zone)}
+            >
+              <IconTrash
+                style={{ width: rem(20), height: rem(20) }}
+                stroke={1.5}
+              />
+            </ActionIcon>
+          </Group>
+        </Table.Td>
+      </Table.Tr>
+    ));
 
   return (
     <Transition>
