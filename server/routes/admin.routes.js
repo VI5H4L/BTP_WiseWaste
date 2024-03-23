@@ -330,7 +330,7 @@ router.route("/getworkers").get(async (req, res) => {
             query.zoneAlloted = "";
         }
 
-        const workers = await User.find(query);
+        const workers = await User.find(query).sort({ fullName: 1 });
         res.json(workers);
     } catch (error) {
         res.status(500).send("Server Error");
