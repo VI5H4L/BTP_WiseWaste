@@ -14,6 +14,7 @@ export function ZoneAllocation() {
   useBackButton("/");
 
   const [zones, setZones] = useState([]);
+  const [wdata, setwdata] = useState([]);
   const [val, setVal] = useState();
 
   const optionsFilter = ({ options, search }) => {
@@ -38,9 +39,10 @@ export function ZoneAllocation() {
   const {
     data: workersdata,
     isLoading: workerDataLoading,
+    isFetching: workerDataFetching,
     refetch: refetchWorkerData,
   } = useGet({
-    key: "workerdata",
+    key: "wdata",
     uri: `${BACKEND_URI}/admin/getworkers?${
       val != undefined &&
       val != "All Zones" &&
@@ -52,6 +54,11 @@ export function ZoneAllocation() {
     },
   });
   
+  useEffect(() => {
+    if (!workerDataFetching) {
+      setwdata(workersdata);
+    }
+  }, [workersdata, workerDataFetching]);
   useEffect(() => {
     refetchWorkerData();
   }, [val, refetchWorkerData]);
@@ -98,11 +105,13 @@ export function ZoneAllocation() {
           clearable
         />
         <Grid grow mt={20}>
-          {!workerDataLoading && workersdata.length != 0
-            ? workersdata.map((worker) => {
+          {!workerDataLoading && wdata.length != 0
+            ? wdata.map((worker) => {
                 return (
                   <Grid.Col key={worker._id} span={{ base: 12, sm: 6, lg: 4 }}>
-                    {<WorkerCard workerdata={worker} refetchWorkerData={refetchWorkerData} />}
+                    {
+                      <WorkerCard workerdata={worker} refetchWorkerData={refetchWorkerData} />
+                      }
                   </Grid.Col>
                 );
               })

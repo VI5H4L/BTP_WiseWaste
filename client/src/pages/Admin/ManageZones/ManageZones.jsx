@@ -17,9 +17,12 @@ import classes from "./ManageZones.module.css";
 import { useMediaQuery } from "@mantine/hooks";
 import { useGet } from "../../../customHooks/useGet";
 import { usePut } from "../../../customHooks/usePut";
+import { useQueryClient } from "@tanstack/react-query";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const ManageZones = () => {
+  const queryClient = useQueryClient();
+
   const [zones, setZones] = useState([]);
   const [newZone, setNewZone] = useState("");
   const [zoneToBeDeleted, setZoneToBeDeleted] = useState("");
@@ -60,7 +63,8 @@ const ManageZones = () => {
     data: {zoneAlloted : "na"},
     options: {
       onSuccess: () => {
-        refetch();
+        // refetch();
+        queryClient.invalidateQueries('wdata');
       },
     },
   });
