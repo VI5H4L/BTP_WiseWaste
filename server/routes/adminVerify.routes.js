@@ -288,7 +288,7 @@ router.route("/reject").get(async (req, res) => {
   }
 });
 
-router.route("/managezone").get(async (req, res) => {
+router.route("/managezoneget").get(async (req, res) => {
   try {
       const zone = await ManageZone.findOne();
       if (zone) {
@@ -303,7 +303,7 @@ router.route("/managezone").get(async (req, res) => {
   }
 });
 
-router.route("/managezone").put(async (req, res) => {
+router.route("/managezoneput").put(async (req, res) => {
   try {
       const { zones } = req.body;
       const updatedZone = await ManageZone.findOneAndUpdate({}, { zones }, { new: true });

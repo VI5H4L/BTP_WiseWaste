@@ -37,7 +37,7 @@ const ManageZones = () => {
     refetch,
   } = useGet({
     key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezone`,
+    uri: `${BACKEND_URI}/admin/managezoneget`,
     options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
   });
   useEffect(() => {
@@ -48,7 +48,7 @@ const ManageZones = () => {
 
   const { mutate: updateData, isPending } = usePut({
     key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezone`,
+    uri: `${BACKEND_URI}/admin/managezoneput`,
     data: { zones: zones },
     options: {
       onSuccess: () => {

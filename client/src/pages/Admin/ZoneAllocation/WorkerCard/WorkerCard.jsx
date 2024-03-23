@@ -28,7 +28,7 @@ export function WorkerCard({ workerdata, refetchWorkerData }) {
 
   const { data: zonedata, isLoading } = useGet({
     key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezone`,
+    uri: `${BACKEND_URI}/admin/managezoneget`,
     options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
   });
   useEffect(() => {

@@ -26,7 +26,7 @@ export function ZoneAllocation() {
 
   const { data: zonedata, isLoading: zoneDataLoading } = useGet({
     key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezone`,
+    uri: `${BACKEND_URI}/admin/managezoneget`,
     options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
   });
   useEffect(() => {
