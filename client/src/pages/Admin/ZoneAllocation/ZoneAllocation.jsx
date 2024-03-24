@@ -66,7 +66,7 @@ export function ZoneAllocation() {
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={zoneDataLoading || workerDataLoading}
+          visible={zoneDataLoading || workerDataLoading }
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}

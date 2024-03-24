@@ -2,7 +2,6 @@ import { Avatar, Text, Group, Card, Select } from "@mantine/core";
 import { IconPhoneCall, IconAt } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import classes from "./WorkerCard.module.css";
-import { useGet } from "../../../../customHooks/useGet";
 import { usePut } from "../../../../customHooks/usePut";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -12,13 +11,13 @@ const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function WorkerCard({ workerdata, refetchWorkerData, childZones }) {
   const queryClient = useQueryClient();
 
-  const [val, setVal] = useState([]);
+  const [val, setVal] = useState("");
 
   useEffect(() => {
       workerdata.zoneAlloted != "na"
         ? setVal(workerdata.zoneAlloted)
         : setVal("");
-  }, [workerdata.zoneAlloted]);
+  }, [workerdata]);
 
   const optionsFilter = ({ options, search }) => {
     const filtered = options.filter((option) =>
