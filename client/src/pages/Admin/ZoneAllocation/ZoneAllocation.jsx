@@ -5,6 +5,7 @@ import classes from "./ZoneAllocation.module.css";
 import { useState, useEffect } from "react";
 import { WorkerCard } from "./WorkerCard/WorkerCard";
 import { useGet } from "../../../customHooks/useGet";
+import { AnimatePresence,motion } from "framer-motion";
 
 const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
@@ -66,7 +67,7 @@ export function ZoneAllocation() {
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={zoneDataLoading || workerDataLoading }
+          visible={zoneDataLoading || workerDataLoading}
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
@@ -104,21 +105,32 @@ export function ZoneAllocation() {
           clearable
         />
         <Grid grow mt={20}>
-          {!workerDataLoading && wdata.length != 0
-            ? wdata.map((worker) => {
+          <AnimatePresence mode="wait">
+            {!workerDataLoading && wdata.length != 0 ? (
+              wdata.map((worker) => {
                 return (
                   <Grid.Col key={worker._id} span={{ base: 12, sm: 6, lg: 4 }}>
                     {
                       <WorkerCard
                         workerdata={worker}
-                        refetchWorkerData={refetchWorkerData}
-                        childZones={ !zoneDataLoading && zonedata.zones}
+                        // refetchWorkerData={refetchWorkerData}
+                        childZones={!zoneDataLoading && zonedata.zones}
                       />
                     }
                   </Grid.Col>
                 );
               })
-            : "No Worker Found"}
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15, ease: "easeInOut" }}
+              >
+                No Worker Found
+              </motion.div>
+            )}
+          </AnimatePresence>
         </Grid>
       </div>
     </Transition>
