@@ -109,21 +109,13 @@ export function ZoneAllocation() {
             {!workerDataLoading && wdata.length != 0 ? (
               wdata.map((worker) => {
                 return (
-                  <motion.div
-                    key={worker._id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, transition: { delay: 0.2 } }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2, ease: "easeInOut" }}
-                  >
-                    <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>
-                      <WorkerCard
-                        workerdata={worker}
-                        // refetchWorkerData={refetchWorkerData}
-                        childZones={!zoneDataLoading && zonedata.zones}
-                      />
-                    </Grid.Col>
-                  </motion.div>
+                  <Grid.Col key={worker._id} span={{ base: 12, sm: 6, lg: 4 }}>
+                    <WorkerCard
+                      workerdata={worker}
+                      // refetchWorkerData={refetchWorkerData}
+                      childZones={!zoneDataLoading && zonedata.zones}
+                    />
+                  </Grid.Col>
                 );
               })
             ) : (
