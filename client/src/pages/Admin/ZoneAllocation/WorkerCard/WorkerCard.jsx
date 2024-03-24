@@ -4,13 +4,21 @@ import { useState, useEffect } from "react";
 import classes from "./WorkerCard.module.css";
 import { useGet } from "../../../../customHooks/useGet";
 import { usePut } from "../../../../customHooks/usePut";
+import { useQueryClient } from "@tanstack/react-query";
 
 // const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 
-export function WorkerCard({ workerdata, refetchWorkerData }) {
-  const [zones, setZones] = useState([]);
-  const [val, setVal] = useState("");
+export function WorkerCard({ workerdata, refetchWorkerData, childZones }) {
+  const queryClient = useQueryClient();
+
+  const [val, setVal] = useState([]);
+
+  useEffect(() => {
+      workerdata.zoneAlloted != "na"
+        ? setVal(workerdata.zoneAlloted)
+        : setVal("");
+  }, [workerdata.zoneAlloted]);
 
   const optionsFilter = ({ options, search }) => {
     const filtered = options.filter((option) =>
@@ -26,27 +34,14 @@ export function WorkerCard({ workerdata, refetchWorkerData }) {
       .join("");
   }
 
-  const { data: zonedata, isLoading } = useGet({
-    key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezoneget`,
-    options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
-  });
-  useEffect(() => {
-    if (!isLoading) {
-      setZones(zonedata.zones);
-      workerdata.zoneAlloted != "na"
-        ? setVal(workerdata.zoneAlloted)
-        : setVal("");
-    }
-  }, [workerdata.zoneAlloted, zones, zonedata, isLoading]);
-
   const { mutate: updateWorkerData } = usePut({
     key: "workerdata",
     uri: `${BACKEND_URI}/admin/allotzone?emailID=${workerdata.emailID}`,
     data: { zoneAlloted: val },
     options: {
       onSuccess: () => {
-        refetchWorkerData();
+        // refetchWorkerData();
+        queryClient.invalidateQueries("wdata");
       },
     },
   });
@@ -92,7 +87,7 @@ export function WorkerCard({ workerdata, refetchWorkerData }) {
             radius="sm"
             placeholder="Allocate Zone"
             checkIconPosition="right"
-            data={!isLoading && zones}
+            data={childZones}
             classNames={classes}
             value={val}
             onChange={setVal}
