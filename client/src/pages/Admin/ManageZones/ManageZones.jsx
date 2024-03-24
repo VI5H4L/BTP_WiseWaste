@@ -38,7 +38,7 @@ const ManageZones = () => {
   } = useGet({
     key: "managezone",
     uri: `${BACKEND_URI}/admin/managezoneget`,
-    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
+    options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
   useEffect(() => {
     if (!isLoading) {

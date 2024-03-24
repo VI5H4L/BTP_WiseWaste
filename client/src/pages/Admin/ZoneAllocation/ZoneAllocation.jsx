@@ -27,7 +27,7 @@ export function ZoneAllocation() {
   const { data: zonedata, isLoading: zoneDataLoading } = useGet({
     key: "managezone",
     uri: `${BACKEND_URI}/admin/managezoneget`,
-    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
+    options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
   useEffect(() => {
     if (!zoneDataLoading) {
@@ -49,7 +49,7 @@ export function ZoneAllocation() {
     }`,
     options: {
       refetchOnWindowFocus: true,
-      refetchInterval: 6000,
+      refetchInterval: 10000,
     },
   });
 
@@ -66,7 +66,7 @@ export function ZoneAllocation() {
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={zoneDataLoading || workerDataLoading}
+          visible={zoneDataLoading || workerDataLoading ||workerDataFetching}
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
