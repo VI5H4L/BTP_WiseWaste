@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import classes from "./WorkerCard.module.css";
 import { usePut } from "../../../../customHooks/usePut";
 import { useQueryClient } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-
 // const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 
@@ -15,9 +13,9 @@ export function WorkerCard({ workerdata, childZones }) {
   const [val, setVal] = useState("");
 
   useEffect(() => {
-      workerdata.zoneAlloted != "na"
-        ? setVal(workerdata.zoneAlloted)
-        : setVal("");
+    workerdata.zoneAlloted != "na"
+      ? setVal(workerdata.zoneAlloted)
+      : setVal("");
   }, [workerdata]);
 
   const optionsFilter = ({ options, search }) => {
@@ -55,12 +53,6 @@ export function WorkerCard({ workerdata, childZones }) {
   }, [val, updateWorkerData]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.15, ease: "easeInOut" }}
-    >
     <Card withBorder p="sm" radius="md" className={classes.card}>
       <Group wrap="nowrap">
         <div className={classes.avatarDiv}>
@@ -104,6 +96,5 @@ export function WorkerCard({ workerdata, childZones }) {
         </div>
       </Group>
     </Card>
-    </motion.div>
   );
 }

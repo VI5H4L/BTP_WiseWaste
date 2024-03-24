@@ -5,7 +5,7 @@ import classes from "./ZoneAllocation.module.css";
 import { useState, useEffect } from "react";
 import { WorkerCard } from "./WorkerCard/WorkerCard";
 import { useGet } from "../../../customHooks/useGet";
-import { AnimatePresence,motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
@@ -105,27 +105,34 @@ export function ZoneAllocation() {
           clearable
         />
         <Grid grow mt={20}>
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="popLayout">
             {!workerDataLoading && wdata.length != 0 ? (
               wdata.map((worker) => {
                 return (
-                  <Grid.Col key={worker._id} span={{ base: 12, sm: 6, lg: 4 }}>
-                    {
+                  <motion.div
+                    key={worker._id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1, transition: { delay: 0.2 } }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                  >
+                    <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>
                       <WorkerCard
                         workerdata={worker}
                         // refetchWorkerData={refetchWorkerData}
                         childZones={!zoneDataLoading && zonedata.zones}
                       />
-                    }
-                  </Grid.Col>
+                    </Grid.Col>
+                  </motion.div>
                 );
               })
             ) : (
               <motion.div
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                animate={{ opacity: 1, transition: { delay: 0.2 } }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.15, ease: "easeInOut" }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                style={{ whiteSpace: "nowrap" }}
               >
                 No Worker Found
               </motion.div>
