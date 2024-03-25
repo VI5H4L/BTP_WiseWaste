@@ -11,20 +11,19 @@ import {
   IconLogout,
   // IconSwitchHorizontal,
 } from "@tabler/icons-react";
-// import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from "./Navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { isNetworkErrorState, userDataState } from "../../Recoil/recoil_state";
 import { Modal, Button } from "@mantine/core";
 
-import { useRecoilState } from "recoil";
+import { useRecoilState ,useSetRecoilState} from "recoil";
 import { roleState, tokenState } from "../../Recoil/recoil_state";
 
 export function Navbar() {
   const [role, setRole] = useRecoilState(roleState);
-  const [token, setToken] = useRecoilState(tokenState);
-  const [userData, setUserData] = useRecoilState(userDataState);
+  const setToken = useSetRecoilState(tokenState);
+  const setUserData = useSetRecoilState(userDataState);
 
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -114,9 +113,7 @@ export function Navbar() {
 
   const [roleData, setRoleData] = useState(mockData["user"]);
   useEffect(() => {
-    if (role == "user") setRoleData(mockData.user);
-    else if (role == "worker") setRoleData(mockData.worker);
-    else setRoleData(mockData.admin);
+    setRoleData(mockData[role]);
   }, [role]);
 
   const links = roleData.map((link, index) => (
