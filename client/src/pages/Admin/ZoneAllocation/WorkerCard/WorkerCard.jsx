@@ -53,6 +53,14 @@ export function WorkerCard({ workerdata, childZones }) {
     }
   }, [val, updateWorkerData]);
 
+  const handleEmailClick = () => {
+    window.open(`mailto:${workerdata.emailID}`);
+  };
+
+  const handlePhoneClick = () => {
+    window.open(`tel:${workerdata.phone}`);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -74,7 +82,7 @@ export function WorkerCard({ workerdata, childZones }) {
 
             <Group wrap="nowrap" gap={10} mt={3}>
               <IconAt stroke={1.5} size="1rem" className={classes.icon} />
-              <Text fz="sm" c="dimmed">
+              <Text fz="sm" c="dimmed" onClick={handleEmailClick} style={{cursor:"pointer"}}>
                 {workerdata.emailID}
               </Text>
             </Group>
@@ -85,7 +93,7 @@ export function WorkerCard({ workerdata, childZones }) {
                 size="1rem"
                 className={classes.icon}
               />
-              <Text fz="sm" c="dimmed">
+              <Text fz="sm" c="dimmed" onClick={handlePhoneClick} style={{cursor:"pointer"}}>
                 {workerdata.phone}
               </Text>
             </Group>
