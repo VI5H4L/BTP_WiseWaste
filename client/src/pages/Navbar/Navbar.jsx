@@ -15,10 +15,18 @@ import {
 import classes from "./Navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { isNetworkErrorState } from "../../Recoil/recoil_state";
+import { isNetworkErrorState, userDataState } from "../../Recoil/recoil_state";
 import { Modal, Button } from "@mantine/core";
 
+import { useRecoilState } from "recoil";
+import { roleState,tokenState } from "../../Recoil/recoil_state";
+
 export function Navbar() {
+
+  const [role,setRole] = useRecoilState(roleState);
+  const [token,setToken] = useRecoilState(tokenState);
+  const [userData,setUserData] = useRecoilState(userDataState);
+
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
@@ -41,6 +49,9 @@ export function Navbar() {
       localStorage.removeItem("userID");
       localStorage.removeItem("fullData");
       localStorage.removeItem("role");
+      setRole("user");
+      setToken("");
+      setUserData({});
       setModalOpen(false);
       navigate("/login");
     }

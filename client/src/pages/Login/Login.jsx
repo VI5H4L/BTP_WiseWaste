@@ -20,9 +20,18 @@ import axios from "axios";
 import { useState } from "react";
 import Transition from "../../Transition";
 
+import { useRecoilState } from "recoil";
+import { roleState,tokenState,userDataState } from "../../Recoil/recoil_state";
+
+
+
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function Login() {
   useBackButton("/");
+
+  const [role,setRole] = useRecoilState(roleState);
+  const [token,setToken] = useRecoilState(tokenState);
+  const [userData,setUserData] = useRecoilState(userDataState);
 
   const [btnLoading, setBtnLoading] = useState(false);
   const form = useForm({
@@ -78,6 +87,9 @@ export function Login() {
         localStorage.setItem("userID", JSON.stringify(response.data.user._id));
         localStorage.setItem("fullData", JSON.stringify(response.data));
         localStorage.setItem("role", JSON.stringify(response.data.role));
+        setRole(JSON.stringify(response.data.role));
+        setToken(JSON.stringify(response.data.user.token));
+        setUserData(JSON.stringify(response.data));
 
         navigate("/");
       } else if (
