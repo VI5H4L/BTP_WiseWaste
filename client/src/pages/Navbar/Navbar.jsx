@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Center, Tooltip, UnstyledButton, Stack, rem } from "@mantine/core";
 import {
   IconHome2,
@@ -11,14 +11,20 @@ import {
   IconLogout,
   // IconSwitchHorizontal,
 } from "@tabler/icons-react";
-// import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from "./Navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { isNetworkErrorState } from "../../Recoil/recoil_state";
+import { isNetworkErrorState, userDataState } from "../../Recoil/recoil_state";
 import { Modal, Button } from "@mantine/core";
 
+import { useRecoilState ,useSetRecoilState} from "recoil";
+import { roleState, tokenState } from "../../Recoil/recoil_state";
+
 export function Navbar() {
+  const [role, setRole] = useRecoilState(roleState);
+  const setToken = useSetRecoilState(tokenState);
+  const setUserData = useSetRecoilState(userDataState);
+
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
@@ -41,6 +47,9 @@ export function Navbar() {
       localStorage.removeItem("userID");
       localStorage.removeItem("fullData");
       localStorage.removeItem("role");
+      setRole("user");
+      setToken("");
+      setUserData({});
       setModalOpen(false);
       navigate("/login");
     }
@@ -73,30 +82,41 @@ export function Navbar() {
     );
   }
 
-  const mockdata = [
-    { icon: IconHome2, label: "Home", goto: "/" },
-    { icon: IconGauge, label: "Zone Allocation", goto: "/admin/zoneallocation" },
-    { icon: IconDeviceDesktopAnalytics,label: "Analytics",goto: "/analytics",},
-    { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
-    { icon: IconUser, label: "Account", goto: "/account" },
-    { icon: IconFingerprint, label: "Manage Zones", goto: "/admin/managezones" },
-    { icon: IconSettings, label: "Settings", goto: "/settings" },
-  ];
-  // const adminmockdata = [
-  //   { icon: IconHome2, label: "Home", goto: "/" },
-  //   { icon: IconGauge, label: "Dashboard", goto: "/dashboard" },
-  // ];
+  const mockData = {
+    user: [{ icon: IconHome2, label: "Home", goto: "/" }],
+    admin: [
+      { icon: IconHome2, label: "Home", goto: "/" },
+      {
+        icon: IconGauge,
+        label: "Zone Allocation",
+        goto: "/admin/zoneallocation",
+      },
+      {
+        icon: IconFingerprint,
+        label: "Manage Zones",
+        goto: "/admin/managezones",
+      },
+    ],
+    worker: [
+      { icon: IconHome2, label: "Home", goto: "/" },
+      {
+        icon: IconDeviceDesktopAnalytics,
+        label: "Analytics",
+        goto: "/analytics",
+      },
+      { icon: IconGauge, label: "Dashboard", goto: "/dashboard" },
+      { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
+      { icon: IconUser, label: "Account", goto: "/account" },
+      { icon: IconSettings, label: "Settings", goto: "/settings" },
+    ],
+  };
 
-  // let mockdata;
-  // const [role]=useState("admin");
-  // if(role=="worker"){
-  //   mockdata = workermockdata;
-  // }
-  // else if(role=="admin"){
-  //   mockdata = adminmockdata;
-  // }
+  const [roleData, setRoleData] = useState(mockData["user"]);
+  useEffect(() => {
+    setRoleData(mockData[role]);
+  }, [role]);
 
-  const links = mockdata.map((link, index) => (
+  const links = roleData.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}

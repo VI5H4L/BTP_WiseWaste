@@ -37,8 +37,8 @@ const ManageZones = () => {
     refetch,
   } = useGet({
     key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezone`,
-    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
+    uri: `${BACKEND_URI}/admin/managezoneget`,
+    options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
   useEffect(() => {
     if (!isLoading) {
@@ -48,7 +48,7 @@ const ManageZones = () => {
 
   const { mutate: updateData, isPending } = usePut({
     key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezone`,
+    uri: `${BACKEND_URI}/admin/managezoneput`,
     data: { zones: zones },
     options: {
       onSuccess: () => {
@@ -60,11 +60,11 @@ const ManageZones = () => {
   const { mutate: manageWorkerDataOnDelete } = usePut({
     key: "workerdata",
     uri: `${BACKEND_URI}/admin/handledeletezone?zonedeleted=${zoneToBeDeleted}`,
-    data: {zoneAlloted : "na"},
+    data: { zoneAlloted: "na" },
     options: {
       onSuccess: () => {
         // refetch();
-        queryClient.invalidateQueries('wdata');
+        queryClient.invalidateQueries("wdata");
       },
     },
   });
@@ -93,8 +93,6 @@ const ManageZones = () => {
     updateData();
     manageWorkerDataOnDelete();
   };
-
-  
 
   const rows =
     !isLoading &&

@@ -1,11 +1,11 @@
 import Transition from "../../../Transition";
 import { Title, Select, Grid, LoadingOverlay } from "@mantine/core";
-// import { useMediaQuery } from "@mantine/hooks";
 import { useBackButton } from "../../../customHooks/useBackButton";
 import classes from "./ZoneAllocation.module.css";
 import { useState, useEffect } from "react";
 import { WorkerCard } from "./WorkerCard/WorkerCard";
 import { useGet } from "../../../customHooks/useGet";
+import { AnimatePresence, motion } from "framer-motion";
 
 const mobile = window.screen.width < 768;
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
@@ -27,8 +27,8 @@ export function ZoneAllocation() {
 
   const { data: zonedata, isLoading: zoneDataLoading } = useGet({
     key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezone`,
-    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
+    uri: `${BACKEND_URI}/admin/managezoneget`,
+    options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
   useEffect(() => {
     if (!zoneDataLoading) {
@@ -50,10 +50,10 @@ export function ZoneAllocation() {
     }`,
     options: {
       refetchOnWindowFocus: true,
-      refetchInterval: 6000,
+      refetchInterval: 10000,
     },
   });
-  
+
   useEffect(() => {
     if (!workerDataFetching) {
       setwdata(workersdata);
@@ -105,17 +105,31 @@ export function ZoneAllocation() {
           clearable
         />
         <Grid grow mt={20}>
-          {!workerDataLoading && wdata.length != 0
-            ? wdata.map((worker) => {
+          <AnimatePresence mode="popLayout">
+            {!workerDataLoading && wdata.length != 0 ? (
+              wdata.map((worker) => {
                 return (
                   <Grid.Col key={worker._id} span={{ base: 12, sm: 6, lg: 4 }}>
-                    {
-                      <WorkerCard workerdata={worker} refetchWorkerData={refetchWorkerData} />
-                      }
+                    <WorkerCard
+                      workerdata={worker}
+                      // refetchWorkerData={refetchWorkerData}
+                      childZones={!zoneDataLoading && zonedata.zones}
+                    />
                   </Grid.Col>
                 );
               })
-            : "No Worker Found"}
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { delay: 0.2 } }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                No Worker Found
+              </motion.div>
+            )}
+          </AnimatePresence>
         </Grid>
       </div>
     </Transition>

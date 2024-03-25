@@ -18,13 +18,20 @@ import { Register } from "./pages/Register/Register";
 import { Home } from "./pages/Home/Home";
 import { Login } from "./pages/Login/Login";
 
-import { useRecoilState } from "recoil";
-import { isNetworkErrorState } from "./Recoil/recoil_state";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  isNetworkErrorState,
+  roleState,
+  tokenState,
+  userDataState,
+} from "./Recoil/recoil_state";
 
 import OneSignal from "onesignal-cordova-plugin";
 
 import { AnimatePresence } from "framer-motion";
 import ManageZones from "./pages/Admin/ManageZones/ManageZones";
+
+import PrivateRoute from "./PrivateRoute";
 
 setupIonicReact();
 Capacitor.isNativePlatform() &&
@@ -36,6 +43,10 @@ function App() {
   const [appUrl, setAppUrl] = useState("/");
   const [isNetworkError, setIsNetworkError] =
     useRecoilState(isNetworkErrorState);
+
+  const setRole = useSetRecoilState(roleState);
+  const setToken = useSetRecoilState(tokenState);
+  const setUserData = useSetRecoilState(userDataState);
 
   Capacitor.isNativePlatform() &&
     ScreenOrientation.lock({ orientation: "portrait" })
@@ -89,6 +100,18 @@ function App() {
     Capacitor.isNativePlatform() && setupPushNotifications();
   }, []);
 
+  useEffect(() => {
+    if (localStorage.getItem("role") != undefined) {
+      setRole(localStorage.getItem("role"));
+    }
+    if (localStorage.getItem("userToken") != undefined) {
+      setToken(localStorage.getItem("userToken"));
+    }
+    if (localStorage.getItem("fullData") != undefined) {
+      setUserData(localStorage.getItem("fullData"));
+    }
+  }, [setRole, setToken, setUserData]);
+
   return (
     <div className={classes.appDiv}>
       <AppUrlListener />
@@ -104,9 +127,30 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="/admin/zoneallocation" element={<ZoneAllocation />} />
-              <Route path="/admin/managezones" element={<ManageZones />} />
+              <Route
+                path="/analytics"
+                element={
+                  <PrivateRoute roles={["worker"]}>
+                    <Analytics />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/zoneallocation"
+                element={
+                  <PrivateRoute roles={["admin"]}>
+                    <ZoneAllocation />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/managezones"
+                element={
+                  <PrivateRoute roles={["admin"]}>
+                    <ManageZones />
+                  </PrivateRoute>
+                }
+              />
               <Route path="*" element={<Error />} />
             </Routes>
           </AnimatePresence>

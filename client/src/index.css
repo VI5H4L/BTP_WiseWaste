@@ -1,4 +1,3 @@
-
 @font-face {
   font-family: "Mabry"; /*Can be any text*/
   src: local("MabryPro-Regular"),
@@ -14,21 +13,26 @@
   --mantine-font-family-monospace: Mabry;
   --mantine-font-family-headings: Mabry;
 }
-:root[data-mantine-color-scheme='dark'] {
+:root[data-mantine-color-scheme="dark"] {
   --mantine-color-green-light: rgba(64, 192, 87, 0.15);
   --mantine-color-body: var(--mantine-color-dark-8);
-  --mantine-secondary-color-body: #8CE99A;
+  --mantine-secondary-color-body: #8ce99a;
   --mantine-data-card-color: var(--mantine-color-dark-7);
 }
-
-::-moz-selection { /* Code for Firefox */
+body {
+  background-color: #1f1f1f;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='684' height='82.1' viewBox='0 0 1000 120'%3E%3Cg fill='none' stroke='%2340C057' stroke-width='4' stroke-opacity='0.04'%3E%3Cpath d='M-500 75c0 0 125-30 250-30S0 75 0 75s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 45c0 0 125-30 250-30S0 45 0 45s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 105c0 0 125-30 250-30S0 105 0 105s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 15c0 0 125-30 250-30S0 15 0 15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500-15c0 0 125-30 250-30S0-15 0-15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 135c0 0 125-30 250-30S0 135 0 135s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
+}
+::-moz-selection {
+  /* Code for Firefox */
   color: #243727;
-  background:   white;
+  background: white;
 }
 
 ::selection {
   color: #243727;
-  background:   white;
+  background: white;
 }
 
 * {
@@ -58,6 +62,3 @@
   cursor: pointer;
   border: 1px solid var(--mantine-color-body);
 }
-
-
-

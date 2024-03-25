@@ -4,8 +4,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import classes from "./Home.module.css";
 import { DustbinCard } from "./DustbinCard/DustbinCard";
 import Transition from "../../Transition";
-import {LoadingOverlay } from "@mantine/core";
-
+import { LoadingOverlay } from "@mantine/core";
 
 const child = <DustbinCard />;
 
@@ -23,7 +22,12 @@ export function Home() {
           zIndex={1000}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
-          overlayProps={{ radius: "sm", color: "#1f1f1f" ,backgroundOpacity:"0.8" ,blur:"1"}}
+          overlayProps={{
+            radius: "sm",
+            color: "#1f1f1f",
+            backgroundOpacity: "0.8",
+            blur: "1",
+          }}
         />
 
         <Title

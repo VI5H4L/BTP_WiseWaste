@@ -20,9 +20,18 @@ import axios from "axios";
 import { useState } from "react";
 import Transition from "../../Transition";
 
+import { useRecoilState } from "recoil";
+import { roleState,tokenState,userDataState } from "../../Recoil/recoil_state";
+
+
+
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function Login() {
   useBackButton("/");
+
+  const [role,setRole] = useRecoilState(roleState);
+  const [token,setToken] = useRecoilState(tokenState);
+  const [userData,setUserData] = useRecoilState(userDataState);
 
   const [btnLoading, setBtnLoading] = useState(false);
   const form = useForm({
@@ -65,19 +74,22 @@ export function Login() {
 
         localStorage.setItem(
           "userEmail",
-          JSON.stringify(response.data.user.emailID)
+          response.data.user.emailID
         );
         localStorage.setItem(
           "userToken",
-          JSON.stringify(response.data.user.token)
+          response.data.user.token
         );
         localStorage.setItem(
           "userName",
-          JSON.stringify(response.data.user.fullName)
+          response.data.user.fullName
         );
-        localStorage.setItem("userID", JSON.stringify(response.data.user._id));
+        localStorage.setItem("userID", response.data.user._id);
         localStorage.setItem("fullData", JSON.stringify(response.data));
-        localStorage.setItem("role", JSON.stringify(response.data.role));
+        localStorage.setItem("role", response.data.role);
+        setRole(response.data.role);
+        setToken(response.data.user.token);
+        setUserData(JSON.stringify(response.data));
 
         navigate("/");
       } else if (

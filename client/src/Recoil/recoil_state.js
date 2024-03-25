@@ -1,15 +1,22 @@
 import { atom } from "recoil";
 
-const textState = atom({
+export const textState = atom({
   key: "textState",
   default: "Analytics"
 });
-const isNetworkErrorState = atom({
+export const roleState = atom({
+  key: "roleState",
+  default: "user"
+});
+export const tokenState = atom({
+  key: "tokenState",
+  default: ""
+});
+export const userDataState = atom({
+  key: "userDataState",
+  default: {}
+});
+export const isNetworkErrorState = atom({
   key: "isNetworkErrorState",
   default: false
 });
-
-export {
-  textState,
-  isNetworkErrorState
-};
