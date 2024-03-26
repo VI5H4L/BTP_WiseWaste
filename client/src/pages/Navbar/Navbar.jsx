@@ -164,6 +164,7 @@ export function Navbar() {
           <NavbarLink
             icon={IconLogout}
             goto={"/login"}
+            active={("/login" == active)||("/register" == active)}
             label={localStorage.getItem("userToken") ? "Logout" : "Login"}
           />
         </Stack>
