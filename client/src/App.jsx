@@ -38,6 +38,25 @@ Capacitor.isNativePlatform() &&
   StatusBar.setBackgroundColor({ color: "#1F1F1F" });
 
 function App() {
+  const setupPushNotifications = () => {
+    // Remove this method to stop OneSignal Debugging
+    OneSignal.Debug.setLogLevel(6);
+
+    // Replace YOUR_ONESIGNAL_APP_ID with your OneSignal App ID
+    OneSignal.initialize("d6451e8d-73fb-4282-8d52-e9f81e6b4391");
+
+    OneSignal.Notifications.addEventListener("click", async (e) => {
+      let clickData = await e.notification;
+      console.log("Notification Clicked : " + clickData);
+    });
+
+    OneSignal.Notifications.requestPermission(true).then((success) => {
+      console.log("Notification permission granted " + success);
+    });
+  };
+
+  Capacitor.isNativePlatform() && setupPushNotifications();
+
   const navigate = useNavigate();
   const location = useLocation();
   const [appUrl, setAppUrl] = useState("/");
@@ -78,27 +97,6 @@ function App() {
     };
     checkCurrentNetworkStatus();
   }, [navigate, location.pathname, appUrl, setIsNetworkError]);
-
-  useEffect(() => {
-    const setupPushNotifications = async () => {
-      // Remove this method to stop OneSignal Debugging
-      OneSignal.Debug.setLogLevel(6);
-
-      // Replace YOUR_ONESIGNAL_APP_ID with your OneSignal App ID
-      OneSignal.initialize("e2518251-69a3-42a7-9891-dcf1761d4efe");
-
-      OneSignal.Notifications.addEventListener("click", async (e) => {
-        let clickData = await e.notification;
-        console.log("Notification Clicked : " + clickData);
-      });
-
-      OneSignal.Notifications.requestPermission(true).then((success) => {
-        console.log("Notification permission granted " + success);
-      });
-    };
-
-    Capacitor.isNativePlatform() && setupPushNotifications();
-  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("role") != undefined) {
