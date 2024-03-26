@@ -12,7 +12,7 @@ import {
   // IconSwitchHorizontal,
 } from "@tabler/icons-react";
 import classes from "./Navbar.module.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { isNetworkErrorState, userDataState } from "../../Recoil/recoil_state";
 import { Modal, Button } from "@mantine/core";
@@ -21,13 +21,19 @@ import { useRecoilState ,useSetRecoilState} from "recoil";
 import { roleState, tokenState } from "../../Recoil/recoil_state";
 
 export function Navbar() {
+  const location =useLocation();
+
   const [role, setRole] = useRecoilState(roleState);
   const setToken = useSetRecoilState(tokenState);
   const setUserData = useSetRecoilState(userDataState);
 
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState("");
+
+  useEffect(() => {
+    setActive(location.pathname);
+  }, [location]);
 
   const handleLoginBtn = () => {
     if (localStorage.getItem("userToken")) {
@@ -120,7 +126,7 @@ export function Navbar() {
     <NavbarLink
       {...link}
       key={link.label}
-      active={index === active}
+      active={link.goto == active}
       onPress={() => setActive(index)}
     />
   ));
