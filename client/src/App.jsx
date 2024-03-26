@@ -34,29 +34,30 @@ import ManageZones from "./pages/Admin/ManageZones/ManageZones";
 import PrivateRoute from "./PrivateRoute";
 
 setupIonicReact();
+
+const setupPushNotifications = () => {
+  // Remove this method to stop OneSignal Debugging
+  OneSignal.Debug.setLogLevel(6);
+
+  // Replace YOUR_ONESIGNAL_APP_ID with your OneSignal App ID
+  OneSignal.initialize("eaf15ef2-339a-41e1-9ce8-c699cca65862");
+
+  OneSignal.Notifications.addEventListener("click", async (e) => {
+    let clickData = await e.notification;
+    console.log("Notification Clicked : " + clickData);
+  });
+
+  OneSignal.Notifications.requestPermission(true).then((success) => {
+    console.log("Notification permission granted " + success);
+  });
+};
+
+Capacitor.isNativePlatform() && setupPushNotifications();
+
 Capacitor.isNativePlatform() &&
   StatusBar.setBackgroundColor({ color: "#1F1F1F" });
 
 function App() {
-  const setupPushNotifications = () => {
-    // Remove this method to stop OneSignal Debugging
-    OneSignal.Debug.setLogLevel(6);
-
-    // Replace YOUR_ONESIGNAL_APP_ID with your OneSignal App ID
-    OneSignal.initialize("d6451e8d-73fb-4282-8d52-e9f81e6b4391");
-
-    OneSignal.Notifications.addEventListener("click", async (e) => {
-      let clickData = await e.notification;
-      console.log("Notification Clicked : " + clickData);
-    });
-
-    OneSignal.Notifications.requestPermission(true).then((success) => {
-      console.log("Notification permission granted " + success);
-    });
-  };
-
-  Capacitor.isNativePlatform() && setupPushNotifications();
-
   const navigate = useNavigate();
   const location = useLocation();
   const [appUrl, setAppUrl] = useState("/");
