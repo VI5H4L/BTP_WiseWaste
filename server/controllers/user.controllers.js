@@ -125,13 +125,6 @@ const authUser = expressAsyncHandler(async (req, res) => {
         { emailID: emailID }, // find a document with that filter
         { role: "admin" }, // document to insert when nothing was found
         { new: true, runValidators: true }, // options
-        function (err, doc) {
-          // callback
-          if (err) {
-            console.log("Something wrong when updating data!");
-          }
-          console.log(doc);
-        }
       );
       res.cookie("token", token, {
         httpOnly: true,
@@ -145,14 +138,7 @@ const authUser = expressAsyncHandler(async (req, res) => {
       await User.findOneAndUpdate(
         { emailID: emailID }, // find a document with that filter
         { role: "worker" }, // document to insert when nothing was found
-        { new: true, runValidators: true }, // options
-        function (err, doc) {
-          // callback
-          if (err) {
-            console.log("Something wrong when updating data!");
-          }
-          console.log(doc);
-        }
+        { new: true, runValidators: true }, // options        }
       );
       res.cookie("token", token, {
         httpOnly: true,
