@@ -101,7 +101,7 @@ const ManageZones = () => {
       <Table.Tr key={zone}>
         <Table.Td>
           <Group>
-            <Text fz="md" fw={500}>
+            <Text fz="sm" fw={500}>
               {zone}
             </Text>
           </Group>
@@ -153,7 +153,7 @@ const ManageZones = () => {
         <form onSubmit={handleAddZone} className={classes.grp}>
           <TextInput
             placeholder="Enter Zone name to add"
-            size="md"
+            size="sm"
             mb={16}
             value={newZone}
             onChange={(event) => setNewZone(event.target.value)}
@@ -163,7 +163,7 @@ const ManageZones = () => {
           <Button
             fullWidth
             loading={isLoading || isPending}
-            size="md"
+            size="sm"
             type="submit" // make this button submit the form
             id={classes.btn1}
           >
@@ -177,12 +177,12 @@ const ManageZones = () => {
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th>
-                    <Title className={classes.tablehead} order={5}>
+                    <Title className={classes.tablehead} order={6}>
                       Zone Name
                     </Title>
                   </Table.Th>
                   <Table.Th>
-                    <Title className={classes.tablehead} order={5} ta="right">
+                    <Title className={classes.tablehead} order={6} ta="right">
                       Delete Zone
                     </Title>
                   </Table.Th>

@@ -89,7 +89,7 @@ export function ZoneAllocation() {
           {`Zone Allocation`}
         </Title>
         <Select
-          size="md"
+          size="sm"
           radius="md"
           placeholder="Choose Zone to select"
           checkIconPosition="right"

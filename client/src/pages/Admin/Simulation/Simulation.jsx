@@ -134,14 +134,14 @@ const Simulation = () => {
       <Table.Tr key={zone}>
         <Table.Td>
           <Group>
-            <Text fz="md" fw={500}>
+            <Text fz="sm" fw={500}>
               {zone}
             </Text>
           </Group>
         </Table.Td>
         <Table.Td>
           <Group justify="center">
-            <Text fz="md" fw={500}>
+            <Text fz="sm" fw={500}>
               60
             </Text>
           </Group>
@@ -203,6 +203,7 @@ const Simulation = () => {
             required
             {...form.getInputProps("dustbinID")}
             className={classes.input}
+            error={false && "ID not unique! Try again"}
           />
           <NumberInput
             placeholder="Enter Dustbin's % filled"
@@ -242,17 +243,17 @@ const Simulation = () => {
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th>
-                    <Title className={classes.tablehead} order={5}>
+                    <Title className={classes.tablehead} order={6}>
                       ID
                     </Title>
                   </Table.Th>
                   <Table.Th>
-                    <Title className={classes.tablehead} order={5} ta="center">
+                    <Title className={classes.tablehead} order={6} ta="center">
                       %
                     </Title>
                   </Table.Th>
                   <Table.Th>
-                    <Title className={classes.tablehead} order={5} ta="right">
+                    <Title className={classes.tablehead} order={6} ta="right">
                       Delete
                     </Title>
                   </Table.Th>
