@@ -126,12 +126,6 @@ const authUser = expressAsyncHandler(async (req, res) => {
         { role: "admin" }, // document to insert when nothing was found
         { new: true, runValidators: true }, // options
       );
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: true, // use HTTPS
-        sameSite: "none", // restricts the cookie from being accessed by scripts from other domains
-        maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
-      });
       res.status(200).json({ success: true, role: "admin", user: fetchUser });
       console.log(fetchUser);
     } else {
@@ -140,12 +134,6 @@ const authUser = expressAsyncHandler(async (req, res) => {
         { role: "worker" }, // document to insert when nothing was found
         { new: true, runValidators: true }, // options        }
       );
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: true, // use HTTPS
-        sameSite: "none", 
-        maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
-      });
       res.status(200).json({ success: true, role: "worker", user: fetchUser });
       console.log(fetchUser);
     }
@@ -161,3 +149,12 @@ const checkingForUser = expressAsyncHandler(async (req, res) => {
 });
 
 module.exports = { newRegisterUser, authUser, checkingForUser };
+
+
+//COOKIE CODE to send token
+// res.cookie("token", token, {
+//   httpOnly: true,
+//   secure: true, // use HTTPS
+//   sameSite: "none", 
+//   maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
+// });

@@ -289,9 +289,6 @@ router.route("/reject").get(async (req, res) => {
 });
 
 router.route("/managezoneget").get(async (req, res) => {
-  const token = req.cookies.token;
-  console.log("TOKENNNN from cookie magezoneget");
-  console.log(token);
   try {
     const zone = await ManageZone.findOne();
     if (zone) {
@@ -307,9 +304,6 @@ router.route("/managezoneget").get(async (req, res) => {
 });
 
 router.route("/managezoneput").put(async (req, res) => {
-  const token = req.cookies.token;
-  console.log("TOKENNNN from cookie magezoneput");
-  console.log(token);
   try {
     const { zones } = req.body;
     const updatedZone = await ManageZone.findOneAndUpdate(
@@ -389,3 +383,6 @@ router.route("/handledeletezone").put(async (req, res) => {
 });
 
 module.exports = router;
+
+// code TO access Token from cookie
+// const token = req.cookies.token;

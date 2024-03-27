@@ -6,7 +6,7 @@ export const useGet = ({ key, uri, options }) => {
     const response = await axios({
       method: "get",
       url: uri,
-      withCredentials: true,
+      // withCredentials: true,
     });
     // console.log(response.data);
     return response.data;
