@@ -336,7 +336,7 @@ router.route("/getworkers").get(async (req, res) => {
         const workers = await User.find(query).sort({ fullName: 1 });
         res.json(workers);
     } catch (error) {
-        res.status(500).send("Server Error");
+        res.status(500).send(error);
     }
 });
 
@@ -363,7 +363,7 @@ router.route("/allotzone").put(async (req, res) => {
   
       res.status(200).json(updatedUser);
     } catch (error) {
-      res.status(500).send('Server error');
+      res.status(500).send(error);
     }
 });
 
