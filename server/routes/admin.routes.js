@@ -293,6 +293,7 @@ router.route("/managezoneget").get(async (req, res) => {
   console.log("TOKENNNN from cookie magezoneget");
   console.log(token);
   if (!token) {
+    console.log("!token");
     return res.status(401).json({ message: "Token expired" });
   }
 

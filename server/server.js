@@ -18,10 +18,10 @@ const corsOptions = {
   origin: function (origin, callback) {
     // used !origin because /admin/approve or reject me sending link via gmail..and on clicking that we dont have a origin
     if (whitelist.indexOf(origin) !== -1 || !origin) {
-      console.log("Allowed");
+      console.log("Allowed ORIGIN request");
       callback(null, true);
     } else {
-      console.log("Blacklisted");
+      console.log("Blacklisted ORIGIN request");
       callback(new Error("Not allowed by CORS"));
     }
   },
