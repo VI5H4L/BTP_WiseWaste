@@ -121,31 +121,45 @@ const authUser = expressAsyncHandler(async (req, res) => {
     fetchUser.token = token;
     console.log("Login Sucess1");
     if (emailID == ADMIN_EMAIL) {
+      await User.findOneAndUpdate(
+        { emailID: emailID }, // find a document with that filter
+        { role: "admin" }, // document to insert when nothing was found
+        { new: true, runValidators: true }, // options
+        function (err, doc) {
+          // callback
+          if (err) {
+            console.log("Something wrong when updating data!");
+          }
+          console.log(doc);
+        }
+      );
       res.cookie("token", token, {
         httpOnly: true,
         secure: true, // use HTTPS
         sameSite: "strict", // restricts the cookie from being accessed by scripts from other domains
         maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
       });
-      await User.findOneAndUpdate(
-        { emailID: emailID },
-        { role: "admin" },
-        { new: true } // Returns the updated document
-      );
       res.status(200).json({ success: true, role: "admin", user: fetchUser });
       console.log(fetchUser);
     } else {
+      await User.findOneAndUpdate(
+        { emailID: emailID }, // find a document with that filter
+        { role: "worker" }, // document to insert when nothing was found
+        { new: true, runValidators: true }, // options
+        function (err, doc) {
+          // callback
+          if (err) {
+            console.log("Something wrong when updating data!");
+          }
+          console.log(doc);
+        }
+      );
       res.cookie("token", token, {
         httpOnly: true,
         secure: true, // use HTTPS
         sameSite: "strict", // restricts the cookie from being accessed by scripts from other domains
         maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
       });
-      await User.findOneAndUpdate(
-        { emailID: emailID },
-        { role: "worker" },
-        { new: true } // Returns the updated document
-      );
       res.status(200).json({ success: true, role: "worker", user: fetchUser });
       console.log(fetchUser);
     }
