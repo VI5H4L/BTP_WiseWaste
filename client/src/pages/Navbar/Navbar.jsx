@@ -18,13 +18,13 @@ import { isNetworkErrorState, userDataState } from "../../Recoil/recoil_state";
 import { Modal, Button } from "@mantine/core";
 
 import { useRecoilState ,useSetRecoilState} from "recoil";
-import { roleState, tokenState } from "../../Recoil/recoil_state";
+import { roleState } from "../../Recoil/recoil_state";
 
 export function Navbar() {
   const location =useLocation();
 
   const [role, setRole] = useRecoilState(roleState);
-  const setToken = useSetRecoilState(tokenState);
+  // const setToken = useSetRecoilState(tokenState);
   const setUserData = useSetRecoilState(userDataState);
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -36,7 +36,7 @@ export function Navbar() {
   }, [location]);
 
   const handleLoginBtn = () => {
-    if (localStorage.getItem("userToken")) {
+    if (localStorage.getItem("role")) {
       setModalOpen(true);
     } else {
       navigate("/login");
@@ -46,15 +46,15 @@ export function Navbar() {
     setModalOpen(false);
   };
   const handleLogout = () => {
-    if (localStorage.getItem("userToken")) {
-      localStorage.removeItem("userToken");
+    if (localStorage.getItem("role")) {
+      // localStorage.removeItem("userToken");
       localStorage.removeItem("userName");
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userID");
       localStorage.removeItem("fullData");
       localStorage.removeItem("role");
       setRole("user");
-      setToken("");
+      // setToken("");
       setUserData({});
       setModalOpen(false);
       navigate("/login");
@@ -165,7 +165,7 @@ export function Navbar() {
             icon={IconLogout}
             goto={"/login"}
             active={("/login" == active)||("/register" == active)}
-            label={localStorage.getItem("userToken") ? "Logout" : "Login"}
+            label={localStorage.getItem("role") ? "Logout" : "Login"}
           />
         </Stack>
       </nav>

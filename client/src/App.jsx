@@ -22,7 +22,6 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   isNetworkErrorState,
   roleState,
-  tokenState,
   userDataState,
 } from "./Recoil/recoil_state";
 
@@ -65,7 +64,7 @@ function App() {
     useRecoilState(isNetworkErrorState);
 
   const setRole = useSetRecoilState(roleState);
-  const setToken = useSetRecoilState(tokenState);
+  // const setToken = useSetRecoilState(tokenState);
   const setUserData = useSetRecoilState(userDataState);
 
   Capacitor.isNativePlatform() &&
@@ -103,13 +102,13 @@ function App() {
     if (localStorage.getItem("role") != undefined) {
       setRole(localStorage.getItem("role"));
     }
-    if (localStorage.getItem("userToken") != undefined) {
-      setToken(localStorage.getItem("userToken"));
-    }
+    // if (localStorage.getItem("userToken") != undefined) {
+    //   setToken(localStorage.getItem("userToken"));
+    // }
     if (localStorage.getItem("fullData") != undefined) {
       setUserData(localStorage.getItem("fullData"));
     }
-  }, [setRole, setToken, setUserData]);
+  }, [setRole, setUserData]);
 
   return (
     <div className={classes.appDiv}>

@@ -118,7 +118,7 @@ const authUser = expressAsyncHandler(async (req, res) => {
     const token = await createToken(tokenData);
 
     //assign user token
-    fetchUser.token = token;
+    // fetchUser.token = token;
     console.log("Login Sucess1");
     if (emailID == ADMIN_EMAIL) {
       await User.findOneAndUpdate(
@@ -129,7 +129,7 @@ const authUser = expressAsyncHandler(async (req, res) => {
       res.cookie("token", token, {
         httpOnly: true,
         secure: true, // use HTTPS
-        sameSite: "None", // restricts the cookie from being accessed by scripts from other domains
+        sameSite: "None", 
         maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
       });
       res.status(200).json({ success: true, role: "admin", user: fetchUser });
@@ -143,7 +143,7 @@ const authUser = expressAsyncHandler(async (req, res) => {
       res.cookie("token", token, {
         httpOnly: true,
         secure: true, // use HTTPS
-        sameSite: "None", // restricts the cookie from being accessed by scripts from other domains
+        sameSite: "None", 
         maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
       });
       res.status(200).json({ success: true, role: "worker", user: fetchUser });

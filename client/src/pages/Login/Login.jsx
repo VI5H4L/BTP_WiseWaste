@@ -20,8 +20,8 @@ import axios from "axios";
 import { useState } from "react";
 import Transition from "../../Transition";
 
-import { useRecoilState } from "recoil";
-import { roleState,tokenState,userDataState } from "../../Recoil/recoil_state";
+import { useSetRecoilState } from "recoil";
+import { roleState,userDataState } from "../../Recoil/recoil_state";
 
 
 
@@ -29,9 +29,9 @@ const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function Login() {
   useBackButton("/");
 
-  const [role,setRole] = useRecoilState(roleState);
-  const [token,setToken] = useRecoilState(tokenState);
-  const [userData,setUserData] = useRecoilState(userDataState);
+  const setRole = useSetRecoilState(roleState);
+  // const [token,setToken] = useRecoilState(tokenState);
+  const setUserData = useSetRecoilState(userDataState);
 
   const [btnLoading, setBtnLoading] = useState(false);
   const form = useForm({
@@ -81,10 +81,10 @@ export function Login() {
           "userEmail",
           response.data.user.emailID
         );
-        localStorage.setItem(
-          "userToken",
-          response.data.user.token
-        );
+        // localStorage.setItem(
+        //   "userToken",
+        //   response.data.user.token
+        // );
         localStorage.setItem(
           "userName",
           response.data.user.fullName
@@ -93,7 +93,7 @@ export function Login() {
         localStorage.setItem("fullData", JSON.stringify(response.data));
         localStorage.setItem("role", response.data.role);
         setRole(response.data.role);
-        setToken(response.data.user.token);
+        // setToken(response.data.user.token);
         setUserData(JSON.stringify(response.data));
 
         navigate("/");
