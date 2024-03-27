@@ -292,20 +292,6 @@ router.route("/managezoneget").get(async (req, res) => {
   const token = req.cookies.token;
   console.log("TOKENNNN from cookie magezoneget");
   console.log(token);
-  if (!token) {
-    console.log("!token");
-    return res.status(401).json({ message: "Token expired" });
-  }
-
-//   try {
-//     Here LOGIC FOR JWT TOKEN VERIFY will come
-//     const decoded = jwt.verify(token, "your-secret-key");
-//     req.user = decoded;
-//     next();
-//   } catch (err) {
-//     return res.status(401).json({ message: "Token expired" });
-//   }
-
   try {
     const zone = await ManageZone.findOne();
     if (zone) {
