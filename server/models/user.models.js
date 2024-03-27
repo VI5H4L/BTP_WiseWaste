@@ -34,9 +34,9 @@ const UserSchema = new Schema({
         type: String,
         default: "na",
     },
-    verificationExpiresAt: {
+    registeredTime: {
         type: Date,
-        default: () => new Date(Date.now() + 5 * 60 * 1000),
+        default: () => new Date(),
     }
 });
 

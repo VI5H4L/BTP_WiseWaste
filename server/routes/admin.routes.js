@@ -304,6 +304,9 @@ router.route("/managezoneget").get(async (req, res) => {
 });
 
 router.route("/managezoneput").put(async (req, res) => {
+    const token = req.cookies.token;
+    console.log("TOKENNNN from cookie magezoneput");
+    console.log(token);
   try {
       const { zones } = req.body;
       const updatedZone = await ManageZone.findOneAndUpdate({}, { zones }, { new: true });

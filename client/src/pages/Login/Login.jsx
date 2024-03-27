@@ -56,10 +56,15 @@ export function Login() {
       setBtnLoading(true);
       // console.log(values);
       const uri = `${BACKEND_URI}/authentication/login`;
-      const response = await axios.post(uri, {
+      const response = await axios({
+    method: 'post',
+    url: uri,
+    data: {
         emailID: values.email,
         password: values.password,
-      });
+    },
+    withCredentials: true
+});
       console.log(response.data);
 
       if (response.data.success && response.data.user.adminVerified) {

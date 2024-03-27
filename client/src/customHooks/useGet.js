@@ -3,7 +3,11 @@ import axios from "axios";
 
 export const useGet = ({ key, uri, options }) => {
   const fetcher = async () => {
-    const response = await axios.get(uri);
+    const response = await axios({
+      method: "get",
+      url: uri,
+      withCredentials: true,
+    });
     // console.log(response.data);
     return response.data;
   };

@@ -1,13 +1,28 @@
 // mongodb
 require("./config/db");
 const express = require("express");
+const cookieParser = require('cookie-parser');
+
 const bodyParser = express.json;
 const cors = require("cors");
 const { PORT } = process.env;
 
 const app = express();
-app.use(cors());
+const whitelist = ['http://localhost:5173', 'https://wisewaste.vercel.app']; // add your origins here
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials: true
+};
+app.use(cors(corsOptions));
+
 app.use(bodyParser());
+app.use(cookieParser());
 
 // /authentication/signup
 app.use('/authentication', require('./routes/user.routes'));
