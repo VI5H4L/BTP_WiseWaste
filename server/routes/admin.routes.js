@@ -289,97 +289,116 @@ router.route("/reject").get(async (req, res) => {
 });
 
 router.route("/managezoneget").get(async (req, res) => {
+  const token = req.cookies.token;
+  console.log("TOKENNNN from cookie magezoneget");
+  console.log(token);
+  if (!token) {
+    return res.status(401).json({ message: "Token expired" });
+  }
+
+//   try {
+//     Here LOGIC FOR JWT TOKEN VERIFY will come
+//     const decoded = jwt.verify(token, "your-secret-key");
+//     req.user = decoded;
+//     next();
+//   } catch (err) {
+//     return res.status(401).json({ message: "Token expired" });
+//   }
+
   try {
-      const zone = await ManageZone.findOne();
-      if (zone) {
-          // Sort the zones array
-          zone.zones.sort();
-          res.json(zone);
-      } else {
-          res.status(404).json({ message: "No ManageZone document found" });
-      }
+    const zone = await ManageZone.findOne();
+    if (zone) {
+      // Sort the zones array
+      zone.zones.sort();
+      res.json(zone);
+    } else {
+      res.status(404).json({ message: "No ManageZone document found" });
+    }
   } catch (err) {
-      res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
 router.route("/managezoneput").put(async (req, res) => {
-    const token = req.cookies.token;
-    console.log("TOKENNNN from cookie magezoneput");
-    console.log(token);
+  const token = req.cookies.token;
+  console.log("TOKENNNN from cookie magezoneput");
+  console.log(token);
   try {
-      const { zones } = req.body;
-      const updatedZone = await ManageZone.findOneAndUpdate({}, { zones }, { new: true });
-      res.json(updatedZone);
+    const { zones } = req.body;
+    const updatedZone = await ManageZone.findOneAndUpdate(
+      {},
+      { zones },
+      { new: true }
+    );
+    res.json(updatedZone);
   } catch (err) {
-      res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
 router.route("/getworkers").get(async (req, res) => {
-    try {
-        let query = {
-            otpVerified: true,
-            adminVerified: true,
-            emailID: { $ne: ADMIN_EMAIL }
-        };
+  try {
+    let query = {
+      otpVerified: true,
+      adminVerified: true,
+      emailID: { $ne: ADMIN_EMAIL },
+    };
 
-        // Check if zoneAlloted is provided in the query parameters
-        if (req.query.zoneAlloted) {
-            query.zoneAlloted = req.query.zoneAlloted;
-        }
-        if(req.query.zoneAlloted==="Not Alloted Zones"){
-            console.log("yes");
-            query.zoneAlloted = "";
-        }
-
-        const workers = await User.find(query).sort({ fullName: 1 });
-        res.json(workers);
-    } catch (error) {
-        res.status(500).send("Server Error");
+    // Check if zoneAlloted is provided in the query parameters
+    if (req.query.zoneAlloted) {
+      query.zoneAlloted = req.query.zoneAlloted;
     }
+    if (req.query.zoneAlloted === "Not Alloted Zones") {
+      console.log("yes");
+      query.zoneAlloted = "";
+    }
+
+    const workers = await User.find(query).sort({ fullName: 1 });
+    res.json(workers);
+  } catch (error) {
+    res.status(500).send("Server Error");
+  }
 });
 
 router.route("/allotzone").put(async (req, res) => {
-    const { emailID } = req.query;
-    const { zoneAlloted } = req.body;
-    // console.log(emailID);
-    // console.log(zoneAlloted);
-  
-    if (!emailID || !zoneAlloted) {
-      return res.status(400).send('Email ID and new zone must be provided');
+  const { emailID } = req.query;
+  const { zoneAlloted } = req.body;
+  // console.log(emailID);
+  // console.log(zoneAlloted);
+
+  if (!emailID || !zoneAlloted) {
+    return res.status(400).send("Email ID and new zone must be provided");
+  }
+
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { emailID: emailID },
+      { zoneAlloted: zoneAlloted },
+      { new: true } // Returns the updated document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send("Worker not found");
     }
-  
-    try {
-      const updatedUser = await User.findOneAndUpdate(
-        { emailID: emailID },
-        { zoneAlloted: zoneAlloted },
-        { new: true } // Returns the updated document
-      );
-  
-      if (!updatedUser) {
-        return res.status(404).send('Worker not found');
-      }
-  
-      res.status(200).json(updatedUser);
-    } catch (error) {
-      res.status(500).send('Server error');
-    }
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).send("Server error");
+  }
 });
 
 router.route("/handledeletezone").put(async (req, res) => {
   const zoneToBeDeleted = req.query.zonedeleted;
   const { zoneAlloted } = req.body;
   try {
-      await User.updateMany(
-          { zoneAlloted: zoneToBeDeleted },
-          { $set: { zoneAlloted: zoneAlloted } }
-      );
-      res.status(200).send('Users updated successfully');
+    await User.updateMany(
+      { zoneAlloted: zoneToBeDeleted },
+      { $set: { zoneAlloted: zoneAlloted } }
+    );
+    res.status(200).send("Users updated successfully");
   } catch (err) {
-      res.status(500).send('Server error');
+    res.status(500).send("Server error");
   }
 });
-  
 
 module.exports = router;

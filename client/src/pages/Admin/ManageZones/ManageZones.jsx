@@ -18,6 +18,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useGet } from "../../../customHooks/useGet";
 import { usePut } from "../../../customHooks/usePut";
 import { useQueryClient } from "@tanstack/react-query";
+import { Navigate } from "react-router-dom";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const ManageZones = () => {
@@ -34,6 +35,8 @@ const ManageZones = () => {
   const {
     data: zonedata,
     isLoading,
+    isError,
+    error : fetcherror,
     refetch,
   } = useGet({
     key: "managezone",
@@ -41,10 +44,18 @@ const ManageZones = () => {
     options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && !isError) {
       setZones(zonedata.zones);
     }
-  }, [zones, zonedata, isLoading]);
+    if (isError) {
+      if (fetcherror.response && fetcherror.response.status === 401) {
+        console.log(fetcherror);
+        <Navigate to="/login"></Navigate>
+      } else {
+        console.error('Error:', fetcherror);
+      }
+    }
+  }, [zones, zonedata, isLoading,isError,fetcherror]);
 
   const { mutate: updateData, isPending } = usePut({
     key: "managezone",
