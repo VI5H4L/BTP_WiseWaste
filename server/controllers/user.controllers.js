@@ -129,7 +129,7 @@ const authUser = expressAsyncHandler(async (req, res) => {
       res.cookie("token", token, {
         httpOnly: true,
         secure: true, // use HTTPS
-        sameSite: "strict", // restricts the cookie from being accessed by scripts from other domains
+        sameSite: "none", // restricts the cookie from being accessed by scripts from other domains
         maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
       });
       res.status(200).json({ success: true, role: "admin", user: fetchUser });
@@ -143,7 +143,7 @@ const authUser = expressAsyncHandler(async (req, res) => {
       res.cookie("token", token, {
         httpOnly: true,
         secure: true, // use HTTPS
-        sameSite: "strict", // restricts the cookie from being accessed by scripts from other domains
+        sameSite: "none", 
         maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
       });
       res.status(200).json({ success: true, role: "worker", user: fetchUser });
