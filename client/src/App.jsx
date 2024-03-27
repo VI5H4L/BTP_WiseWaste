@@ -31,6 +31,7 @@ import { AnimatePresence } from "framer-motion";
 import ManageZones from "./pages/Admin/ManageZones/ManageZones";
 
 import PrivateRoute from "./PrivateRoute";
+import Simulation from "./pages/Admin/Simulation/Simulation";
 
 setupIonicReact();
 
@@ -146,6 +147,14 @@ function App() {
                 element={
                   <PrivateRoute roles={["admin"]}>
                     <ManageZones />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/simulation"
+                element={
+                  <PrivateRoute roles={["admin"]}>
+                    <Simulation />
                   </PrivateRoute>
                 }
               />

@@ -102,6 +102,7 @@ export function Navbar() {
         label: "Manage Zones",
         goto: "/admin/managezones",
       },
+      { icon: IconDeviceDesktopAnalytics, label: "Simulation", goto: "/admin/simulation" },
     ],
     worker: [
       { icon: IconHome2, label: "Home", goto: "/" },
@@ -110,7 +111,6 @@ export function Navbar() {
         label: "Analytics",
         goto: "/analytics",
       },
-      { icon: IconGauge, label: "Dashboard", goto: "/dashboard" },
       { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
       { icon: IconUser, label: "Account", goto: "/account" },
       { icon: IconSettings, label: "Settings", goto: "/settings" },

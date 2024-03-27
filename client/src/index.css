@@ -14,7 +14,8 @@
   --mantine-font-family-headings: Mabry;
 }
 :root[data-mantine-color-scheme="dark"] {
-  --mantine-color-green-light: rgba(64, 192, 87, 0.15);
+  /* --mantine-color-green-light: rgba(64, 192, 87, 0.15); */
+  --mantine-color-green-light: #293C2C;
   --mantine-color-body: var(--mantine-color-dark-8);
   --mantine-secondary-color-body: #8ce99a;
   --mantine-data-card-color: var(--mantine-color-dark-7);
