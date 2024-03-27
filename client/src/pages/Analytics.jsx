@@ -32,7 +32,8 @@ export function Analytics() {
             blur: "1",
           }}
         />
-        {!isLoading && data.fact}
+        {/* {!isLoading && data.fact} */}
+        Analytics
       </div>
     </Transition>
   );
