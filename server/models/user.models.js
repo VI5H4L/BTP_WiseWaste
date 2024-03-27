@@ -34,6 +34,10 @@ const UserSchema = new Schema({
         type: String,
         default: "na",
     },
+    role :{
+        type: String,
+        default: "user",
+    },
     registeredTime: {
         type: Date,
         default: () => new Date(),

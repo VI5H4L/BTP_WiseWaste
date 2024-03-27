@@ -121,21 +121,31 @@ const authUser = expressAsyncHandler(async (req, res) => {
     fetchUser.token = token;
     console.log("Login Sucess1");
     if (emailID == ADMIN_EMAIL) {
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: true, // use HTTPS
-            sameSite: 'strict', // restricts the cookie from being accessed by scripts from other domains
-            maxAge: 60 * 60 * 1000 // cookie will last for 1 hour
-        });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true, // use HTTPS
+        sameSite: "strict", // restricts the cookie from being accessed by scripts from other domains
+        maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
+      });
+      await User.findOneAndUpdate(
+        { emailID: emailID },
+        { role: "admin" },
+        { new: true } // Returns the updated document
+      );
       res.status(200).json({ success: true, role: "admin", user: fetchUser });
       console.log(fetchUser);
     } else {
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: true, // use HTTPS
-            sameSite: 'strict', // restricts the cookie from being accessed by scripts from other domains
-            maxAge: 60 * 60 * 1000 // cookie will last for 1 hour
-        });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true, // use HTTPS
+        sameSite: "strict", // restricts the cookie from being accessed by scripts from other domains
+        maxAge: 60 * 60 * 1000, // cookie will last for 1 hour
+      });
+      await User.findOneAndUpdate(
+        { emailID: emailID },
+        { role: "worker" },
+        { new: true } // Returns the updated document
+      );
       res.status(200).json({ success: true, role: "worker", user: fetchUser });
       console.log(fetchUser);
     }
