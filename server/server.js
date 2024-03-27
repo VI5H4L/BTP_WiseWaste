@@ -18,6 +18,8 @@ const whitelist = [
 ]; // add your origins here
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log("Printing ORIGIN");
+      callback(origin);
     // used !origin because /admin/approve or reject me sending link via gmail..and on clicking that we dont have a origin
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       console.log("Allowed ORIGIN request");
