@@ -24,6 +24,22 @@ app.use(cors(corsOptions));
 app.use(bodyParser());
 app.use(cookieParser());
 
+function bypassPublicPathsFromCookie(req, res, next) {
+    const publicPaths = ['/admin/approve', '/admin/reject'];
+    if (publicPaths.includes(req.path)) {
+        return next();
+    }
+
+    // const token = req.cookies.token;
+    // if (!token) {
+    //     return res.status(401).json({ message: 'Token expired. Please re-login.' });
+    // }
+
+    // // ...rest of your authentication code...
+}
+
+app.use(bypassPublicPathsFromCookie);
+
 // /authentication/signup
 app.use('/authentication', require('./routes/user.routes'));
 app.use('/otp', require("./routes/userOTP.routes"));
