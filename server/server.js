@@ -16,9 +16,12 @@ const whitelist = [
 ]; // add your origins here
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    // used !origin because /admin/approve or reject me sending link via gmail..and on clicking that we dont have a origin
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      console.log("Allowed");
       callback(null, true);
     } else {
+      console.log("Blacklisted");
       callback(new Error("Not allowed by CORS"));
     }
   },
@@ -28,22 +31,6 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser());
 app.use(cookieParser());
-
-function bypassPublicPathsFromCookie(req, res, next) {
-  const publicPaths = ["/admin/approve", "/admin/reject"];
-  if (publicPaths.includes(req.path)) {
-    return next();
-  } else {
-    return next();
-    // const token = req.cookies.token;
-    // if (!token) {
-    //     return res.status(401).json({ message: 'Token expired. Please re-login.' });
-    // }
-
-    // // ...rest of your authentication code...
-  }
-}
-app.use(bypassPublicPathsFromCookie);
 
 // /authentication/signup
 app.use("/authentication", require("./routes/user.routes"));
