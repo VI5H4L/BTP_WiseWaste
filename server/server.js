@@ -8,7 +8,12 @@ const cors = require("cors");
 const { PORT } = process.env;
 
 const app = express();
-const whitelist = ["http://localhost:5173", "https://wisewaste.vercel.app"]; // add your origins here
+const whitelist = [
+  "http://localhost:5173",
+  "http://localhost:5000",
+  "https://wisewaste.vercel.app",
+  "https://backend-wisewaste.vercel.app",
+]; // add your origins here
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
