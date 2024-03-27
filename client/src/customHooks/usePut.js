@@ -7,7 +7,7 @@ export const usePut = ({ key, uri, data, options }) => {
       method: "put",
       url: uri,
       data: data,
-      // withCredentials: true,
+      withCredentials: true,
     });
     return response.data;
   };

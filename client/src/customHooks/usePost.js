@@ -7,7 +7,7 @@ export const usePost = ({ key, uri, data, options }) => {
       method: "post",
       url: uri,
       data: data,
-      // withCredentials: true,
+      withCredentials: true,
     });
     return response.data;
   };
