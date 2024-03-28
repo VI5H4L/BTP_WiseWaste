@@ -15,6 +15,9 @@
         "sound",
         "alert"
       ]
+    },
+    "CapacitorCookies": {
+      "enabled": true
     }
   }
 }
