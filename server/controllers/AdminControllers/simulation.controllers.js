@@ -1,7 +1,5 @@
 const expressAsyncHandler = require("express-async-handler");
-const express = require("express");
-const router = express.Router();
-const { Dustbin } = require("../models/dustbin.models");
+const { Dustbin } = require("../../models/dustbin.models");
 
 const getSimulationData = expressAsyncHandler(async (req, res) => {
   try {
