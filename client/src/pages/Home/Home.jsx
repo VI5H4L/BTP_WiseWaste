@@ -5,8 +5,10 @@ import classes from "./Home.module.css";
 import { DustbinCard } from "./DustbinCard/DustbinCard";
 import Transition from "../../Transition";
 import { LoadingOverlay } from "@mantine/core";
+import { AnimatePresence, motion } from "framer-motion";
+import { useGet } from "../../customHooks/useGet";
 
-const child = <DustbinCard />;
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 
 export function Home() {
   useBackButton("exit");
@@ -14,11 +16,17 @@ export function Home() {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
+  const { data: dustbinData, isLoading: dustbinDataLoading } = useGet({
+    key: "dustbindata",
+    uri: `${BACKEND_URI}/dustbin/status`,
+    options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
+  });
+
   return (
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={false}
+          visible={dustbinDataLoading}
           zIndex={1000}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
@@ -39,19 +47,31 @@ export function Home() {
         >
           {`Dustbin Data Status`}
         </Title>
+
         <Grid grow>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, lg: 4 }}>{child}</Grid.Col>
+          <AnimatePresence mode="popLayout">
+            {!dustbinDataLoading && dustbinData.length != 0 ? (
+              dustbinData.map((dustbin) => {
+                return (
+                  <Grid.Col key={dustbin._id} span={{ base: 12, sm: 6, lg: 4 }}>
+                    <DustbinCard data={dustbin}/>
+                  </Grid.Col>
+                );
+              })
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { delay: 0.2 } }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                No Dustbin Found
+              </motion.div>
+            )}
+          </AnimatePresence>
         </Grid>
+
       </div>
     </Transition>
   );

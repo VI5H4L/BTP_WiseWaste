@@ -19,13 +19,13 @@ import classes from "./Simulation.module.css";
 import { useMediaQuery } from "@mantine/hooks";
 import { useGet } from "../../../customHooks/useGet";
 import { usePost } from "../../../customHooks/usePost";
-// import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "@mantine/form";
 import { useDelete } from "../../../customHooks/useDelete";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const Simulation = () => {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
@@ -101,7 +101,7 @@ const Simulation = () => {
     options: {
       onSuccess: () => {
         refetch();
-        // queryClient.invalidateQueries("wdata");
+        queryClient.invalidateQueries("dustbindata");
       },
     },
   });
