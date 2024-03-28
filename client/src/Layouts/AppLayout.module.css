@@ -10,7 +10,7 @@
 
 .routeDiv{
     width: calc(100% - 70px);
-    height: 100vh;
+    height: 100lvh;
 }
 
 @media (max-width: $mantine-breakpoint-sm) {
