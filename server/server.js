@@ -11,7 +11,8 @@ const app = express();
 const whitelist = [
   "http://localhost:5173",
   "https://wisewaste.vercel.app",
-  "https://btp.v15h4l.com"
+  "https://btp.v15h4l.com",
+  "https://localhost", //This origin for mobile
 ]; // add your origins here
 const corsOptions = {
   origin: function (origin, callback) {
