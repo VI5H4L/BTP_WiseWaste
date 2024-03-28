@@ -29,9 +29,10 @@ export function WorkerCard({ workerdata, childZones }) {
   function getInitials(fullName) {
     return fullName
       .split(" ")
+      .filter(name => name.length > 0) // filter out empty strings
       .map((name) => name[0].toUpperCase())
       .join("");
-  }
+  }  
 
   const { mutate: updateWorkerData } = usePut({
     key: "workerdata",
