@@ -3,6 +3,12 @@ const router = express.Router();
 const { User } = require("../models/user.models");
 const { ManageZone } = require("../models/managezone.models");
 
+const { 
+  getSimulationData,
+  postSimulationData,
+  delSimulationData,
+} = require("../controllers/simulation.controllers");
+
 const sendEmail = require("../utils/sendEmail");
 const { REQUESTS_AUTH_EMAIL } = process.env;
 const { ADMIN_EMAIL } = process.env;
@@ -387,6 +393,10 @@ router.route("/handledeletezone").put(async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+router.route('/simulation').get(getSimulationData);
+router.route('/simulation').post(postSimulationData);
+router.route('/simulation').delete(delSimulationData);
 
 module.exports = router;
 

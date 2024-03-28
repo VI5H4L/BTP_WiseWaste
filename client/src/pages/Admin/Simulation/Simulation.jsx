@@ -18,13 +18,20 @@ import Transition from "../../../Transition";
 import classes from "./Simulation.module.css";
 import { useMediaQuery } from "@mantine/hooks";
 import { useGet } from "../../../customHooks/useGet";
-import { usePut } from "../../../customHooks/usePut";
-import { useQueryClient } from "@tanstack/react-query";
+import { usePost } from "../../../customHooks/usePost";
+// import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "@mantine/form";
+import { useDelete } from "../../../customHooks/useDelete";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const Simulation = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
+
+  const theme = useMantineTheme();
+  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+
+  const [dustbinToBeDeleted, setDustbinToBeDeleted] = useState("");
+  const [dustbinData, setDustbinData] = useState({});
 
   const form = useForm({
     initialValues: {
@@ -56,33 +63,25 @@ const Simulation = () => {
     },
   });
 
-  const [zones, setZones] = useState([]);
-  const [newZone, setNewZone] = useState("");
-  const [zoneToBeDeleted, setZoneToBeDeleted] = useState("");
-  const [error, setError] = useState("");
-
-  const theme = useMantineTheme();
-  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-
-  const {
-    data: zonedata,
-    isLoading,
-    refetch,
-  } = useGet({
+  const { data: zonedata, isLoading: isZoneDataLoading } = useGet({
     key: "managezone",
     uri: `${BACKEND_URI}/admin/managezoneget`,
     options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
-  useEffect(() => {
-    if (!isLoading) {
-      setZones(zonedata.zones);
-    }
-  }, [zones, zonedata, isLoading]);
 
-  const { mutate: updateData, isPending } = usePut({
-    key: "managezone",
-    uri: `${BACKEND_URI}/admin/managezoneput`,
-    data: { zones: zones },
+  const {
+    data: simulationdata,
+    isLoading: isgetDataLoading,
+    refetch,
+  } = useGet({
+    key: "simulationget",
+    uri: `${BACKEND_URI}/admin/simulation`,
+    options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
+  });
+
+  const { mutate: deletedata, isPending: isDeletionPending } = useDelete({
+    key: "simulationdel",
+    uri: `${BACKEND_URI}/admin/simulation?dustbinID=${dustbinToBeDeleted}`,
     options: {
       onSuccess: () => {
         refetch();
@@ -90,59 +89,60 @@ const Simulation = () => {
     },
   });
 
-  const { mutate: manageWorkerDataOnDelete } = usePut({
-    key: "workerdata",
-    uri: `${BACKEND_URI}/admin/handledeletezone?zonedeleted=${zoneToBeDeleted}`,
-    data: { zoneAlloted: "na" },
+  const {
+    mutate: postData,
+    isPending: isPostingPending,
+    isError,
+    error,
+  } = usePost({
+    key: "simulationpost",
+    uri: `${BACKEND_URI}/admin/simulation`,
+    data: dustbinData,
     options: {
       onSuccess: () => {
-        // refetch();
-        queryClient.invalidateQueries("wdata");
+        refetch();
+        // queryClient.invalidateQueries("wdata");
       },
     },
   });
 
-  const handleAddZone = (event) => {
-    event.preventDefault();
-    if (newZone === "") {
-      setError("Zone name cannot be empty");
-    } else if (
-      zones.some((zone) => zone.toLowerCase() === newZone.toLowerCase())
-    ) {
-      setError("Zone name must be unique");
-    } else {
-      setZones((currentZones) => [...currentZones, newZone]);
-      setNewZone("");
-      setError("");
-      updateData();
+  useEffect(() => {
+    if (!isPostingPending && isError) {
+      if (
+        error.response.status == 400 &&
+        error.response.data.message == "A dustbin with this ID already exists"
+      ) {
+        form.setFieldError("dustbinID", "Enter Unique ID! Try again");
+      }
     }
+  }, [isError, error, form, isPostingPending]);
+
+  const handleAddZone = (values) => {
+    setDustbinData(values);
+    postData();
   };
 
-  const handleDeleteZone = (zoneToDelete) => {
-    setZoneToBeDeleted(zoneToDelete);
-    setZones((currentZones) =>
-      currentZones.filter((zone) => zone !== zoneToDelete)
-    );
-    updateData();
-    manageWorkerDataOnDelete();
+  const handleDeleteZone = (dustbinID) => {
+    setDustbinToBeDeleted(dustbinID);
+    deletedata();
   };
 
   const rows =
-    !isLoading &&
-    zonedata.zones.length != 0 &&
-    zonedata.zones.map((zone) => (
-      <Table.Tr key={zone}>
+    !isgetDataLoading &&
+    simulationdata.length != 0 &&
+    simulationdata.map((dustbindata) => (
+      <Table.Tr key={dustbindata.dustbinID}>
         <Table.Td>
           <Group>
             <Text fz="sm" fw={500}>
-              {zone}
+              {dustbindata.dustbinID}
             </Text>
           </Group>
         </Table.Td>
         <Table.Td>
           <Group justify="center">
             <Text fz="sm" fw={500}>
-              60
+              {dustbindata.percentage}
             </Text>
           </Group>
         </Table.Td>
@@ -152,7 +152,7 @@ const Simulation = () => {
             <ActionIcon
               variant="subtle"
               color="red"
-              onClick={() => handleDeleteZone(zone)}
+              onClick={() => handleDeleteZone(dustbindata.dustbinID)}
             >
               <IconTrash
                 style={{ width: rem(20), height: rem(20) }}
@@ -168,7 +168,7 @@ const Simulation = () => {
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={isLoading}
+          visible={isgetDataLoading || isZoneDataLoading}
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
@@ -192,7 +192,7 @@ const Simulation = () => {
 
         <form
           onSubmit={form.onSubmit((values) => {
-            console.log(values);
+            handleAddZone(values);
           })}
           className={classes.grp}
         >
@@ -203,7 +203,6 @@ const Simulation = () => {
             required
             {...form.getInputProps("dustbinID")}
             className={classes.input}
-            error={false && "ID not unique! Try again"}
           />
           <NumberInput
             placeholder="Enter Dustbin's % filled"
@@ -218,7 +217,7 @@ const Simulation = () => {
             radius="sm"
             placeholder="Choose Dustbin's zone"
             checkIconPosition="right"
-            data={["Z1", "Z2"]}
+            data={!isZoneDataLoading && zonedata.zones}
             mb={16}
             required
             {...form.getInputProps("zone")}
@@ -228,7 +227,7 @@ const Simulation = () => {
           />
           <Button
             fullWidth
-            loading={isLoading || isPending}
+            loading={isgetDataLoading || isDeletionPending || isPostingPending}
             size="sm"
             type="submit" // make this button submit the form
             id={classes.btn1}
@@ -237,7 +236,7 @@ const Simulation = () => {
           </Button>
         </form>
 
-        {!isLoading && zonedata.zones.length != 0 && (
+        {!isgetDataLoading && simulationdata.length != 0 && (
           <Table.ScrollContainer className={classes.tblcontainer}>
             <Table verticalSpacing="sm">
               <Table.Thead>

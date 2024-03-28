@@ -42,5 +42,5 @@
 
 .tablehead{
     color: white;
-    color: var(--mantine-secondary-color-body);
+    /* color: var(--mantine-secondary-color-body); */
 }
