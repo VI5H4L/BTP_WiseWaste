@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { User } = require("../models/user.models");
+const { Dustbin } = require("../models/dustbin.models");
 const { ManageZone } = require("../models/managezone.models");
 
 const { 
@@ -388,7 +389,11 @@ router.route("/handledeletezone").put(async (req, res) => {
       { zoneAlloted: zoneToBeDeleted },
       { $set: { zoneAlloted: zoneAlloted } }
     );
-    res.status(200).send("Users updated successfully");
+
+    // Delete documents in the Dustbin schema
+    await Dustbin.deleteMany({ zone: zoneToBeDeleted });
+
+    res.status(200).send("Users and dustbins updated successfully");
   } catch (err) {
     res.status(500).send("Server error");
   }
