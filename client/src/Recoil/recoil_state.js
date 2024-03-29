@@ -8,10 +8,6 @@ export const roleState = atom({
   key: "roleState",
   default: "user"
 });
-export const tokenState = atom({
-  key: "tokenState",
-  default: ""
-});
 export const userDataState = atom({
   key: "userDataState",
   default: {}

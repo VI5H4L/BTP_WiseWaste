@@ -32,6 +32,7 @@ import ManageZones from "./pages/Admin/ManageZones/ManageZones";
 
 import PrivateRoute from "./PrivateRoute";
 import Simulation from "./pages/Admin/Simulation/Simulation";
+import WorkerProfile from "./pages/Worker/WorkerProfile/WorkerProfile";
 
 setupIonicReact();
 
@@ -131,6 +132,14 @@ function App() {
                 element={
                   <PrivateRoute roles={["worker"]}>
                     <Analytics />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/worker/profile"
+                element={
+                  <PrivateRoute roles={["worker"]}>
+                    <WorkerProfile />
                   </PrivateRoute>
                 }
               />

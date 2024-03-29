@@ -112,7 +112,7 @@ export function Navbar() {
         goto: "/analytics",
       },
       { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
-      { icon: IconUser, label: "Account", goto: "/account" },
+      { icon: IconUser, label: "Profile", goto: "/worker/profile" },
       { icon: IconSettings, label: "Settings", goto: "/settings" },
     ],
   };
