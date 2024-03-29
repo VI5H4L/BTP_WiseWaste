@@ -21,6 +21,8 @@ const {
   rejectRequest,
 } = require("../controllers/AdminControllers/requests.controllers");
 
+const verifyToken = require("../middleware/auth");
+
 
 router.route("/approve").get(approveRequest);
 router.route("/reject").get(rejectRequest);
@@ -32,7 +34,7 @@ router.route("/simulation").delete(delSimulationData);
 router.route("/getworkers").get(getWorkers);
 router.route("/allotzone").put(allotZone);
 
-router.route("/managezoneget").get(manageZoneGet);
+router.route("/managezoneget").get(verifyToken,manageZoneGet);
 router.route("/managezoneput").put(manageZonePut);
 router.route("/handledeletezone").put(handleDeleteZone);
 
