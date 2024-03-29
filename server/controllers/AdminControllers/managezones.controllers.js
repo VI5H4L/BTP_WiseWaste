@@ -4,9 +4,6 @@ const { User } = require("../../models/user.models");
 const { ManageZone } = require("../../models/managezone.models");
 
 const manageZoneGet = expressAsyncHandler(async (req, res) => {
-  const token = req.cookies.token;
-  console.log("TOKENNNN from cookie magezoneget");
-  console.log(token);
   try {
     const zone = await ManageZone.findOne();
     if (zone) {
@@ -21,9 +18,6 @@ const manageZoneGet = expressAsyncHandler(async (req, res) => {
   }
 });
 const manageZonePut = expressAsyncHandler(async (req, res) => {
-  const token = req.cookies.token;
-  console.log("TOKENNNN from cookie magezoneget");
-  console.log(token);
   try {
     const { zones } = req.body;
     const updatedZone = await ManageZone.findOneAndUpdate(
