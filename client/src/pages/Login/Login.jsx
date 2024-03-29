@@ -30,7 +30,6 @@ export function Login() {
   useBackButton("/");
 
   const setRole = useSetRecoilState(roleState);
-  // const [token,setToken] = useRecoilState(tokenState);
   const setUserData = useSetRecoilState(userDataState);
 
   const [btnLoading, setBtnLoading] = useState(false);
