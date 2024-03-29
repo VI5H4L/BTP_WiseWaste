@@ -19,9 +19,9 @@
   .inner {
     display: flex;
   
-    @media (max-width: $mantine-breakpoint-xs) {
+    /* @media (max-width: $mantine-breakpoint-xs) {
       flex-direction: column;
-    }
+    } */
   }
   
   .ring {
@@ -30,8 +30,8 @@
     justify-content: flex-end;
     align-items: center;
   
-    @media (max-width: $mantine-breakpoint-xs) {
+    /* @media (max-width: $mantine-breakpoint-xs) {
       justify-content: center;
       margin-top: var(--mantine-spacing-md);
-    }
+    } */
   }
