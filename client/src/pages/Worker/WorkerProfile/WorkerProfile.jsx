@@ -9,6 +9,7 @@ import {
   Paper,
   Avatar,
   Divider,
+  PasswordInput,
 } from "@mantine/core";
 import Transition from "../../../Transition";
 import classes from "./WorkerProfile.module.css";
@@ -16,12 +17,14 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useGet } from "../../../customHooks/useGet";
 import { usePut } from "../../../customHooks/usePut";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const WorkerProfile = () => {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const [pno, setPno] = useState("");
+  const [password, setPassword] = useState("");
 
   const {
     data: profiledata,
@@ -29,21 +32,23 @@ const WorkerProfile = () => {
     refetch,
   } = useGet({
     key: "profileget",
-    uri: `${BACKEND_URI}/worker/profile?emailID=${localStorage.getItem(
-      "userEmail"
-    )}`,
+    uri: `${BACKEND_URI}/worker/profile?emailID=${localStorage.getItem("userEmail")}`,
     options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
 
   const { mutate: updateData, isPending: isUpdatePending } = usePut({
     key: "profileupdate",
-    uri: `${BACKEND_URI}/worker/profile?emailID=${localStorage.getItem(
-      "userEmail"
-    )}`,
-    data: { phone: pno },
+    uri: `${BACKEND_URI}/worker/profile?emailID=${localStorage.getItem("userEmail")}`,
+    data: { phone: pno ,password:password},
     options: {
       onSuccess: () => {
         refetch();
+        notifications.show({
+          title: "Update Successful",
+          message: "Profile Updated successfully!!",
+          color: "var(--mantine-secondary-color-body)",
+          withBorder: "true",
+        });
       },
     },
   });
@@ -51,9 +56,15 @@ const WorkerProfile = () => {
   const form = useForm({
     initialValues: {
       phone: "9999999999",
+      password: "",
+      confirmpassword: "",
     },
 
     validate: {
+      password:  (value, values) =>
+      values.password == "" ? null : (value.length>7?null:"Password must be 8 characters long"),
+      confirmpassword: (value, values) =>
+        values.password === value ? null : (values.password==""?null:"Passwords do not match"),
       phone: (value) =>
         value.toString().length === 10
           ? null
@@ -63,6 +74,7 @@ const WorkerProfile = () => {
 
   const handleUpdate = async (values) => {
     setPno(values.phone);
+    setPassword(values.password);
     updateData();
   };
 
@@ -191,6 +203,23 @@ const WorkerProfile = () => {
                 placeholder="Alloted Zone"
                 size="sm"
                 mb={16}
+                classNames={classes}
+              />
+
+              <PasswordInput
+                label="New Password"
+                placeholder="Your new password"
+                size="sm"
+                mb={16}
+                {...form.getInputProps("password")}
+                classNames={classes}
+              />
+              <PasswordInput
+                label="Confirm new Password"
+                placeholder="Confirm your new password"
+                size="sm"
+                mb={16}
+                {...form.getInputProps("confirmpassword")}
                 classNames={classes}
               />
 
