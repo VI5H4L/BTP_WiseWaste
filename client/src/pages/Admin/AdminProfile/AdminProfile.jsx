@@ -186,21 +186,6 @@ const AdminProfile = () => {
                 mb={16}
                 classNames={classes}
               />
-              <TextInput
-                label="Alloted Zone"
-                disabled
-                value={
-                  !isProfileDataLoading
-                    ? profiledata.zoneAlloted != "na"
-                      ? profiledata.zoneAlloted
-                      : "Not Alloted"
-                    : "Not Alloted"
-                }
-                placeholder="Alloted Zone"
-                size="sm"
-                mb={16}
-                classNames={classes}
-              />
 
               <PasswordInput
                 label="New Password"
