@@ -1,0 +1,64 @@
+.container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding: 16px;
+  }
+}
+
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-family: var(--mantine-font-family);
+}
+
+#btn1 {
+  background-color: var(--mantine-color-green-light);
+}
+
+.mainDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* justify-content: space-evenly; */
+    align-items: center;
+    width: 100%;
+
+    @media (max-width: $mantine-breakpoint-sm) {
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+.leftDiv{
+  margin-right : 16px;
+  @media (max-width: $mantine-breakpoint-sm) {
+    margin-right : 0px;
+    width: 100%;
+  }
+}
+
+.grp {
+  width: 70%;
+  border: 1.5px solid #424242;
+  border-radius: 10px;
+  padding: 10px;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    width: 100%;
+  }
+}
+
+.input {
+    background-color: light-dark(
+      var(--mantine-color-white),
+      var(--mantine-color-dark-7)
+    );
+}

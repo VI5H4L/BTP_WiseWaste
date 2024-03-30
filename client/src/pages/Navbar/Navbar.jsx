@@ -6,6 +6,8 @@ import {
   IconDeviceDesktopAnalytics,
   IconFingerprint,
   IconCalendarStats,
+  IconMap,
+  IconUsersGroup,
   IconUser,
   IconSettings,
   IconLogout,
@@ -93,27 +95,28 @@ export function Navbar() {
     admin: [
       { icon: IconHome2, label: "Home", goto: "/" },
       {
-        icon: IconGauge,
+        icon: IconUsersGroup,
         label: "Zone Allocation",
         goto: "/admin/zoneallocation",
       },
       {
-        icon: IconFingerprint,
+        icon: IconMap,
         label: "Manage Zones",
         goto: "/admin/managezones",
       },
       { icon: IconDeviceDesktopAnalytics, label: "Simulation", goto: "/admin/simulation" },
+      { icon: IconUser, label: "Profile", goto: "/admin/profile" },
     ],
     worker: [
       { icon: IconHome2, label: "Home", goto: "/" },
-      {
-        icon: IconDeviceDesktopAnalytics,
-        label: "Analytics",
-        goto: "/analytics",
-      },
-      { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
+      // {
+      //   icon: IconDeviceDesktopAnalytics,
+      //   label: "Analytics",
+      //   goto: "/analytics",
+      // },
+      // { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
       { icon: IconUser, label: "Profile", goto: "/worker/profile" },
-      { icon: IconSettings, label: "Settings", goto: "/settings" },
+      // { icon: IconSettings, label: "Settings", goto: "/settings" },
     ],
   };
 

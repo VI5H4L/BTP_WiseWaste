@@ -33,6 +33,7 @@ import ManageZones from "./pages/Admin/ManageZones/ManageZones";
 import PrivateRoute from "./PrivateRoute";
 import Simulation from "./pages/Admin/Simulation/Simulation";
 import WorkerProfile from "./pages/Worker/WorkerProfile/WorkerProfile";
+import AdminProfile from "./pages/Admin/AdminProfile/AdminProfile";
 
 setupIonicReact();
 
@@ -164,6 +165,14 @@ function App() {
                 element={
                   <PrivateRoute roles={["admin"]}>
                     <Simulation />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/profile"
+                element={
+                  <PrivateRoute roles={["admin"]}>
+                    <AdminProfile />
                   </PrivateRoute>
                 }
               />
