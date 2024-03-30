@@ -80,10 +80,6 @@ export function Login() {
           "userEmail",
           response.data.user.emailID
         );
-        // localStorage.setItem(
-        //   "userToken",
-        //   response.data.user.token
-        // );
         localStorage.setItem(
           "userName",
           response.data.user.fullName

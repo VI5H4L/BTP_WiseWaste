@@ -1,43 +1,76 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Title,
   useMantineTheme,
   Button,
   TextInput,
   LoadingOverlay,
-  Table,
-  Group,
   Text,
-  ActionIcon,
-  rem,
-  Select,
-  NumberInput,
   Paper,
   Avatar,
   Divider,
 } from "@mantine/core";
-import { IconTrash } from "@tabler/icons-react";
 import Transition from "../../../Transition";
 import classes from "./WorkerProfile.module.css";
 import { useMediaQuery } from "@mantine/hooks";
 import { useGet } from "../../../customHooks/useGet";
-import { usePost } from "../../../customHooks/usePost";
-import { useQueryClient } from "@tanstack/react-query";
+import { usePut } from "../../../customHooks/usePut";
 import { useForm } from "@mantine/form";
-import { useDelete } from "../../../customHooks/useDelete";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const WorkerProfile = () => {
-  const queryClient = useQueryClient();
-
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const [pno, setPno] = useState("");
+
+  const {
+    data: profiledata,
+    isLoading: isProfileDataLoading,
+    refetch,
+  } = useGet({
+    key: "profileget",
+    uri: `${BACKEND_URI}/worker/profile?emailID=${localStorage.getItem(
+      "userEmail"
+    )}`,
+    options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
+  });
+
+  const { mutate: updateData, isPending: isUpdatePending } = usePut({
+    key: "profileupdate",
+    uri: `${BACKEND_URI}/worker/profile?emailID=${localStorage.getItem(
+      "userEmail"
+    )}`,
+    data: { phone: pno },
+    options: {
+      onSuccess: () => {
+        refetch();
+      },
+    },
+  });
+
+  const form = useForm({
+    initialValues: {
+      phone: "9999999999",
+    },
+
+    validate: {
+      phone: (value) =>
+        value.toString().length === 10
+          ? null
+          : "Please enter a valid 10-digit phone number",
+    },
+  });
+
+  const handleUpdate = async (values) => {
+    setPno(values.phone);
+    updateData();
+  };
 
   return (
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={false}
+          visible={isProfileDataLoading || isUpdatePending}
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
@@ -65,7 +98,6 @@ const WorkerProfile = () => {
               withBorder
               radius="md"
               p="lg"
-              mx={16}
               bg="var(--mantine-color-dark-7)"
             >
               <Avatar color="green" radius="md" mx="auto" size={120}>
@@ -74,68 +106,95 @@ const WorkerProfile = () => {
               <Text ta="center" fz="lg" fw={500} mt="md">
                 Vishal Kumar
               </Text>
-              {/* <Text ta="center" c="dimmed" fz="md">
-            vishal.kr2003@gmail.com
-          </Text> */}
               <Divider my={10} />
-              <Text ta="center" c="dimmed" fz="md">
-                vishal.kr2003@gmail.com
+              <Text ta="center" c="dark.2" fz="sm">
+                {!isProfileDataLoading
+                  ? profiledata.emailID
+                  : "hello@gmail.com"}
               </Text>
               <Divider my={10} />
-              <Text ta="center" c="dimmed" fz="md">
-                Zone : Zone A
+              <Text ta="center" c="dark.2" fz="sm">
+                {!isProfileDataLoading
+                  ? profiledata.zoneAlloted != "na"
+                    ? profiledata.zoneAlloted
+                    : "Not Alloted"
+                  : "Not Alloted"}
               </Text>
             </Paper>
           </div>
 
-          <form
-            //   onSubmit={}
-            className={classes.grp}
-          >
-            <TextInput
-              label="Email Address"
-              disabled
-              defaultValue="vishal.kr2003@gmail.com"
-              placeholder="Email ID"
-              size="sm"
-              mb={16}
-              // required
-              // {...form.getInputProps("dustbinID")}
-              classNames={classes}
-            />
-            <TextInput
-              label="Phone"
-            //   disabled
-              defaultValue="9205734004"
-              placeholder="Phone"
-              size="sm"
-              mb={16}
-            //   required
-              // {...form.getInputProps("dustbinID")}
-              classNames={classes}
-            />
-            <TextInput
-              label="Alloted Zone"
-              disabled
-              defaultValue="Not Alloted"
-              placeholder="Alloted Zone"
-              size="sm"
-              mb={16}
-            //   required
-              // {...form.getInputProps("dustbinID")}
-              classNames={classes}
-            />
-        
-            <Button
-              fullWidth
-              loading={false}
-              size="sm"
-              type="submit" // make this button submit the form
-              id={classes.btn1}
+          {true && (
+            <form
+              onSubmit={form.onSubmit((values) => {
+                handleUpdate(values);
+              })}
+              className={classes.grp}
             >
-              Update Profile
-            </Button>
-          </form>
+              <TextInput
+                label="Email Address"
+                disabled
+                value={
+                  !isProfileDataLoading
+                    ? profiledata.emailID
+                    : "hello@gmail.com"
+                }
+                placeholder="Email ID"
+                size="sm"
+                mb={16}
+                classNames={classes}
+              />
+              <TextInput
+                type="tel"
+                label="Phone"
+                required
+                maxLength={10}
+                {...form.getInputProps("phone")}
+                value={
+                  form.values.phone != "9999999999"
+                    ? form.values.phone
+                    : !isProfileDataLoading
+                    ? profiledata.phone
+                    : form.values.phone
+                }
+                onChange={(event) => {
+                  const value = event.target.value;
+                  const isValid = /^\d+$/.test(value); // Check if the input is a number
+                  if (isValid || value == "") {
+                    form.setFieldValue("phone", value);
+                  }
+                }}
+                placeholder="Phone"
+                size="sm"
+                mb={16}
+                classNames={classes}
+              />
+              <TextInput
+                label="Alloted Zone"
+                disabled
+                value={
+                  !isProfileDataLoading
+                    ? profiledata.zoneAlloted != "na"
+                      ? profiledata.zoneAlloted
+                      : "Not Alloted"
+                    : "Not Alloted"
+                }
+                placeholder="Alloted Zone"
+                size="sm"
+                mb={16}
+                classNames={classes}
+              />
+
+              <Button
+                fullWidth
+                loading={isProfileDataLoading || isUpdatePending}
+                size="sm"
+                type="submit" // make this button submit the form
+                id={classes.btn1}
+              >
+                Update Profile
+              </Button>
+            </form>
+          )}
         </div>
       </div>
     </Transition>

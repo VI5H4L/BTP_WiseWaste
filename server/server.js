@@ -40,6 +40,7 @@ app.use("/otp", require("./routes/userOTP.routes"));
 app.use("/emailverify", require("./routes/emailVerify.routes"));
 app.use("/admin", require("./routes/admin.routes"));
 app.use("/dustbin", require("./routes/dustbin.routes"));
+app.use("/worker", require("./routes/worker.routes"));
 
 const startApp = () => {
   app.listen(PORT, () => {

@@ -172,8 +172,8 @@ const ManageZones = () => {
         </form>
 
         {!isLoading && zonedata.zones.length != 0 && (
-          <Table.ScrollContainer className={classes.tblcontainer}>
-            <Table verticalSpacing="sm">
+          <div className={classes.tblcontainer}>
+            <Table stickyHeader verticalSpacing="sm">
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th>
@@ -190,7 +190,7 @@ const ManageZones = () => {
               </Table.Thead>
               <Table.Tbody>{rows}</Table.Tbody>
             </Table>
-          </Table.ScrollContainer>
+          </div>
         )}
       </div>
     </Transition>

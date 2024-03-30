@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <BrowserRouter>
         <RecoilRoot>
           <QueryClientProvider client={queryClient}>
-            <Notifications />
+            <Notifications zIndex={2000}/>
             <App />
           </QueryClientProvider>
         </RecoilRoot>

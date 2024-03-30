@@ -11,17 +11,11 @@ export function Analytics() {
   // const [val,setVal] = useRecoilState(textState);
   // setVal("Analytics")
 
-  const { data, isLoading } = useGet({
-    key: "fact",
-    uri: "https://catfact.ninja/fact",
-    options: { refetchOnWindowFocus: true, refetchInterval: 6000 },
-  });
-
   return (
     <Transition>
       <div style={{ position: "relative", minHeight: "100svh" }}>
         <LoadingOverlay
-          visible={isLoading}
+          visible={false}
           zIndex={1000}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}

@@ -175,6 +175,7 @@ export function Navbar() {
         title="Do you want to Logout?"
         size="md"
         centered
+        zIndex={2000}
       >
         <div>
           <Button
