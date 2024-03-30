@@ -66,6 +66,14 @@ const WorkerProfile = () => {
     updateData();
   };
 
+  function getInitials(fullName) {
+    return fullName
+      .split(" ")
+      .filter((name) => name.length > 0) // filter out empty strings
+      .map((name) => name[0].toUpperCase())
+      .join("");
+  }
+
   return (
     <Transition>
       <div className={classes.container}>
@@ -101,10 +109,12 @@ const WorkerProfile = () => {
               bg="var(--mantine-color-dark-7)"
             >
               <Avatar color="green" radius="md" mx="auto" size={120}>
-                {"VK"}
+                {!isProfileDataLoading
+                  ? getInitials(profiledata.fullName)
+                  : getInitials("Abc Xyz")}
               </Avatar>
               <Text ta="center" fz="lg" fw={500} mt="md">
-                Vishal Kumar
+                {!isProfileDataLoading ? profiledata.fullName : "Abc Xyz"}
               </Text>
               <Divider my={10} />
               <Text ta="center" c="dark.2" fz="sm">
