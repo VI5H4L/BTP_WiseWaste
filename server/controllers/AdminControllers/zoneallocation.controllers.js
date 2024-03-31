@@ -91,7 +91,7 @@ const allotZone = expressAsyncHandler(async (req, res) => {
               }
               .zone-info {
                   display: inline-block;
-                  font-size: 20px;
+                  font-size: 16px;
                   color: #465775;
                   border: 1px solid #465775;
                   padding: 10px 15px;
