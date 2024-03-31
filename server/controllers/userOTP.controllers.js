@@ -1,6 +1,5 @@
 const expressAsyncHandler = require("express-async-handler");
 const express = require("express");
-const router = express.Router();
 
 const { OTP } = require("../models/user.models");
 const generateOTP = require("../utils/generateOTP");

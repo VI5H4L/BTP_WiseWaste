@@ -1,6 +1,6 @@
 const expressAsyncHandler = require("express-async-handler");
 const express = require("express");
-const router = express.Router();
+
 const { ADMIN_EMAIL } = process.env;
 const { User, OTP } = require("../models/user.models");
 const { hashData, verifyHashedData } = require("../utils/hashPassword");

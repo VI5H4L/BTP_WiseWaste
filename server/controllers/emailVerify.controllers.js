@@ -1,6 +1,5 @@
 const expressAsyncHandler = require("express-async-handler");
 const express = require("express");
-const router = express.Router();
 
 const {User} = require("../models/user.models");
 const {
