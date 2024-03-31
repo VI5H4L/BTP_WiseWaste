@@ -1,6 +1,6 @@
 import { Avatar, Text, Group, Card, Select } from "@mantine/core";
 import { IconPhoneCall, IconAt } from "@tabler/icons-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import classes from "./WorkerCard.module.css";
 import { usePut } from "../../../../customHooks/usePut";
 import { useQueryClient } from "@tanstack/react-query";
@@ -11,13 +11,7 @@ const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function WorkerCard({ workerdata, childZones }) {
   const queryClient = useQueryClient();
 
-  const [val, setVal] = useState("");
-
-  useEffect(() => {
-    workerdata.zoneAlloted != "na"
-      ? setVal(workerdata.zoneAlloted)
-      : setVal("");
-  }, [workerdata]);
+  const [val, setVal] = useState();
 
   const optionsFilter = ({ options, search }) => {
     const filtered = options.filter((option) =>
@@ -29,10 +23,10 @@ export function WorkerCard({ workerdata, childZones }) {
   function getInitials(fullName) {
     return fullName
       .split(" ")
-      .filter(name => name.length > 0) // filter out empty strings
+      .filter((name) => name.length > 0) // filter out empty strings
       .map((name) => name[0].toUpperCase())
       .join("");
-  }  
+  }
 
   const { mutate: updateWorkerData } = usePut({
     key: "workerdata",
@@ -45,14 +39,6 @@ export function WorkerCard({ workerdata, childZones }) {
       },
     },
   });
-  useEffect(() => {
-    //Write code for pushing data
-    if (val == undefined) {
-      setVal("na");
-    } else if (val != "") {
-      updateWorkerData();
-    }
-  }, [val, updateWorkerData]);
 
   const handleEmailClick = () => {
     window.open(`mailto:${workerdata.emailID}`);
@@ -83,7 +69,12 @@ export function WorkerCard({ workerdata, childZones }) {
 
             <Group wrap="nowrap" gap={10} mt={3}>
               <IconAt stroke={1.5} size="1rem" className={classes.icon} />
-              <Text fz="sm" c="dimmed" onClick={handleEmailClick} style={{cursor:"pointer"}}>
+              <Text
+                fz="sm"
+                c="dimmed"
+                onClick={handleEmailClick}
+                style={{ cursor: "pointer" }}
+              >
                 {workerdata.emailID}
               </Text>
             </Group>
@@ -94,7 +85,12 @@ export function WorkerCard({ workerdata, childZones }) {
                 size="1rem"
                 className={classes.icon}
               />
-              <Text fz="sm" c="dimmed" onClick={handlePhoneClick} style={{cursor:"pointer"}}>
+              <Text
+                fz="sm"
+                c="dimmed"
+                onClick={handlePhoneClick}
+                style={{ cursor: "pointer" }}
+              >
                 {workerdata.phone}
               </Text>
             </Group>
@@ -107,8 +103,18 @@ export function WorkerCard({ workerdata, childZones }) {
               checkIconPosition="right"
               data={childZones}
               classNames={classes}
-              value={val}
-              onChange={setVal}
+              value={
+                val != undefined
+                  ? val
+                  : workerdata.zoneAlloted != "na"
+                  ? workerdata.zoneAlloted
+                  : ""
+              }
+              onChange={(value) => {
+                if (value == undefined) setVal("na");
+                else setVal(value);
+                updateWorkerData();
+              }}
               filter={optionsFilter}
               nothingFoundMessage="Nothing found..."
               clearable

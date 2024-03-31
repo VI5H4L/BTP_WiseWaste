@@ -14,7 +14,6 @@ export function ZoneAllocation() {
   useBackButton("/");
 
   const [zones, setZones] = useState([]);
-  const [wdata, setwdata] = useState([]);
   const [val, setVal] = useState();
 
   const optionsFilter = ({ options, search }) => {
@@ -39,7 +38,6 @@ export function ZoneAllocation() {
   const {
     data: workersdata,
     isLoading: workerDataLoading,
-    isFetching: workerDataFetching,
     refetch: refetchWorkerData,
   } = useGet({
     key: "wdata",
@@ -54,11 +52,6 @@ export function ZoneAllocation() {
     },
   });
 
-  useEffect(() => {
-    if (!workerDataFetching) {
-      setwdata(workersdata);
-    }
-  }, [workersdata, workerDataFetching]);
   useEffect(() => {
     refetchWorkerData();
   }, [val, refetchWorkerData]);
@@ -106,13 +99,13 @@ export function ZoneAllocation() {
         />
         <Grid grow mt={20}>
           <AnimatePresence mode="popLayout">
-            {!workerDataLoading && wdata.length != 0 ? (
-              wdata.map((worker) => {
+            {!workerDataLoading && workersdata.length != 0 ? (
+              workersdata.map((worker) => {
                 return (
                   <Grid.Col key={worker._id} span={{ base: 12, sm: 6, lg: 4 }}>
                     <WorkerCard
+                      key={`${worker._id}_${worker.zoneAlloted}`}
                       workerdata={worker}
-                      // refetchWorkerData={refetchWorkerData}
                       childZones={!zoneDataLoading && zonedata.zones}
                     />
                   </Grid.Col>
