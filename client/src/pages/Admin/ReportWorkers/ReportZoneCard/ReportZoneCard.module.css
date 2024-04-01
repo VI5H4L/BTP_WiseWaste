@@ -1,0 +1,17 @@
+
+.card {
+  background-color: var(--mantine-data-card-color) !important;
+}
+
+.midDiv{
+  width: 100%;
+}
+.rightDiv{
+  cursor: pointer;
+  color: var(--mantine-secondary-color-body);
+}
+.avatarDiv{
+  @media (max-width: $mantine-breakpoint-sm) {
+    display: none;
+  }
+}

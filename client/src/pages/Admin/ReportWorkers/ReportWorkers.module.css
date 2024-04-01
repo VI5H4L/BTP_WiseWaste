@@ -39,6 +39,13 @@
       width: 100%;
     }
   }
+
+  .gridDiv{
+    width: 70% ;
+    @media (max-width: $mantine-breakpoint-sm) {
+      width: 100%;
+    }
+  }
   
   .tablehead{
       color: white;

@@ -83,7 +83,7 @@ const getFilledZones = expressAsyncHandler(async (req, res) => {
   // If no zones meet the fill criteria, return a message indicating so.
   if (filledZones.length === 0) {
     return res.json({
-      zoneCounts,message: "No zones are currently filled based on the set thresholds.",
+      filledZones,zoneCounts,message: "No zones are currently filled based on the set thresholds.",
     });
   }
 

@@ -4,6 +4,7 @@ import {
   Button,
   LoadingOverlay,
   NumberInput,
+  Grid,
 } from "@mantine/core";
 import Transition from "../../../Transition";
 import classes from "./ReportWorkers.module.css";
@@ -12,6 +13,8 @@ import { useGet } from "../../../customHooks/useGet";
 import { useForm } from "@mantine/form";
 import { usePut } from "../../../customHooks/usePut";
 import { useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ReportZoneCard } from "./ReportZoneCard/ReportZoneCard";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const ReportWorkers = () => {
@@ -41,47 +44,59 @@ const ReportWorkers = () => {
       ) {
         errors.zoneFillThreshold = "% must be an integer between 0 and 100";
       }
-      
+
       return errors;
     },
   });
 
-  const { data: thresholddata, isLoading: isThresholdDataLoading,refetch:refetchThresholdData } = useGet({
+  const {
+    data: thresholddata,
+    isLoading: isThresholdDataLoading,
+    refetch: refetchThresholdData,
+  } = useGet({
     key: "getthresholds",
     uri: `${BACKEND_URI}/admin/reportworkers/getthresholds`,
     options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
 
-  const { data: filledzonesdata, isLoading: isFilledZonesDataLoading,refetch:refetchFilledZonesData } = useGet({
+  const {
+    data: filledzonesdata,
+    isLoading: isFilledZonesDataLoading,
+    refetch: refetchFilledZonesData,
+  } = useGet({
     key: "getzilledzones",
     uri: `${BACKEND_URI}/admin/reportworkers/getfilledzones`,
     options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
-useEffect(() => {
-  if(!isFilledZonesDataLoading){
-    console.log(filledzonesdata);
-  }
-}, [filledzonesdata,isFilledZonesDataLoading])
+  useEffect(() => {
+    if (!isFilledZonesDataLoading) {
+      console.log(filledzonesdata);
+    }
+  }, [filledzonesdata, isFilledZonesDataLoading]);
 
-  const {
-    mutate: updateThresholds,
-    isPending: IsUpdateThresholdsPending,
-  } = usePut({
-    key: "setthresholds",
-    uri: `${BACKEND_URI}/admin/reportworkers/setthresholds`,
-    data: {dustbinFillThreshold : form.values.dustbinFillThreshold ,zoneFillThreshold: form.values.zoneFillThreshold},
-    options: {
-      onSuccess: () => {
-        refetchThresholdData();
+  const { mutate: updateThresholds, isPending: IsUpdateThresholdsPending } =
+    usePut({
+      key: "setthresholds",
+      uri: `${BACKEND_URI}/admin/reportworkers/setthresholds`,
+      data: {
+        dustbinFillThreshold: form.values.dustbinFillThreshold,
+        zoneFillThreshold: form.values.zoneFillThreshold,
       },
-    },
-  });
+      options: {
+        onSuccess: () => {
+          refetchThresholdData();
+          refetchFilledZonesData();
+        },
+      },
+    });
 
   return (
     <Transition>
       <div className={classes.container}>
         <LoadingOverlay
-          visible={false &&( isThresholdDataLoading || IsUpdateThresholdsPending)}
+          visible={
+            false && (isThresholdDataLoading || IsUpdateThresholdsPending)
+          }
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
           loaderProps={{ color: "#8CE99A", type: "bars" }}
@@ -112,7 +127,11 @@ useEffect(() => {
           <NumberInput
             label="Dustbin fill Threshold (%)"
             placeholder={`Current Threshold: ${
-              form.values.dustbinFillThreshold!=""?form.values.dustbinFillThreshold:(!isThresholdDataLoading?thresholddata.dustbinFillThreshold : 80)
+              form.values.dustbinFillThreshold != ""
+                ? form.values.dustbinFillThreshold
+                : !isThresholdDataLoading
+                ? thresholddata.dustbinFillThreshold
+                : 80
             }`}
             size="sm"
             mb={16}
@@ -123,7 +142,11 @@ useEffect(() => {
           <NumberInput
             label="Zone fill Threshold (%)"
             placeholder={`Current Threshold: ${
-              form.values.zoneFillThreshold!=""?form.values.zoneFillThreshold:(!isThresholdDataLoading?thresholddata.zoneFillThreshold : 90)
+              form.values.zoneFillThreshold != ""
+                ? form.values.zoneFillThreshold
+                : !isThresholdDataLoading
+                ? thresholddata.zoneFillThreshold
+                : 90
             }`}
             size="sm"
             mb={16}
@@ -142,6 +165,76 @@ useEffect(() => {
           </Button>
         </form>
 
+        <Title
+          order={mobile ? 5 : 4}
+          className={classes.title}
+          ta="center"
+          td="underline"
+          mt={mobile ? 16 : 24}
+          mb={mobile ? 24 : 32}
+        >
+          {"Filled Zones"}
+        </Title>
+
+        <Grid grow mt={20} className={classes.gridDiv}>
+          <AnimatePresence mode="popLayout">
+            {!isFilledZonesDataLoading &&
+            filledzonesdata.filledZones.length != 0 ? (
+              filledzonesdata.filledZones.map((zone,index) => {
+                return (
+                  <Grid.Col key={`filledzone_${zone}_${index}`}  span={{lg: 12 }}>
+                    {<ReportZoneCard zone={zone}/>}
+                  </Grid.Col>
+                );
+              })
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { delay: 0.2 } }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                No Zone Filled
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Grid>
+
+        {/* <Title
+          order={mobile ? 5 : 4}
+          className={classes.title}
+          ta="center"
+          td="underline"
+          mt={mobile ? 24 : 48}
+          mb={mobile ? 24 : 24}
+        >
+          {"Zone Wise Analytics"}
+        </Title> */}
+
+        {/* <Grid grow mt={20}>
+          <AnimatePresence mode="popLayout">
+            {!isFilledZonesDataLoading ? (
+              filledzonesdata.zoneCounts.map((zonedata,index) => {
+                return (
+                  <Grid.Col key={`zoneCounts_${zonedata}_${index}`} span={{lg: 12 }}>
+                    {<ReportZoneCard zone={zonedata}/>}
+                  </Grid.Col>
+                );
+              })
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { delay: 0.2 } }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                No Zone Filled
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Grid> */}
       </div>
     </Transition>
   );
