@@ -11,6 +11,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useGet } from "../../../customHooks/useGet";
 import { useForm } from "@mantine/form";
 import { usePut } from "../../../customHooks/usePut";
+import { useEffect } from "react";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const ReportWorkers = () => {
@@ -50,6 +51,17 @@ const ReportWorkers = () => {
     uri: `${BACKEND_URI}/admin/reportworkers/getthresholds`,
     options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
+
+  const { data: filledzonesdata, isLoading: isFilledZonesDataLoading,refetch:refetchFilledZonesData } = useGet({
+    key: "getzilledzones",
+    uri: `${BACKEND_URI}/admin/reportworkers/getfilledzones`,
+    options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
+  });
+useEffect(() => {
+  if(!isFilledZonesDataLoading){
+    console.log(filledzonesdata);
+  }
+}, [filledzonesdata,isFilledZonesDataLoading])
 
   const {
     mutate: updateThresholds,
