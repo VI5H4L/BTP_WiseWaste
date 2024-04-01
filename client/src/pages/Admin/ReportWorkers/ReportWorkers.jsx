@@ -194,7 +194,7 @@ const ReportWorkers = () => {
                     key={`filledzone_${zone}_${index}`}
                     span={{ sm: 12, lg: 6 }}
                   >
-                    {<ReportZoneCard zone={zone} />}
+                    {<ReportZoneCard zone={zone} zoneCounts={filledzonesdata.zoneCounts[zone]}  />}
                   </Grid.Col>
                 );
               })
@@ -212,41 +212,6 @@ const ReportWorkers = () => {
             )}
           </AnimatePresence>
         </Grid>
-
-        {/* <Title
-          order={mobile ? 5 : 4}
-          className={classes.title}
-          ta="center"
-          td="underline"
-          mt={mobile ? 24 : 48}
-          mb={mobile ? 24 : 24}
-        >
-          {"Zone Wise Analytics"}
-        </Title> */}
-
-        {/* <Grid grow mt={20}>
-          <AnimatePresence mode="popLayout">
-            {!isFilledZonesDataLoading ? (
-              filledzonesdata.zoneCounts.map((zonedata,index) => {
-                return (
-                  <Grid.Col key={`zoneCounts_${zonedata}_${index}`} span={{lg: 12 }}>
-                    {<ReportZoneCard zone={zonedata}/>}
-                  </Grid.Col>
-                );
-              })
-            ) : (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, transition: { delay: 0.2 } }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeInOut" }}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                No Zone Filled
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </Grid> */}
       </div>
     </Transition>
   );

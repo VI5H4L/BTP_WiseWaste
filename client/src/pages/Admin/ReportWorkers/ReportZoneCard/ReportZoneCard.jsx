@@ -7,7 +7,7 @@ import { notifications } from "@mantine/notifications";
 // const mobile = window.screen.width < 768;
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
-export function ReportZoneCard({ zone }) {
+export function ReportZoneCard({ zone,zoneCounts }) {
 
   const { mutate: reportWorkers, isError,error,isPending: IsReportWorkersPending } =
   usePost({
@@ -80,6 +80,16 @@ export function ReportZoneCard({ zone }) {
             <Text fz="md" fw={700} className={classes.name}>
               {zone}
             </Text>
+
+            <Group wrap="nowrap" gap={10} mt={3}>
+              <Text
+                fz="sm"
+                c="dimmed"
+                style={{ cursor: "pointer" }}
+              >
+                {`${zone} is ${zoneCounts.percentageFilled}% filled`}
+              </Text>
+            </Group>
             
           </div>
           <div onClick={handleReportClick} className={classes.rightDiv}>
