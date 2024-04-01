@@ -30,7 +30,7 @@ export function ReportZoneCard({ zone,zoneCounts }) {
   useEffect(() => {
     if(!IsReportWorkersPending){
       if(isError){
-        if(error.response.status ==404 && error.response.data.message =="No workers are allotted to zone GH"){
+        if(error.response.status ==404 && error.response.data.message ==`No workers are allotted to zone ${zone}`){
           notifications.show({
             title: "Cannot Report",
             message: `No workers are allotted to ${zone}`,
