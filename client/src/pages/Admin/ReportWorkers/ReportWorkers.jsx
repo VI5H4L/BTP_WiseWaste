@@ -182,7 +182,7 @@ const ReportWorkers = () => {
             filledzonesdata.filledZones.length != 0 ? (
               filledzonesdata.filledZones.map((zone,index) => {
                 return (
-                  <Grid.Col key={`filledzone_${zone}_${index}`}  span={{lg: 12 }}>
+                  <Grid.Col key={`filledzone_${zone}_${index}`}  span={{sm:12,lg: 6}}>
                     {<ReportZoneCard zone={zone}/>}
                   </Grid.Col>
                 );
@@ -194,6 +194,7 @@ const ReportWorkers = () => {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
                 style={{ whiteSpace: "nowrap" }}
+                className={classes.noZoneDiv}
               >
                 No Zone Filled
               </motion.div>

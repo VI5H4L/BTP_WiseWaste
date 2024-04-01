@@ -51,3 +51,11 @@
       color: white;
       /* color: var(--mantine-secondary-color-body); */
   }
+  .noZoneDiv{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    white-space: "nowrap";
+    text-align: center;
+  }
