@@ -1,10 +1,55 @@
 import { Avatar, Text, Group, Card } from "@mantine/core";
-import { IconPhoneCall, IconAt } from "@tabler/icons-react";
 import classes from "./ReportZoneCard.module.css";
+import { usePost } from "../../../../customHooks/usePost";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { notifications } from "@mantine/notifications";
 // const mobile = window.screen.width < 768;
 
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 export function ReportZoneCard({ zone }) {
+
+  const { mutate: reportWorkers, isError,error,isPending: IsReportWorkersPending } =
+  usePost({
+    key: "reportworkers",
+    uri: `${BACKEND_URI}/admin/reportworkers`,
+    data: {
+      zone
+    },
+    options: {
+      onSuccess: () => {
+        notifications.show({
+          title: "Workers Reported Successfully",
+          message: `Reported All Workers of ${zone}`,
+          color: "var(--mantine-secondary-color-body)",
+          withBorder: "true",
+        });
+      },
+    },
+  });
+  useEffect(() => {
+    if(!IsReportWorkersPending){
+      if(isError){
+        if(error.response.status ==404 && error.response.data.message =="No workers are allotted to zone GH"){
+          notifications.show({
+            title: "Cannot Report",
+            message: `No workers are allotted to ${zone}`,
+            color: "red",
+            withBorder: "true",
+          });
+        }
+        else{ console.log(error);
+          notifications.show({
+            title: "Server Error Occured",
+            message: `Reporting Failed!`,
+            color: "red",
+            withBorder: "true",
+          });
+        }
+      }
+    }
+  }, [IsReportWorkersPending,zone,isError,error])
+  
 
   function getInitials(fullName) {
     return fullName
@@ -15,7 +60,7 @@ export function ReportZoneCard({ zone }) {
   }
 
   const handleReportClick =()=>{
-    alert(`Reported ${zone}`)
+    reportWorkers();
   };
   return (
     <motion.div

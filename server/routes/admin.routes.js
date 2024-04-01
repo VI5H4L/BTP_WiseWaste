@@ -22,7 +22,7 @@ const {
 } = require("../controllers/AdminControllers/requests.controllers");
 
 const {verifyAdminToken} = require("../middleware/auth");
-const { getThresholds, setThresholds, getFilledZones } = require("../controllers/AdminControllers/reportworkers.controllers");
+const { getThresholds, setThresholds, getFilledZones, reportWorkersOfZone } = require("../controllers/AdminControllers/reportworkers.controllers");
 
 
 router.route("/approve").get(approveRequest);
@@ -42,6 +42,7 @@ router.route("/handledeletezone").put(verifyAdminToken,handleDeleteZone);
 router.route("/reportworkers/getthresholds").get(verifyAdminToken,getThresholds);
 router.route("/reportworkers/setthresholds").put(verifyAdminToken,setThresholds);
 router.route("/reportworkers/getfilledzones").get(verifyAdminToken,getFilledZones);
+router.route("/reportworkers").post(verifyAdminToken,reportWorkersOfZone);
 
 module.exports = router;
 

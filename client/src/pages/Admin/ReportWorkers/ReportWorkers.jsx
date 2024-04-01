@@ -95,7 +95,9 @@ const ReportWorkers = () => {
       <div className={classes.container}>
         <LoadingOverlay
           visible={
-            false && (isThresholdDataLoading || IsUpdateThresholdsPending)
+            isThresholdDataLoading ||
+            IsUpdateThresholdsPending ||
+            isFilledZonesDataLoading
           }
           zIndex={10}
           transitionProps={{ transition: "fade", duration: "500" }}
@@ -126,6 +128,9 @@ const ReportWorkers = () => {
         >
           <NumberInput
             label="Dustbin fill Threshold (%)"
+            allowDecimal={false}
+            allowNegative={false}
+            description={"Means a dustbin is considered filled if its filled above this Threshold"}
             placeholder={`Current Threshold: ${
               form.values.dustbinFillThreshold != ""
                 ? form.values.dustbinFillThreshold
@@ -141,6 +146,9 @@ const ReportWorkers = () => {
           />
           <NumberInput
             label="Zone fill Threshold (%)"
+            description={"Means a zone is considered filled if % of dustbins filled in that zone is above this Threshold"}
+            allowDecimal={false}
+            allowNegative={false}
             placeholder={`Current Threshold: ${
               form.values.zoneFillThreshold != ""
                 ? form.values.zoneFillThreshold
@@ -156,7 +164,7 @@ const ReportWorkers = () => {
           />
           <Button
             fullWidth
-            loading={isThresholdDataLoading || IsUpdateThresholdsPending}
+            loading={isThresholdDataLoading || IsUpdateThresholdsPending || isFilledZonesDataLoading}
             size="sm"
             type="submit" // make this button submit the form
             id={classes.btn1}
@@ -173,17 +181,20 @@ const ReportWorkers = () => {
           mt={mobile ? 16 : 24}
           mb={mobile ? 24 : 32}
         >
-          {"Filled Zones"}
+          {"Filled Zones based on thresholds"}
         </Title>
 
         <Grid grow mt={20} className={classes.gridDiv}>
           <AnimatePresence mode="popLayout">
             {!isFilledZonesDataLoading &&
             filledzonesdata.filledZones.length != 0 ? (
-              filledzonesdata.filledZones.map((zone,index) => {
+              filledzonesdata.filledZones.map((zone, index) => {
                 return (
-                  <Grid.Col key={`filledzone_${zone}_${index}`}  span={{sm:12,lg: 6}}>
-                    {<ReportZoneCard zone={zone}/>}
+                  <Grid.Col
+                    key={`filledzone_${zone}_${index}`}
+                    span={{ sm: 12, lg: 6 }}
+                  >
+                    {<ReportZoneCard zone={zone} />}
                   </Grid.Col>
                 );
               })
