@@ -11,6 +11,7 @@ import {
   IconUser,
   IconSettings,
   IconLogout,
+  IconReport,
   // IconSwitchHorizontal,
 } from "@tabler/icons-react";
 import classes from "./Navbar.module.css";
@@ -105,6 +106,7 @@ export function Navbar() {
         goto: "/admin/managezones",
       },
       { icon: IconDeviceDesktopAnalytics, label: "Simulation", goto: "/admin/simulation" },
+      { icon: IconReport, label: "Report Workers", goto: "/admin/reportworkers" },
       { icon: IconUser, label: "Profile", goto: "/admin/profile" },
     ],
     worker: [

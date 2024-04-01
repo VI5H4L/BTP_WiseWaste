@@ -34,6 +34,7 @@ import PrivateRoute from "./PrivateRoute";
 import Simulation from "./pages/Admin/Simulation/Simulation";
 import WorkerProfile from "./pages/Worker/WorkerProfile/WorkerProfile";
 import AdminProfile from "./pages/Admin/AdminProfile/AdminProfile";
+import ReportWorkers from "./pages/Admin/ReportWorkers/ReportWorkers";
 
 setupIonicReact();
 
@@ -165,6 +166,14 @@ function App() {
                 element={
                   <PrivateRoute roles={["admin"]}>
                     <Simulation />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/reportworkers"
+                element={
+                  <PrivateRoute roles={["admin"]}>
+                    <ReportWorkers />
                   </PrivateRoute>
                 }
               />

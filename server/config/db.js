@@ -3,6 +3,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 // const {User} = require("../models/user.models");
 const {ManageZone} = require("../models/managezone.models");
+const {FillThresholds}= require("../models/fillthresholds.models");
 
 const { BTP_URI } = process.env;
 
@@ -11,6 +12,14 @@ async function initManageZone() {
   if(count === 0) {
       const zone = new ManageZone({ zones: [] });
       await zone.save();
+      // Creating Initial ManageZone document
+  }
+}
+async function initReportWorkers() {
+  const count = await FillThresholds.countDocuments();
+  if(count === 0) {
+      const threshold = new FillThresholds({ id:1,dustbinFillThreshold : 80 ,zoneFillThreshold :90 });
+      await threshold.save();
       // Creating Initial ManageZone document
   }
 }
@@ -24,6 +33,7 @@ const connectToDB = async() => {
         console.log("DB Connected");
 
         initManageZone();
+        initReportWorkers();
         // cron.schedule('*/10 * * * *', async () => {
         //     try {
         //         console.log("success 333");
