@@ -140,15 +140,18 @@ const Simulation = () => {
           className={classes.grp}
         >
           <TextInput
-            placeholder="Enter unique Dustbin ID"
+          label="Enter unique Dustbin ID"
+          description="Each dustbin should have an unique ID"
+          required
+            placeholder="DUSID1"
             size="sm"
             mb={16}
-            required
             {...form.getInputProps("dustbinID")}
             className={classes.input}
           />
           <NumberInput
-            placeholder="Enter Dustbin's filled %"
+          label="Enter Dustbin's filled %"
+            placeholder="x%"
             allowDecimal={false}
             allowNegative={false}
             size="sm"
@@ -160,7 +163,8 @@ const Simulation = () => {
           <Select
             size="sm"
             radius="sm"
-            placeholder="Choose Dustbin's zone"
+            label="Choose Dustbin's zone"
+            placeholder="Click to choose"
             checkIconPosition="right"
             data={!isZoneDataLoading && zonedata.zones}
             mb={16}

@@ -152,7 +152,9 @@ const ManageZones = () => {
 
         <form onSubmit={handleAddZone} className={classes.grp}>
           <TextInput
-            placeholder="Enter Zone name to add"
+            label="Enter Zone name to add"
+            required
+            placeholder="Zone ABC"
             size="sm"
             mb={16}
             value={newZone}
