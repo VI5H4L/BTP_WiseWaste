@@ -11,6 +11,9 @@
     padding: 16px;
   }
 }
+.gridDiv{
+  width: 100% ;
+}
 .title {
   color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
 }

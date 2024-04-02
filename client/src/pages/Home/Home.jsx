@@ -48,7 +48,7 @@ export function Home() {
           {`Dustbin Data Status`}
         </Title>
 
-        <Grid grow>
+        <Grid grow className={classes.gridDiv}>
           <AnimatePresence mode="popLayout">
             {!dustbinDataLoading && dustbinData.length != 0 ? (
               dustbinData.map((dustbin) => {

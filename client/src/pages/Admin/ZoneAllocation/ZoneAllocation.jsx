@@ -97,7 +97,7 @@ export function ZoneAllocation() {
           searchable={mobile ? false : true}
           clearable
         />
-        <Grid grow mt={20}>
+        <Grid grow mt={20} className={classes.gridDiv}>
           <AnimatePresence mode="popLayout">
             {!workerDataLoading && workersdata.length != 0 ? (
               workersdata.map((worker) => {
