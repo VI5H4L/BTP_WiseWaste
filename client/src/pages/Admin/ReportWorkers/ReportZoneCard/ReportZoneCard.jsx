@@ -85,7 +85,6 @@ export function ReportZoneCard({ zone,zoneCounts }) {
               <Text
                 fz="sm"
                 c="dimmed"
-                style={{ cursor: "pointer" }}
               >
                 {`${zone} is ${zoneCounts.percentageFilled}% filled`}
               </Text>

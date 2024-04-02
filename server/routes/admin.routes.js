@@ -5,6 +5,7 @@ const {
   getSimulationData,
   postSimulationData,
   delSimulationData,
+  putSimulationData,
 } = require("../controllers/AdminControllers/simulation.controllers");
 
 const {
@@ -30,6 +31,7 @@ router.route("/reject").get(rejectRequest);
 
 router.route("/simulation").get(verifyAdminToken,getSimulationData);
 router.route("/simulation").post(verifyAdminToken,postSimulationData);
+router.route("/simulation").put(verifyAdminToken,putSimulationData);
 router.route("/simulation").delete(verifyAdminToken,delSimulationData);
 
 router.route("/getworkers").get(verifyAdminToken,getWorkers);

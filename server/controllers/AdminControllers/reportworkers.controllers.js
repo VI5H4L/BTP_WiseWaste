@@ -128,7 +128,7 @@ const reportWorkersOfZone = expressAsyncHandler(async (req, res) => {
 
     const mailOptions = {
       from: ZONE_REPORTING_AUTH_EMAIL,
-      subject: `Clean Zone ${zone}`,
+      subject: `Clean Zone: ${zone}`,
       html: `
       <!DOCTYPE html>
       <html lang="en">
@@ -186,7 +186,7 @@ const reportWorkersOfZone = expressAsyncHandler(async (req, res) => {
                   <h2>Wise Waste!</h2>
               </div>
               <div class="email-body">
-                  <p>Zone ${zone} is filled and it should be cleaned.</p>
+                  <p>Zone: ${zone} is filled and it should be cleaned.</p>
                   <div class="zone-info">${zone}</div>
               </div>
               <div class="email-footer">

@@ -37,6 +37,34 @@ const postSimulationData = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const putSimulationData = expressAsyncHandler(async (req, res) => {
+  const { percentage } = req.body;
+  const { dustbinID } = req.query;
+
+  // Validate the input
+  if ((percentage==undefined) || !dustbinID) {
+    return res.status(400).send({ message: 'Percentage and Dustbin ID are required.' });
+  }
+
+  try {
+    // Find the dustbin and update it
+    const dustbin = await Dustbin.findOneAndUpdate(
+      { dustbinID: dustbinID },
+      { percentage: percentage },
+      { new: true } // This option returns the updated document
+    );
+
+    if (!dustbin) {
+      return res.status(404).send({ message: 'Dustbin not found.' });
+    }
+
+    res.send(dustbin);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+
 const delSimulationData = expressAsyncHandler(async (req, res) => {
   const { dustbinID } = req.query;
 
@@ -68,4 +96,4 @@ const delSimulationData = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { postSimulationData, getSimulationData, delSimulationData };
+module.exports = { postSimulationData, getSimulationData, delSimulationData,putSimulationData };

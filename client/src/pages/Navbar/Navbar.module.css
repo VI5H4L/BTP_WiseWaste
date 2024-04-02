@@ -9,6 +9,7 @@
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
   overflow: auto;
   overflow-x: hidden;
+  background-color: #1f1f1f;
 
   @media (max-width: $mantine-breakpoint-xs) {
     overflow: hidden;

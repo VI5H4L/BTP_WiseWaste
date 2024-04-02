@@ -5,15 +5,10 @@ import {
   Button,
   TextInput,
   LoadingOverlay,
-  Table,
-  Group,
-  Text,
-  ActionIcon,
-  rem,
   Select,
   NumberInput,
+  Grid,
 } from "@mantine/core";
-import { IconTrash } from "@tabler/icons-react";
 import Transition from "../../../Transition";
 import classes from "./Simulation.module.css";
 import { useMediaQuery } from "@mantine/hooks";
@@ -21,7 +16,8 @@ import { useGet } from "../../../customHooks/useGet";
 import { usePost } from "../../../customHooks/usePost";
 import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "@mantine/form";
-import { useDelete } from "../../../customHooks/useDelete";
+import { motion, AnimatePresence } from "framer-motion";
+import { SimulationCard } from "./SimulationCard/SimulationCard";
 
 const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
 const Simulation = () => {
@@ -30,7 +26,6 @@ const Simulation = () => {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
-  const [dustbinToBeDeleted, setDustbinToBeDeleted] = useState("");
   const [dustbinData, setDustbinData] = useState({});
 
   const form = useForm({
@@ -79,16 +74,6 @@ const Simulation = () => {
     options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
   });
 
-  const { mutate: deletedata, isPending: isDeletionPending } = useDelete({
-    key: "simulationdel",
-    uri: `${BACKEND_URI}/admin/simulation?dustbinID=${dustbinToBeDeleted}`,
-    options: {
-      onSuccess: () => {
-        refetch();
-      },
-    },
-  });
-
   const {
     mutate: postData,
     isPending: isPostingPending,
@@ -121,48 +106,6 @@ const Simulation = () => {
     setDustbinData(values);
     postData();
   };
-
-  const handleDeleteZone = (dustbinID) => {
-    setDustbinToBeDeleted(dustbinID);
-    deletedata();
-  };
-
-  const rows =
-    !isgetDataLoading &&
-    simulationdata.length != 0 &&
-    simulationdata.map((dustbindata) => (
-      <Table.Tr key={dustbindata.dustbinID}>
-        <Table.Td>
-          <Group>
-            <Text fz="sm" fw={500}>
-              {dustbindata.dustbinID}
-            </Text>
-          </Group>
-        </Table.Td>
-        <Table.Td>
-          <Group justify="center">
-            <Text fz="sm" fw={500}>
-              {dustbindata.percentage}
-            </Text>
-          </Group>
-        </Table.Td>
-
-        <Table.Td>
-          <Group justify="flex-end">
-            <ActionIcon
-              variant="subtle"
-              color="red"
-              onClick={() => handleDeleteZone(dustbindata.dustbinID)}
-            >
-              <IconTrash
-                style={{ width: rem(20), height: rem(20) }}
-                stroke={1.5}
-              />
-            </ActionIcon>
-          </Group>
-        </Table.Td>
-      </Table.Tr>
-    ));
 
   return (
     <Transition>
@@ -205,7 +148,9 @@ const Simulation = () => {
             className={classes.input}
           />
           <NumberInput
-            placeholder="Enter Dustbin's % filled"
+            placeholder="Enter Dustbin's filled %"
+            allowDecimal={false}
+            allowNegative={false}
             size="sm"
             mb={16}
             required
@@ -227,41 +172,47 @@ const Simulation = () => {
           />
           <Button
             fullWidth
-            loading={isgetDataLoading || isDeletionPending || isPostingPending}
+            loading={isgetDataLoading || isPostingPending}
             size="sm"
-            type="submit" // make this button submit the form
+            type="submit"
             id={classes.btn1}
           >
             Add Dustbin
           </Button>
         </form>
 
-        {!isgetDataLoading && simulationdata.length != 0 && (
-          <div className={classes.tblcontainer}>
-            <Table stickyHeader verticalSpacing="sm">
-              <Table.Thead>
-                <Table.Tr>
-                  <Table.Th>
-                    <Title className={classes.tablehead} order={6}>
-                      ID
-                    </Title>
-                  </Table.Th>
-                  <Table.Th>
-                    <Title className={classes.tablehead} order={6} ta="center">
-                      %
-                    </Title>
-                  </Table.Th>
-                  <Table.Th>
-                    <Title className={classes.tablehead} order={6} ta="right">
-                      Delete
-                    </Title>
-                  </Table.Th>
-                </Table.Tr>
-              </Table.Thead>
-              <Table.Tbody>{rows}</Table.Tbody>
-            </Table>
-          </div>
-        )}
+        <Grid grow mt={20} className={classes.gridDiv}>
+          <AnimatePresence mode="popLayout">
+            {!isgetDataLoading && simulationdata.length != 0 ? (
+              simulationdata.map((dustbindata) => {
+                return (
+                  <Grid.Col
+                    key={dustbindata.dustbinID}
+                    span={{ sm: 12, lg: 6 }}
+                  >
+                    {
+                      <SimulationCard
+                        dustbindata={dustbindata}
+                        refetch={refetch}
+                      />
+                    }
+                  </Grid.Col>
+                );
+              })
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { delay: 0.2 } }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                style={{ whiteSpace: "nowrap" }}
+                className={classes.noDustbinDiv}
+              >
+                No Dustbins
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Grid>
       </div>
     </Transition>
   );

@@ -32,15 +32,18 @@
     width: 100%;
   }
 }
-.tblcontainer {
-  width: 70%;
 
+.gridDiv{
+  width: 70% ;
   @media (max-width: $mantine-breakpoint-sm) {
     width: 100%;
   }
 }
-
-.tablehead{
-    color: white;
-    /* color: var(--mantine-secondary-color-body); */
+.noDustbinDiv{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  white-space: "nowrap";
+  text-align: center;
 }
