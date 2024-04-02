@@ -66,7 +66,7 @@ export function Home() {
                 transition={{ duration: 0.2, ease: "easeInOut" }}
                 style={{ whiteSpace: "nowrap" }}
               >
-                No Dustbin Found
+                No Dustbins Found
               </motion.div>
             )}
           </AnimatePresence>
