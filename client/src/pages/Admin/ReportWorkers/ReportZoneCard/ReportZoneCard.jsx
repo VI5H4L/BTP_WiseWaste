@@ -1,4 +1,4 @@
-import { Avatar, Text, Group, Card } from "@mantine/core";
+import { Avatar, Text, Group, Card, Loader } from "@mantine/core";
 import classes from "./ReportZoneCard.module.css";
 import { usePost } from "../../../../customHooks/usePost";
 import { motion } from "framer-motion";
@@ -93,9 +93,10 @@ export function ReportZoneCard({ zone,zoneCounts }) {
             
           </div>
           <div onClick={handleReportClick} className={classes.rightDiv}>
+            {IsReportWorkersPending?<Loader size={24} type="dots" color="var(--mantine-secondary-color-body)"/> :
             <Text fz="md" fw={700} className={classes.name}>
               {"Report"}
-            </Text>
+            </Text>}
           </div>
         </Group>
       </Card>
