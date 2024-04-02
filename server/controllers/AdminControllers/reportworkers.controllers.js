@@ -3,7 +3,25 @@ const { FillThresholds } = require("../../models/fillthresholds.models");
 const { Dustbin } = require("../../models/dustbin.models");
 const { User } = require("../../models/user.models");
 const sendEmail = require("../../utils/sendEmail");
-const { ZONE_REPORTING_AUTH_EMAIL } = process.env;
+const { ZONE_REPORTING_AUTH_EMAIL,TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN } = process.env;
+
+const twilio = require('twilio');
+const accountSid = TWILIO_ACCOUNT_SID;
+const authToken = TWILIO_AUTH_TOKEN;
+const client = new twilio(accountSid, authToken);
+
+const sendSMS = async (body, to) => {
+  try {
+      await client.messages.create({
+          body: body,
+          to: to,  // User's phone number
+          from: "+13342768479" // Your Twilio number
+      });
+      console.log("Message sent");
+  } catch (error) {
+      console.error(error);
+  }
+};
 
 const getThresholds = expressAsyncHandler(async (req, res) => {
   try {
@@ -185,6 +203,7 @@ const reportWorkersOfZone = expressAsyncHandler(async (req, res) => {
       await sendEmail(mailOptions);
     });
 
+    // sendSMS(`Emails sent to workers of zone ${zone}`,"+919205734004");
     res.status(200).json({ message: `Emails sent to workers of zone ${zone}` });
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
