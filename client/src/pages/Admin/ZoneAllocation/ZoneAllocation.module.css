@@ -33,4 +33,12 @@
 .gridDiv{
   width: 100%;
 }
+.noWorkerDiv{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  white-space: "nowrap";
+  text-align: center;
+}
 

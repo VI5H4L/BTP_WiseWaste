@@ -64,7 +64,7 @@ export function Home() {
                 animate={{ opacity: 1, transition: { delay: 0.2 } }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
-                style={{ whiteSpace: "nowrap" }}
+                className={classes.noDustbinDiv}
               >
                 No Dustbins Found
               </motion.div>
