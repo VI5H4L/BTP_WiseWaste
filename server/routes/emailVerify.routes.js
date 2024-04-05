@@ -41,7 +41,7 @@ router.route("/verify_email").post(async (req, res) => {
     const mailOptionsUser = {
       from: REQUESTS_AUTH_EMAIL,
       to: ADMIN_EMAIL,
-      subject: `Approval Request for user: ${emailID}`,
+      subject: `${emailID} : Worker Approval Request`,
       //   html: `A new worker has registered. <a href="${approvalLink}">Approve</a> or <a href="${rejectLink}">Reject</a>.`,
       html: `
             <!DOCTYPE html>
@@ -102,7 +102,7 @@ router.route("/verify_email").post(async (req, res) => {
                 <h2>Wise Waste!</h2>
             </div>
             <div class="email-body">
-                <p>A new user ${emailID} has registered.</p>
+                <p>A new worker : ${emailID} has registered.</p>
                 <div class="action-links">
                     <a class="anchor" href="${approvalLink}">Approve</a> or 
                     <a class="anchor" href="${rejectLink}">Reject</a>
