@@ -22,7 +22,7 @@ const {
   rejectRequest,
 } = require("../controllers/AdminControllers/requests.controllers");
 
-const {verifyAdminToken} = require("../middleware/auth");
+const {verifyAdminToken,verifyToken} = require("../middleware/auth");
 const { getThresholds, setThresholds, getFilledZones, reportWorkersOfZone } = require("../controllers/AdminControllers/reportworkers.controllers");
 
 
@@ -37,7 +37,7 @@ router.route("/simulation").delete(verifyAdminToken,delSimulationData);
 router.route("/getworkers").get(verifyAdminToken,getWorkers);
 router.route("/allotzone").put(verifyAdminToken,allotZone);
 
-router.route("/managezoneget").get(verifyAdminToken,manageZoneGet);
+router.route("/managezoneget").get(verifyToken,manageZoneGet);
 router.route("/managezoneput").put(verifyAdminToken,manageZonePut);
 router.route("/handledeletezone").put(verifyAdminToken,handleDeleteZone);
 

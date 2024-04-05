@@ -1,0 +1,49 @@
+.container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding: 16px;
+  }
+}
+
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-family: var(--mantine-font-family);
+}
+
+#btn1 {
+  background-color: var(--mantine-color-green-light);
+}
+
+.grp {
+  width: 70%;
+  border: 1.5px solid #424242;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 24px;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    width: 100%;
+  }
+}
+
+.gridDiv{
+  width: 70% ;
+  @media (max-width: $mantine-breakpoint-sm) {
+    width: 100%;
+  }
+}
+.noDustbinDiv{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  white-space: "nowrap";
+  text-align: center;
+}

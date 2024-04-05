@@ -5,7 +5,6 @@ import { Navbar } from "./pages/Navbar/Navbar";
 import { setupIonicReact } from "@ionic/react";
 import { Routes, Route } from "react-router-dom";
 import classes from "./Layouts/AppLayout.module.css";
-import { Analytics } from "./pages/Analytics";
 import { ZoneAllocation } from "./pages/Admin/ZoneAllocation/ZoneAllocation";
 import { Error } from "./pages/Error";
 import { StatusBar } from "@capacitor/status-bar";
@@ -35,6 +34,7 @@ import Simulation from "./pages/Admin/Simulation/Simulation";
 import WorkerProfile from "./pages/Worker/WorkerProfile/WorkerProfile";
 import AdminProfile from "./pages/Admin/AdminProfile/AdminProfile";
 import ReportWorkers from "./pages/Admin/ReportWorkers/ReportWorkers";
+import MaintenanceRequest from "./pages/Worker/MaintenanceRequest/MaintenanceRequest";
 
 setupIonicReact();
 
@@ -130,14 +130,6 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route
-                path="/analytics"
-                element={
-                  <PrivateRoute roles={["worker"]}>
-                    <Analytics />
-                  </PrivateRoute>
-                }
-              />
-              <Route
                 path="/worker/profile"
                 element={
                   <PrivateRoute roles={["worker"]}>
@@ -146,7 +138,15 @@ function App() {
                 }
               />
               <Route
-                path="/admin/zoneallocation"
+                path="/worker/maintenance-request"
+                element={
+                  <PrivateRoute roles={["worker"]}>
+                    <MaintenanceRequest />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/zone-allocation"
                 element={
                   <PrivateRoute roles={["admin"]}>
                     <ZoneAllocation />
@@ -154,7 +154,7 @@ function App() {
                 }
               />
               <Route
-                path="/admin/managezones"
+                path="/admin/manage-zones"
                 element={
                   <PrivateRoute roles={["admin"]}>
                     <ManageZones />
@@ -170,7 +170,7 @@ function App() {
                 }
               />
               <Route
-                path="/admin/reportworkers"
+                path="/admin/report-workers"
                 element={
                   <PrivateRoute roles={["admin"]}>
                     <ReportWorkers />

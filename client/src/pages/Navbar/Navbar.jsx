@@ -2,16 +2,13 @@ import { useState, useEffect } from "react";
 import { Center, Tooltip, UnstyledButton, Stack, rem } from "@mantine/core";
 import {
   IconHome2,
-  IconGauge,
   IconDeviceDesktopAnalytics,
-  IconFingerprint,
-  IconCalendarStats,
   IconMap,
   IconUsersGroup,
   IconUser,
-  IconSettings,
   IconLogout,
   IconReport,
+  IconMessageReport,
   // IconSwitchHorizontal,
 } from "@tabler/icons-react";
 import classes from "./Navbar.module.css";
@@ -98,24 +95,24 @@ export function Navbar() {
       {
         icon: IconUsersGroup,
         label: "Zone Allocation",
-        goto: "/admin/zoneallocation",
+        goto: "/admin/zone-allocation",
       },
       {
         icon: IconMap,
         label: "Manage Zones",
-        goto: "/admin/managezones",
+        goto: "/admin/manage-zones",
       },
       { icon: IconDeviceDesktopAnalytics, label: "Simulation", goto: "/admin/simulation" },
-      { icon: IconReport, label: "Report Workers", goto: "/admin/reportworkers" },
+      { icon: IconReport, label: "Report Workers", goto: "/admin/report-workers" },
       { icon: IconUser, label: "Profile", goto: "/admin/profile" },
     ],
     worker: [
       { icon: IconHome2, label: "Home", goto: "/" },
-      // {
-      //   icon: IconDeviceDesktopAnalytics,
-      //   label: "Analytics",
-      //   goto: "/analytics",
-      // },
+      {
+        icon: IconMessageReport,
+        label: "Maintenance Requests",
+        goto: "/worker/maintenance-request",
+      },
       // { icon: IconCalendarStats, label: "Releases", goto: "/releases" },
       { icon: IconUser, label: "Profile", goto: "/worker/profile" },
       // { icon: IconSettings, label: "Settings", goto: "/settings" },
