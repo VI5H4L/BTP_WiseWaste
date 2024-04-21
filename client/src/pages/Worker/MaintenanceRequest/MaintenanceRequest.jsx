@@ -73,9 +73,6 @@ const MaintenanceRequest = () => {
     data: {...formData, reporterID:localStorage.getItem("userEmail")},
     options: {
       onSuccess: () => {
-        console.log('====================================');
-        console.log("Success");
-        console.log('====================================');
         notifications.show({
           title: "Request Successful",
           message: "Request Sent successfully!!",

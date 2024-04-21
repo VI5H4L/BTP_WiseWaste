@@ -1,7 +1,7 @@
 const express = require('express');
-const { getDustbinStatus } = require('../controllers/dustbin.controllers');
+const { updateDustbinFromThingSpeak,getDustbinStatus } = require('../controllers/dustbin.controllers');
 const router = express.Router();
 
-router.route('/status').get(getDustbinStatus);
+router.route('/status').get(updateDustbinFromThingSpeak,getDustbinStatus);
 
 module.exports = router;
