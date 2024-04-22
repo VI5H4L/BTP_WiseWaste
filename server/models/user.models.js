@@ -36,7 +36,7 @@ const UserSchema = new Schema({
     },
     role :{
         type: String,
-        default: "user",
+        default: "worker",
     },
     registeredTime: {
         type: Date,
