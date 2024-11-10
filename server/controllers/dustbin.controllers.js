@@ -11,14 +11,14 @@ const updateDustbinFromThingSpeak = expressAsyncHandler(
       console.log(response.data);
       const percentage = parseInt(response.data.feeds[0].field1);
       console.log(percentage);
-      const dustbin = await Dustbin.findOne({ dustbinID: "IDTG11" });
+      const dustbin = await Dustbin.findOne({ dustbinID: "WW_BTP" });
       if (dustbin) {
         dustbin.percentage = percentage;
         dustbin.zone = "Zone X";
         await dustbin.save();
       } else {
         const newDustbin = new Dustbin({
-          dustbinID: "IDTG11",
+          dustbinID: "WW_BTP",
           percentage: 0, // or any value you want
           zone: "Zone X",
         });
