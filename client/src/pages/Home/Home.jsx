@@ -19,7 +19,7 @@ export function Home() {
   const { data: dustbinData, isLoading: dustbinDataLoading } = useGet({
     key: "dustbindata",
     uri: `${BACKEND_URI}/dustbin/status`,
-    options: { refetchOnWindowFocus: true, refetchInterval: 10000 },
+    options: { refetchOnWindowFocus: true, refetchInterval: 5000 },
   });
 
   return (
