@@ -13,6 +13,7 @@ const whitelist = [
   "https://wisewaste.vercel.app",
   "https://btp.v15h4l.com",
   "http://wisewaste-functions.knative-staging.devteame2enetworks.com",
+  "https://wisewaste-functions.knative-staging.devteame2enetworks.com",
   "https://localhost", //This origin for mobile
 ]; // add your origins here
 const corsOptions = {
